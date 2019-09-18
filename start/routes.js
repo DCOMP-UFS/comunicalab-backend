@@ -19,3 +19,7 @@ const Route = use('Route')
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
+
+Route.resource('laboratory', 'LaboratoryController').apiOnly();
+Route.get('laboratoryAll', 'LaboratoryController.indexAll');
+Route.get('laboratoryIsDelete', 'LaboratoryController.indexIsDelete');
