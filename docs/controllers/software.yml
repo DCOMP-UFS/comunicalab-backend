@@ -60,3 +60,31 @@
         description: Not Found
       "500":
         description: Internal Server Error
+  put:
+    tags:
+      - software
+    summary: Update software
+    operationId: updateSoftware
+    description: Route that updates software
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the software that will be updated
+        required: true
+        type: integer
+      - in: body
+        name: json
+        description: Any of the following fields in the JSON file can be used to be updated. Except isDelete
+        schema:
+          $ref: "#/definitions/Software"
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Software"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
