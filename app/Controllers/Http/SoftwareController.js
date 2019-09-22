@@ -19,7 +19,17 @@ class SoftwareController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {}
+  async index({ request, response, view }) {
+    try {
+      const data = await Software.query()
+        .where("isDelete", false)
+        .fetch();
+
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
 
   /**
    * Create/save a new software.
@@ -57,7 +67,25 @@ class SoftwareController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {}
+  async show({ params, request, response, view }) {
+    try {
+      const software = await Software.query()
+        .where("id", params.id)
+        .where("isDelete", false)
+        .fetch();
+
+      const softwareJSON = software.toJSON();
+
+      if (Object.keys(softwareJSON).length === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      return response.status(200).send(softwareJSON[0]);
+    } catch (error) {
+      console.log(error);
+      return response.status(error.status).send({ message: error });
+    }
+  }
 
   /**
    * Update software details.

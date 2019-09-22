@@ -15,6 +15,48 @@
           $ref: "#/definitions/Software"
     responses:
       "201":
-        description: registered software
+        description: Registered software
+      "500":
+        description: Internal Server Error
+  get:
+    tags:
+      - software
+    summary: List all software
+    operationId: indexSoftware
+    description: Route that returns all software
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/Software"
+      "500":
+        description: Internal Server Error
+
+/software/:id:
+  get:
+    tags:
+      - software
+    summary: Returns one software
+    operationId: showSoftware
+    description: Route that returns one the software
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the software that will be returned
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Software"
+      "404":
+        description: Not Found
       "500":
         description: Internal Server Error

@@ -21,3 +21,5 @@ Route.get("/", () => {
 });
 
 Route.post("/software", "SoftwareController.store");
+Route.get("/software", "SoftwareController.index");
+Route.get("/software/:id", "SoftwareController.show");
