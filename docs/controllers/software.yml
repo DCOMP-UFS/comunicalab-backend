@@ -1,0 +1,20 @@
+/software:
+  post:
+    tags:
+      - software
+    summary: Software registration
+    operationId: storeSoftware
+    description: Route that creates software in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the software.
+        schema:
+          $ref: "#/definitions/Software"
+    responses:
+      "201":
+        description: registered software
+      "500":
+        description: Internal Server Error
