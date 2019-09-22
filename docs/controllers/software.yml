@@ -88,3 +88,26 @@
         description: Not Found
       "500":
         description: Internal Server Error
+  delete:
+    tags:
+      - software
+    summary: Delete software
+    operationId: destroySoftware
+    description: Route that deletes a software
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the software that will be deleted
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Software"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error

@@ -111,7 +111,7 @@ class SoftwareController {
 
       return response.status(200).send(softwareUpdate);
     } catch (error) {
-      return response.status(error.status).send(error);
+      return response.status(error.status).send({ message: error });
     }
   }
 
@@ -123,7 +123,25 @@ class SoftwareController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {}
+  async destroy({ params, request, response }) {
+    try {
+      const software = await Software.query()
+        .where("id", params.id)
+        .where("isDelete", false)
+        .update({ isDelete: true });
+
+      if (software === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const softwareUpdate = await Software.findOrFail(params.id);
+
+      return response.status(200).send(softwareUpdate);
+    } catch (error) {
+      console.log(error);
+      return response.status(error.status).send({ message: error });
+    }
+  }
 }
 
 module.exports = SoftwareController;

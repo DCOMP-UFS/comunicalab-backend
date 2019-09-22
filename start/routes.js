@@ -24,3 +24,4 @@ Route.post("/software", "SoftwareController.store");
 Route.get("/software", "SoftwareController.index");
 Route.get("/software/:id", "SoftwareController.show");
 Route.put('/software/:id', 'SoftwareController.update');
+Route.delete('/software/:id', 'SoftwareController.destroy');
