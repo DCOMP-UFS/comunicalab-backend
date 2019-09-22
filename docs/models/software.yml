@@ -21,7 +21,7 @@ definitions:
       isDelete:
         type: bool
         description: check to delete software
-        example: true
+        example: false
     required:
       - id
       - name
