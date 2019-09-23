@@ -1,0 +1,25 @@
+definitions:
+  Software:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the software being created
+        example: 10
+      name:
+        type: string
+        description: software name
+        example: google chrome
+      version:
+        type: string
+        description: software version
+        example: 1.1.0
+      license:
+        type: string
+        description: software license
+        example: MIT
+    required:
+      - id
+      - name
+      - version
+      - license
