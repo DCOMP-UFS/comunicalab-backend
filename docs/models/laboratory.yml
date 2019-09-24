@@ -30,7 +30,7 @@ definitions:
           - Em aula
           - Em reforma
         description:
-        example: 
+        example: Disponível
     required:
       - name
       - location
