@@ -11,7 +11,7 @@ class LaboratorySchema extends Schema {
       table.string("location").notNullable();
       table.double("latitude").notNullable();
       table.double("longitude").notNullable();
-      table.string("status").notNullable();
+      table.enu("status", ["Disponível", "Reservado", "Em aula", "Em reforma"]).notNullable();
       table.integer("capacity").notNullable();
       table.boolean("isDeleted").notNullable();
       table.timestamps();
