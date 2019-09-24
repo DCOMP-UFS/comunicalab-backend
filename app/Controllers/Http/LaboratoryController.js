@@ -20,7 +20,7 @@ class LaboratoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index ({response}) {
     try {
       const data = await Laboratory.query()
         .where("isDelete", false)
@@ -31,28 +31,20 @@ class LaboratoryController {
       return response.status(error.status).send({ message: error });
     }
   }
-
-  /**
-   * Render a form to be used for creating a new laboratory.
-   * GET laboratories/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
   /**
    * Create/save a new laboratory.
    * POST laboratories
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.only(["name", "location","latitude", "longitude", "status", "capacity"]);
+      data.isDelete = false;
+      const lab = await Software.create(data);
+
+      return response.status(201).send(lab);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**

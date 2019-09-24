@@ -31,6 +31,10 @@ definitions:
           - Em reforma
         description:
         example: Disponível
+      capacity:
+        type: uint
+        description: Laboratory capacity
+        example: 30
     required:
       - name
       - location
