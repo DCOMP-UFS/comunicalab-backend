@@ -16,24 +16,25 @@
             $ref: "#/definitions/Laboratory"
       "500":
         description: Internal Server Error
-post:
-    tags:
-      - laboratory
-    summary: Lab registration
-    operationId: storeLab
-    description: Route that creates laboratory in the database
-    produces:
-      - application/json
-    parameters:
-      - in: body
-        name: json
-        description: You need the following fields in the JSON file to create the lab.
-        schema:
-          $ref: "#/definitions/Laboratory"
-    responses:
-      "201":
-        description: Registered laboratory
-        schema:
-          $ref: "#/definitions/Laboratory"
-      "500":
-        description: Internal Server Error
+/laboratory:        
+  post:
+      tags:
+        - laboratory
+      summary: Lab registration
+      operationId: storeLab
+      description: Route that creates laboratory in the database
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: json
+          description: You need the following fields in the JSON file to create the lab.
+          schema:
+            $ref: "#/definitions/Laboratory"
+      responses:
+        "201":
+          description: Registered laboratory
+          schema:
+            $ref: "#/definitions/Laboratory"
+        "500":
+          description: Internal Server Error
