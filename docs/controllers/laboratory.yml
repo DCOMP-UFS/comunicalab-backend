@@ -1,0 +1,18 @@
+/laboratories:
+  get:
+    tags:
+      - laboratory
+    summary: List all labs
+    operationId: indexLabs
+    description: Route that returns all labs
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/Laboratory"
+      "500":
+        description: Internal Server Error
