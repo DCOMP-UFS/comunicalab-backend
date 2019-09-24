@@ -1,0 +1,40 @@
+definitions:
+  Laboratory:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the lab being created
+        example: 10
+      name:
+        type: string
+        description: Lab name
+        example: Lab 1
+      location:
+        type: string
+        description: Laboratory location
+        example: Universidade Federal de Sergipe
+      latitude:
+        type: double
+        description: Laboratory latitude
+        example: -10.9264414
+      longitude:
+        type: double
+        description: Laboratory longitude
+        example: -37.1047417
+      status:
+        type: string
+        enum:
+          - Disponível
+          - Reservado
+          - Em aula
+          - Em reforma
+        description:
+        example: 
+    required:
+      - name
+      - location
+      - latitude
+      - longitude
+      - status
+      - capacity
