@@ -18,6 +18,15 @@ class EquipmentController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    try {
+      const data = await Equipment.query()
+        .where("isDeleted", false)
+        .fetch();
+
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
