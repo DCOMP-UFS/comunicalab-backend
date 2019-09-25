@@ -23,7 +23,7 @@ class LaboratoryController {
   async index ({response}) {
     try {
       const data = await Laboratory.query()
-        .where("isDelete", false)
+        .where("isDeleted", false)
         .fetch();
 
       return response.status(200).send(data);
@@ -38,7 +38,7 @@ class LaboratoryController {
   async store ({ request, response }) {
     try {
       const data = request.only(["name", "location","latitude", "longitude", "status", "capacity"]);
-      data.isDelete = false;
+      data.isDeleted = false;
       const lab = await Software.create(data);
 
       return response.status(201).send(lab);
