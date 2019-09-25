@@ -80,6 +80,24 @@ class LaboratoryController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      const data = request.post();
+
+      const lab = await Laboratory.query()
+        .where("id", params.id)
+        .where("isDelete", false)
+        .update(data);
+
+      if (lab === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const labUpdate = await Laboratory.findOrFail(params.id);
+
+      return response.status(200).send(labUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
