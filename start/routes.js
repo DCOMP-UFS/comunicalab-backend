@@ -28,4 +28,4 @@ Route.delete("/software/:id", "SoftwareController.destroy");
 
 Route.get("/laboratory", "LaboratoryController.index");
 Route.post("/laboratory", "LaboratoryController.store");
-Route.put("/laboradory/:id", "LaboratoryController.update")
+Route.put("/laboratory/:id", "LaboratoryController.update")
