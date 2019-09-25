@@ -65,8 +65,8 @@
   delete:
       tags:
         - laboratory
-      summary: Lab update
-      operationId: updateLab
+      summary: Lab delete
+      operationId: deleteLab
       description: Route that update laboratory in the database
       produces:
         - application/json
