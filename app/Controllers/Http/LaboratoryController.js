@@ -39,7 +39,7 @@ class LaboratoryController {
     try {
       const data = request.only(["name", "location","latitude", "longitude", "status", "capacity"]);
       data.isDeleted = false;
-      const lab = await Software.create(data);
+      const lab = await Laboratory.create(data);
 
       return response.status(201).send(lab);
     } catch (error) {
