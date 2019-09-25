@@ -79,6 +79,22 @@ class EquipmentController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    try {
+      const equipment = await Equipment.query()
+        .where("id", params.id)
+        .where("isDelete", false)
+        .fetch();
+
+      const equipmentJSON = equipment.toJSON();
+
+      if (Object.keys(equipmentJSON).length === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      return response.status(200).send(equipmentJSON[0]);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
