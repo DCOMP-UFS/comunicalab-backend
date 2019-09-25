@@ -50,6 +50,23 @@ class EquipmentController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.only([
+        "brand",
+        "equipCategory_id",
+        "laboratory_id",
+        "dateOfAcquisition",
+        "isDeleted"
+      ]);
+
+      data.isDeleted = false;
+
+      const equipment = await Equipment.create(data);
+
+      return response.status(201).send(equipment);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
