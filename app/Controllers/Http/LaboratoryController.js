@@ -23,7 +23,7 @@ class LaboratoryController {
   async index ({ request, response, view }) {
     try {
       const data = await Laboratory.query()
-        .where("isDelete", false)
+        .where("isDeleted", false)
         .fetch();
 
       return response.status(200).send(data);
