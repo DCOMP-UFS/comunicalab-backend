@@ -101,6 +101,22 @@ class LaboratoryController {
    * DELETE laboratories/:id
    */
   async destroy ({ params, request, response }) {
+    try {
+      const lab = await Laboratory.query()
+        .where("id", params.id)
+        .update({isDeleted: true});
+
+      if (lab === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const labDeleted = await Laboratory.findOrFail(params.id);
+
+      return response.status(200).send(labDeleted);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+
   }
 }
 

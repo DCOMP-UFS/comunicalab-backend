@@ -39,6 +39,7 @@
         "500":
           description: Internal Server Error
 
+/laboratory/:id:
   put:
       tags:
         - laboratory
@@ -53,6 +54,22 @@
           description: You need the following fields in the JSON file to update the lab.
           schema:
             $ref: "#/definitions/Laboratory"
+      responses:
+        "200":
+          description: Registered laboratory
+          schema:
+            $ref: "#/definitions/Laboratory"
+        "500":
+          description: Internal Server Error
+  
+  delete:
+      tags:
+        - laboratory
+      summary: Lab update
+      operationId: updateLab
+      description: Route that update laboratory in the database
+      produces:
+        - application/json
       responses:
         "200":
           description: Registered laboratory
