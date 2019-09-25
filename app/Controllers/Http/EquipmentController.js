@@ -131,6 +131,23 @@ class EquipmentController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    try {
+      const equipment = await Equipment.query()
+        .where("id", params.id)
+        .where("isDelete", false)
+        .update({ isDelete: true });
+
+      if (equipment === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const equipmentUpdate = await Equipment.findOrFail(params.id);
+
+      return response.status(200).send(equipmentUpdate);
+    } catch (error) {
+      console.log(error);
+      return response.status(error.status).send({ message: error });
+    }
   }
 }
 
