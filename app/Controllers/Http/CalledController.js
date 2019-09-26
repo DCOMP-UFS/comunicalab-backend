@@ -49,26 +49,26 @@ class CalledController {
   /**
    * Display a single called.
    * GET calleds/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    try {
+      const called = await Called.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .fetch();
+
+      const calledJSON = called.toJSON();
+
+      if (Object.keys(calledJSON).length === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      return response.status(200).send(calledJSON[0]);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
-  /**
-   * Render a form to update an existing called.
-   * GET calleds/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
 
   /**
    * Update called details.
