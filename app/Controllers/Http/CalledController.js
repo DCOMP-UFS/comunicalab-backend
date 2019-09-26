@@ -73,12 +73,26 @@ class CalledController {
   /**
    * Update called details.
    * PUT or PATCH calleds/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      const data = request.post();
+
+      const called = await Laboratory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update(data);
+
+      if (lab === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const calledUpdate = await Laboratory.findOrFail(params.id);
+
+      return response.status(200).send(calledUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
