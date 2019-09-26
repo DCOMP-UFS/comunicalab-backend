@@ -30,3 +30,5 @@ Route.get("/laboratory", "LaboratoryController.index");
 Route.post("/laboratory", "LaboratoryController.store");
 Route.put("/laboratory/:id", "LaboratoryController.update")
 Route.delete("/laboratory/:id", "LaboratoryController.destroy")
+Route.get("/laboratory/:id", "LaboratoryController.show")
+
