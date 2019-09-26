@@ -63,7 +63,7 @@ class LaboratoryController {
     try {
       const lab = await Laboratory.query()
         .where("id", params.id)
-        .where("isDelete", false)
+        .where("isDeleted", false)
         .fetch();
 
       const labJSON = lab.toJSON();
