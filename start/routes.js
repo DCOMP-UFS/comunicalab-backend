@@ -26,6 +26,9 @@ Route.get("/software/:id", "SoftwareController.show");
 Route.put("/software/:id", "SoftwareController.update");
 Route.delete("/software/:id", "SoftwareController.destroy");
 
+
 Route.get("/laboratory", "LaboratoryController.index");
 Route.post("/laboratory", "LaboratoryController.store");
 Route.put("/laboratory/:id", "LaboratoryController.update")
+Route.get("/laboratory/:id", "LaboratoryController.show")
+
