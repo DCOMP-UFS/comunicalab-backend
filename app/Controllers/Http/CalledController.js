@@ -20,20 +20,16 @@ class CalledController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-  }
+    try {
+      const data = await Called.query()
+        .where("isDeleted", false)
+        .fetch();
 
-  /**
-   * Render a form to be used for creating a new called.
-   * GET calleds/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
-
   /**
    * Create/save a new called.
    * POST calleds
@@ -42,9 +38,9 @@ class CalledController {
     try {
       const data = request.only(["description", "type", "equipment_id"]);
       data.isDeleted = false;
-      const lab = await Laboratory.create(data);
+      const called = await Called.create(data);
 
-      return response.status(201).send(lab);
+      return response.status(201).send(called);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
