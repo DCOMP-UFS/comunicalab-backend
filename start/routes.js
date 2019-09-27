@@ -34,7 +34,7 @@ Route.get("/laboratory/:id", "LaboratoryController.show")
 
 Route.get("/called", "CalledController.index");
 Route.post("/called", "CalledController.store");
-Route.put("/called/:id", "CalledController.update")
-Route.delete("/called/:id", "CalledController.destroy")
-Route.get("/called/:id", "CalledController.show")
+Route.put("/called/:id", "CalledController.update");
+Route.delete("/called/:id", "CalledController.destroy");
+Route.get("/called/:id", "CalledController.show");
 

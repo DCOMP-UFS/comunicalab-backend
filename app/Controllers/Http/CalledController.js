@@ -4,7 +4,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Called = use("App/Model/Called");
+const Called = use("App/Models/Called");
 
 /**
  * Resourceful controller for interacting with calleds
@@ -78,16 +78,16 @@ class CalledController {
     try {
       const data = request.post();
 
-      const called = await Laboratory.query()
+      const called = await Called.query()
         .where("id", params.id)
         .where("isDeleted", false)
         .update(data);
 
-      if (lab === 0) {
+      if (called === 0) {
         return response.status(404).send({ message: "Not Found" });
       }
 
-      const calledUpdate = await Laboratory.findOrFail(params.id);
+      const calledUpdate = await Called.findOrFail(params.id);
 
       return response.status(200).send(calledUpdate);
     } catch (error) {
@@ -101,7 +101,7 @@ class CalledController {
    */
   async destroy ({ params, request, response }) {
     try {
-      const called = await Laboratory.query()
+      const called = await Called.query()
         .where("id", params.id)
         .update({isDeleted: true});
 
@@ -109,7 +109,7 @@ class CalledController {
         return response.status(404).send({ message: "Not Found" });
       }
 
-      const calledDeleted = await Laboratory.findOrFail(params.id);
+      const calledDeleted = await Called.findOrFail(params.id);
 
       return response.status(200).send(calledDeleted);
     } catch (error) {

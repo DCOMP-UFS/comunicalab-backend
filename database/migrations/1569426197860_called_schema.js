@@ -17,7 +17,7 @@ class CalledSchema extends Schema {
         .inTable("equipment")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      table.boolean("isDeleted").notNullable();
+      table.booleaa("isDeleted").notNullable();
       table.timestamps()
     })
   }
