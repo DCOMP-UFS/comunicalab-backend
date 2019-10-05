@@ -7,7 +7,6 @@ class SpecificationSchema extends Schema {
   up() {
     this.create("specifications", table => {
       table.increments();
-      table.increments();   
       table
         .integer("softCategory_id")
         .unsigned()
