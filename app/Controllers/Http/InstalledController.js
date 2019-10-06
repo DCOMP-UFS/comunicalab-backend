@@ -50,8 +50,6 @@ class InstalledController {
         "dateInstallation"
       ]);
 
-      data.isDeleted = false;
-
       const installed = await Installed.create(data);
 
       return response.status(201).send(installed);

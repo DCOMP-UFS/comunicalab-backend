@@ -54,6 +54,7 @@ class EquipmentController {
       const data = request.only([
         "brand",
         "equipCategory_id",
+        "specification_id",
         "laboratory_id",
         "dateOfAcquisition",
         "isDeleted"
