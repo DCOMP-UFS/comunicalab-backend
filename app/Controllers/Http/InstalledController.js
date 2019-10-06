@@ -114,6 +114,11 @@ class InstalledController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    
+      const installed = await Installed.findOrFail(params.id)
+      await installed.delete()
+        
+  
   }
 }
 
