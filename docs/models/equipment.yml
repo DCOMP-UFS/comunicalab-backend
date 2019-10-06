@@ -22,9 +22,14 @@ definitions:
         type: uint
         description: id of laboratory that owns the equipment
         example: 10
+      specification_id:
+        type: uint
+        description: id of specification that belongs to equipment
+        example: 10
     required:
       - id
       - brand
       - dateOfAcquisition
       - laboratory_id
+      - specification_id
  
