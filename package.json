@@ -28,7 +28,9 @@
     "adonis-swagger": "^1.2.9",
     "pg": "^7.12.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sqlite3": "^4.1.0"
+  },
   "autoload": {
     "App": "./app"
   }

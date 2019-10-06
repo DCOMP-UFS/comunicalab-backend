@@ -26,3 +26,4 @@ Route.get("/software/:id", "SoftwareController.show");
 Route.put("/software/:id", "SoftwareController.update");
 Route.delete("/software/:id", "SoftwareController.destroy");
 Route.resource('/equipment', 'EquipmentController').apiOnly()
+Route.resource('/installed', 'EquipmentController').apiOnly()
