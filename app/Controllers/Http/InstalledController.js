@@ -43,6 +43,21 @@ class InstalledController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.only([
+        "equipment_id",
+        "software_id",
+        "dateInstallation"
+      ]);
+
+      data.isDeleted = false;
+
+      const installed = await Installed.create(data);
+
+      return response.status(201).send(installed);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
