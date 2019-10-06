@@ -86,6 +86,23 @@ class InstalledController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      const data = request.post();
+
+      const installed = await Installed.query()
+        .where("id", params.id)
+        .update(data);
+
+      if (installed === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const installedUpdate = await Installed.findOrFail(params.id);
+
+      return response.status(200).send(installedUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
