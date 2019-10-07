@@ -94,6 +94,28 @@ class CalledController {
     }
   }
 
+  /**
+   * Delete a called with id.
+   * DELETE calleds/:id
+   */
+  async destroy ({ params, request, response }) {
+    try {
+      const called = await Called.query()
+        .where("id", params.id)
+        .update({isDeleted: true});
+
+      if (called === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const calledDeleted = await Called.findOrFail(params.id);
+
+      return response.status(200).send(calledDeleted);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
+
 }
 
 module.exports = CalledController
