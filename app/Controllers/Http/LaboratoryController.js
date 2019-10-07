@@ -20,12 +20,15 @@ class LaboratoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({response}) {
+  async index ({request, params, response}) {
     try {
+      //const page = params.page;
+      const page = request.only(["page"]);
       const data = await Laboratory.query()
-        .where("isDeleted", false)
-        .fetch();
-
+          .where("isDeleted", false)
+          .paginate(page.page, 10)
+        ;
+       
       return response.status(200).send(data);
     } catch (error) {
       return response.status(error.status).send({ message: error });
