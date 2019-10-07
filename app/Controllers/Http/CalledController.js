@@ -19,7 +19,17 @@ class CalledController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  
+  async index ({ request, response, view }) {
+    try {
+      const data = await Called.query()
+        .where("isDeleted", false)
+        .fetch();
+
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
   /**
    * Create/save a new called.
    * POST calleds
