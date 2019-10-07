@@ -23,10 +23,11 @@ class LaboratoryController {
   async index ({request, params, response}) {
     try {
       //const page = params.page;
-      const page = request.only(["page"]);
+      //const page = request.only(["page"]);
       const data = await Laboratory.query()
           .where("isDeleted", false)
-          .paginate(page.page, 10)
+          .fetch();
+          //.paginate(page.page, 10)
         ;
        
       return response.status(200).send(data);
