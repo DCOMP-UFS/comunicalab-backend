@@ -8,14 +8,6 @@ class EquipCategorySchema extends Schema {
     this.create("equip_categories", table => {
       table.increments();
       table.string("name").notNullable();
-      table
-        .integer("specification_id")
-        .unsigned()
-        .notNullable()
-        .references("id")
-        .inTable("specifications")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE")
       table.timestamps();
     });
   }
