@@ -20,15 +20,19 @@ class SoftCategoryController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
+
+
     try {
       const data = await SoftCategory.query()
         .where("isDeleted", false)
         .fetch();
 
+
       return response.status(200).send(data);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
+
   }
 
   /**
@@ -48,6 +52,7 @@ class SoftCategoryController {
       const softCategory = await SoftCategory.create(data);
 
       return response.status(201).send(softCategory);
+
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
@@ -62,12 +67,14 @@ class SoftCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
+
   async show({ params, request, response, view }) {
     try {
       const softCategory = await SoftCategory.query()
         .where("id", params.id)
         .where("isDeleted", false)
         .fetch();
+
 
       const softCategoryJSON = softCategory.toJSON();
 
@@ -76,19 +83,22 @@ class SoftCategoryController {
       }
 
       return response.status(200).send(softCategoryJSON[0]);
+
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
 
+
   /**
-   * Update softcategory details.
-   * PUT or PATCH softcategories/:id
+   * Delete a software with id.
+   * DELETE softwares/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
+
   async update({ params, request, response }) {
     try {
       const data = request.post();
@@ -106,9 +116,11 @@ class SoftCategoryController {
 
       return response.status(200).send(softCategoryUpdate);
     } catch (error) {
+
       return response.status(error.status).send({ message: error });
     }
   }
+p
 
   /**
    * Delete a software with id.
@@ -136,6 +148,7 @@ class SoftCategoryController {
       return response.status(error.status).send({ message: error });
     }
   }
+
 }
 
 module.exports = SoftCategoryController;

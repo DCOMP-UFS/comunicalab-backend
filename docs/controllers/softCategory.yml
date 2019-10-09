@@ -20,6 +20,7 @@
           $ref: "#/definitions/SoftCategory"
       "500":
         description: Internal Server Error
+
   get:
     tags:
       - softCategory
@@ -113,3 +114,4 @@
         description: Not Found
       "500":
         description: Internal Server Error
+
