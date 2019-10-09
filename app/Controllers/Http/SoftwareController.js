@@ -44,8 +44,9 @@ class SoftwareController {
       const data = request.only([
         "name",
         "version",
-        "license"
-        // 'specification_id',
+        "license",
+        'specification_id',
+        'softCategory_id'
       ]);
 
       data.isDelete = false;
