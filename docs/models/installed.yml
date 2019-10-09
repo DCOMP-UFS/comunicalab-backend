@@ -1,0 +1,26 @@
+definitions:
+  Installed:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the installed software being created
+        example: 10
+      dateInstalletion:
+        type: date
+        description: software installation date
+        example: 10/10/1999
+      equipment_id:
+        type: uint
+        description: id from equipment where the software is istalled 
+        example: 10
+      software_id:
+        type: uint
+        description: id from software that is installed
+        example: 10
+    required:
+      - id
+      - dateInstallation
+      - equipment_id
+      - software_id
+ 
