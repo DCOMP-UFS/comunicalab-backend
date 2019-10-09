@@ -1,0 +1,16 @@
+definitions:
+  SoftCategory:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the software category being created
+        example: 10
+      name:
+        type: string
+        description: software category name
+        example: driver
+        max: 100
+    required:
+      - id
+      - name
