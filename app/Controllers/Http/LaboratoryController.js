@@ -4,6 +4,9 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+
+const Laboratory = use("App/Models/Laboratory");
+
 /**
  * Resourceful controller for interacting with laboratories
  */
@@ -18,6 +21,15 @@ class LaboratoryController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    try {
+      const data = await Laboratory.query()
+        .where("isDelete", false)
+        .fetch();
+
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**

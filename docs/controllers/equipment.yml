@@ -1,0 +1,115 @@
+/equipment:
+  post:
+    tags:
+      - equipment
+    summary: Equipment registration
+    operationId: storeEquipment
+    description: Route that creates equipment in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the equipment.
+        schema:
+          $ref: "#/definitions/Equipment"
+    responses:
+      "201":
+        description: Registered equipment
+        schema:
+          $ref: "#/definitions/Equipment"
+      "500":
+        description: Internal Server Error
+  get:
+    tags:
+      - equipment
+    summary: List all equipment
+    operationId: indexEquipment
+    description: Route that returns all equipment
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/R"
+      "500":
+        description: Internal Server Error
+
+/equipment/:id:
+  get:
+    tags:
+      - equipment
+    summary: Returns one equipment
+    operationId: showEquipment
+    description: Route that returns one the equipment
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the equipment that will be returned
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Equipment"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  put:
+    tags:
+      - equipment
+    summary: Update equipment
+    operationId: updateEquipment
+    description: Route that updates equipment
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the equipment that will be updated
+        required: true
+        type: integer
+      - in: body
+        name: json
+        description: Any of the following fields in the JSON file can be used to be updated. Except isDelete
+        schema:
+          $ref: "#/definitions/Equipment"
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Equipment"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  delete:
+    tags:
+      - equipment
+    summary: Delete equipment
+    operationId: destroyEquipment
+    description: Route that deletes a equipment
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the equipment that will be deleted
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Equipment"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
