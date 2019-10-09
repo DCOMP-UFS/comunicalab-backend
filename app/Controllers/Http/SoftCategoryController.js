@@ -20,6 +20,7 @@ class SoftCategoryController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
+
     try {
       const data = await SoftCategory.query()
         .where("isDeleted", false)
@@ -29,6 +30,7 @@ class SoftCategoryController {
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
+
   }
 
   /**
@@ -48,6 +50,7 @@ class SoftCategoryController {
       const softCategory = await SoftCategory.create(data);
 
       return response.status(201).send(softCategory);
+
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
@@ -62,6 +65,7 @@ class SoftCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
+
   async show({ params, request, response, view }) {
     try {
       const softCategory = await SoftCategory.query()
@@ -80,6 +84,7 @@ class SoftCategoryController {
       return response.status(error.status).send({ message: error });
     }
   }
+
 
   /**
    * Update softcategory details.
