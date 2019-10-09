@@ -9,7 +9,10 @@ class SoftCategory {
 
   get rules() {
     return {
-      name: "required|string|max:100"
+
+      name: "string|max:100",
+      isDeleted: "boolean"
+
     };
   }
 
