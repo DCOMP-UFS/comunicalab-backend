@@ -21,6 +21,7 @@ class SoftCategoryController {
    */
   async index({ request, response, view }) {
 
+
     try {
       const data = await SoftCategory.query()
         .where("isDeleted", false)
@@ -74,6 +75,7 @@ class SoftCategoryController {
         .where("isDeleted", false)
         .fetch();
 
+
       const softCategoryJSON = softCategory.toJSON();
 
       if (Object.keys(softCategoryJSON).length === 0) {
@@ -81,35 +83,6 @@ class SoftCategoryController {
       }
 
       return response.status(200).send(softCategoryJSON[0]);
-    } catch (error) {
-      return response.status(error.status).send({ message: error });
-    }
-  }
-
-  /**
-   * Update softcategory details.
-   * PUT or PATCH softcategories/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update({ params, request, response }) {
-    try {
-      const data = request.post();
-
-      const softCategory = await SoftCategory.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
-        .update(data);
-
-      if (softCategory === 0) {
-        return response.status(404).send({ message: "Not Found" });
-      }
-
-      const softCategoryUpdate = await SoftCategory.findOrFail(params.id);
-
-      return response.status(200).send(softCategoryUpdate);
 
     } catch (error) {
       return response.status(error.status).send({ message: error });
@@ -126,36 +99,56 @@ class SoftCategoryController {
    * @param {Response} ctx.response
    */
 
-  async destroy({ params, request, response }) {
+  async update({ params, request, response }) {
     try {
-      const software = await Software.query()
-        .where("id", params.id)
-        .where("isDelete", false)
-        .update({ isDelete: true });
+      const data = request.post();
 
-      if (software === 0) {
+      const softCategory = await SoftCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update(data);
+
+      if (softCategory === 0) {
         return response.status(404).send({ message: "Not Found" });
       }
 
-      const softwareUpdate = await Software.findOrFail(params.id);
+      const softCategoryUpdate = await SoftCategory.findOrFail(params.id);
 
-      return response.status(200).send(softwareUpdate);
+      return response.status(200).send(softCategoryUpdate);
     } catch (error) {
-      console.log(error);
+
       return response.status(error.status).send({ message: error });
     }
   }
 p
 
   /**
-   * Delete a softcategory with id.
-   * DELETE softcategories/:id
+   * Delete a software with id.
+   * DELETE softwares/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {}
+  async destroy({ params, request, response }) {
+    try {
+      const softCategory = await SoftCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update({ isDeleted: true });
+
+      if (softCategory === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const softCategoryUpdate = await SoftCategory.findOrFail(params.id);
+
+      return response.status(200).send(softCategoryUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
+
 }
 
 module.exports = SoftCategoryController;

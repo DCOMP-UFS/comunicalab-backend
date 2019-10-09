@@ -20,3 +20,98 @@
           $ref: "#/definitions/SoftCategory"
       "500":
         description: Internal Server Error
+
+  get:
+    tags:
+      - softCategory
+    summary: List all software category
+    operationId: indexSoftCategory
+    description: Route that returns all software category
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/SoftCategory"
+      "500":
+        description: Internal Server Error
+
+/softCategory/:id:
+  get:
+    tags:
+      - softCategory
+    summary: Returns one software category
+    operationId: showSoftCategory
+    description: Route that returns one the software category
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the software category that will be returned
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/SoftCategory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  put:
+    tags:
+      - softCategory
+    summary: Update software category
+    operationId: updateSoftCategory
+    description: Route that updates software category
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the software category that will be updated
+        required: true
+        type: integer
+      - in: body
+        name: json
+        description: Any of the following fields in the JSON file can be used to be updated. Except isDeleted
+        schema:
+          $ref: "#/definitions/SoftCategory"
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/SoftCategory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  delete:
+    tags:
+      - softCategory
+    summary: Delete software category
+    operationId: destroySoftCategory
+    description: Route that deletes a software category
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the software category that will be deleted
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/SoftCategory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+
