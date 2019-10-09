@@ -1,8 +1,10 @@
-'use strict'
+"use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
+
+const SoftCategory = use("App/Models/SoftCategory");
 
 /**
  * Resourceful controller for interacting with softcategories
@@ -17,19 +19,8 @@ class SoftCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-  }
-
-  /**
-   * Render a form to be used for creating a new softcategory.
-   * GET softcategories/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+  async index({ request, response, view }) {
+    console.log("sa");
   }
 
   /**
@@ -40,7 +31,18 @@ class SoftCategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
+    try {
+      const data = request.only(["name"]);
+
+      data.isDeleted = false;
+
+      const software = await SoftCategory.creeate(data);
+
+      return response.status(201).send(software);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -52,20 +54,7 @@ class SoftCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing softcategory.
-   * GET softcategories/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+  async show({ params, request, response, view }) {}
 
   /**
    * Update softcategory details.
@@ -75,8 +64,7 @@ class SoftCategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-  }
+  async update({ params, request, response }) {}
 
   /**
    * Delete a softcategory with id.
@@ -86,8 +74,7 @@ class SoftCategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-  }
+  async destroy({ params, request, response }) {}
 }
 
-module.exports = SoftCategoryController
+module.exports = SoftCategoryController;

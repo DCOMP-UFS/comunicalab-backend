@@ -7,7 +7,8 @@ class SoftCategorySchema extends Schema {
   up() {
     this.create("soft_categories", table => {
       table.increments();
-      table.string("name").notNullable();
+      table.string("name", 100).notNullable();
+      table.boolean("isDeleted").notNullable();
       table.timestamps();
     });
   }

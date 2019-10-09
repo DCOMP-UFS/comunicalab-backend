@@ -25,5 +25,13 @@ Route.get("/software", "SoftwareController.index");
 Route.get("/software/:id", "SoftwareController.show");
 Route.put("/software/:id", "SoftwareController.update");
 Route.delete("/software/:id", "SoftwareController.destroy");
-Route.resource('/equipment', 'EquipmentController').apiOnly()
-Route.resource('/installed', 'InstalledController').apiOnly()
+Route.resource("/equipment", "EquipmentController").apiOnly();
+Route.resource("/installed", "InstalledController").apiOnly();
+Route.resource("softCategory", "SoftCategoryController")
+  .apiOnly()
+  .validator(
+    new Map([
+      [["softCategory.store"], ["SoftCategory"]],
+      [["softCategory.update"], ["SoftCategory"]]
+    ])
+  );

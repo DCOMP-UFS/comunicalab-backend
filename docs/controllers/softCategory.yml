@@ -1,0 +1,22 @@
+/softCategory:
+  post:
+    tags:
+      - softCategory
+    summary: Register software category
+    operationId: storeSoftCategory
+    description: Route that creates software category in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the software category.
+        schema:
+          $ref: "#/definitions/SoftCategory"
+    responses:
+      "201":
+        description: Registered software category
+        schema:
+          $ref: "#/definitions/SoftCategory"
+      "500":
+        description: Internal Server Error
