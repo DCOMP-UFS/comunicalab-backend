@@ -20,7 +20,17 @@ class SoftCategoryController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
-    console.log("sa");
+
+    try {
+      const data = await SoftCategory.query()
+        .where("isDeleted", false)
+        .fetch();
+
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+
   }
 
   /**
@@ -37,9 +47,10 @@ class SoftCategoryController {
 
       data.isDeleted = false;
 
-      const software = await SoftCategory.creeate(data);
+      const softCategory = await SoftCategory.create(data);
 
-      return response.status(201).send(software);
+      return response.status(201).send(softCategory);
+
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
@@ -54,7 +65,26 @@ class SoftCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {}
+
+  async show({ params, request, response, view }) {
+    try {
+      const softCategory = await SoftCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .fetch();
+
+      const softCategoryJSON = softCategory.toJSON();
+
+      if (Object.keys(softCategoryJSON).length === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      return response.status(200).send(softCategoryJSON[0]);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
+
 
   /**
    * Update softcategory details.
