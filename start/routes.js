@@ -25,6 +25,19 @@ Route.get("/software", "SoftwareController.index");
 Route.get("/software/:id", "SoftwareController.show");
 Route.put("/software/:id", "SoftwareController.update");
 Route.delete("/software/:id", "SoftwareController.destroy");
+
+Route.get("/laboratory", "LaboratoryController.index");
+Route.post("/laboratory", "LaboratoryController.store");
+Route.put("/laboratory/:id", "LaboratoryController.update")
+Route.delete("/laboratory/:id", "LaboratoryController.destroy")
+Route.get("/laboratory/:id", "LaboratoryController.show")
+
+Route.get("/called", "CalledController.index");
+Route.post("/called", "CalledController.store");
+Route.put("/called/:id", "CalledController.update");
+Route.delete("/called/:id", "CalledController.destroy");
+Route.get("/called/:id", "CalledController.show");
+
 Route.resource("/equipment", "EquipmentController").apiOnly();
 Route.resource("/installed", "InstalledController").apiOnly();
 Route.resource("softCategory", "SoftCategoryController")
@@ -35,3 +48,4 @@ Route.resource("softCategory", "SoftCategoryController")
       [["softCategory.update"], ["SoftCategory"]]
     ])
   );
+

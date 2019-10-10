@@ -28,3 +28,4 @@ class CalledSchema extends Schema {
 }
 
 module.exports = CalledSchema
+
