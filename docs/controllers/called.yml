@@ -94,7 +94,7 @@
               equipment_id:
                 type: int
                 description: equipment id
-                example: 5
+                example: 9
       
       responses:
         "200":
