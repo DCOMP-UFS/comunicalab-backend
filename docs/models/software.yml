@@ -18,8 +18,18 @@ definitions:
         type: string
         description: software license
         example: MIT
+      softCategory_id:
+        type: uint
+        description: id of the category the software belongs to
+        example: 1
+      specification_id:
+        type: uint
+        description: id of the specification the software belongs to
+        example: 2
     required:
       - id
       - name
       - version
       - license
+      - softCategory_id
+      - specification_id
