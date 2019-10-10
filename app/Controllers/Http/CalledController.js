@@ -1,3 +1,4 @@
+
 'use strict'
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -115,7 +116,8 @@ class CalledController {
       return response.status(error.status).send({ message: error });
     }
   }
-
+  n
 }
 
 module.exports = CalledController
+

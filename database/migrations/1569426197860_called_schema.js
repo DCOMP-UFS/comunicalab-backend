@@ -16,8 +16,8 @@ class CalledSchema extends Schema {
         .references("id")
         .inTable("equipment")
         .onUpdate("CASCADE")
-        .onDelete("CASCADE");
-      table.booleaa("isDeleted").notNullable();
+        .onDelete("CASCADE")
+      table.boolean("isDeleted").notNullable();
       table.timestamps()
     })
   }
@@ -28,3 +28,4 @@ class CalledSchema extends Schema {
 }
 
 module.exports = CalledSchema
+

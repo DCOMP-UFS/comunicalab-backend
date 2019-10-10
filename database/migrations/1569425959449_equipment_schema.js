@@ -23,6 +23,13 @@ class EquipmentSchema extends Schema {
         .references("id")
         .inTable("laboratories")
         .onUpdate("CASCADE")
+      table
+        .integer('specification_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('specifications')
+        .onUpdate('CASCADE')
       table.boolean("isDeleted").notNullable();
       table.timestamps();
     })

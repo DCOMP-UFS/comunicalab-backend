@@ -10,7 +10,13 @@ class SoftwareSchema extends Schema {
       table.string("name", 80).notNullable()
       table.string("version", 20).notNullable()
       table.string("license", 80).notNullable()
-      table.boolean("isDelete").notNullable()
+      table
+        .integer("softCategory_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("soft_categories")
+        .onUpdate("CASCADE")
       table
         .integer('specification_id')
         .unsigned()
@@ -18,7 +24,7 @@ class SoftwareSchema extends Schema {
         .references('id')
         .inTable('specifications')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE')
+      table.boolean("isDelete").notNullable()
       table.timestamps()
     })
   }

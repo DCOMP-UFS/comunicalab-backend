@@ -38,3 +38,14 @@ Route.put("/called/:id", "CalledController.update");
 Route.delete("/called/:id", "CalledController.destroy");
 Route.get("/called/:id", "CalledController.show");
 
+Route.resource("/equipment", "EquipmentController").apiOnly();
+Route.resource("/installed", "InstalledController").apiOnly();
+Route.resource("softCategory", "SoftCategoryController")
+  .apiOnly()
+  .validator(
+    new Map([
+      [["softCategory.store"], ["SoftCategory"]],
+      [["softCategory.update"], ["SoftCategory"]]
+    ])
+  );
+
