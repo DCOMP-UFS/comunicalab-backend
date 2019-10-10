@@ -20,10 +20,12 @@ class SoftCategoryController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
+
     try {
       const data = await SoftCategory.query()
         .where("isDeleted", false)
         .fetch();
+
 
       return response.status(200).send(data);
     } catch (error) {
@@ -72,6 +74,7 @@ class SoftCategoryController {
         .where("isDeleted", false)
         .fetch();
 
+
       const softCategoryJSON = softCategory.toJSON();
 
       if (Object.keys(softCategoryJSON).length === 0) {
@@ -84,6 +87,7 @@ class SoftCategoryController {
       return response.status(error.status).send({ message: error });
     }
   }
+
 
   /**
    * Delete a software with id.
@@ -115,6 +119,7 @@ class SoftCategoryController {
       return response.status(error.status).send({ message: error });
     }
   }
+p
 
   /**
    * Delete a software with id.

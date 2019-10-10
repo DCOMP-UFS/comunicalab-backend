@@ -20,6 +20,7 @@ Route.get("/", () => {
   return { greeting: "Hello world in JSON" };
 });
 
+
 Route.resource("software", "SoftwareController")
   .apiOnly()
   .validator(
@@ -34,6 +35,7 @@ Route.post("/laboratory", "LaboratoryController.store");
 Route.put("/laboratory/:id", "LaboratoryController.update");
 Route.delete("/laboratory/:id", "LaboratoryController.destroy");
 Route.get("/laboratory/:id", "LaboratoryController.show");
+
 
 Route.get("/called", "CalledController.index");
 Route.post("/called", "CalledController.store");
@@ -51,3 +53,4 @@ Route.resource("softCategory", "SoftCategoryController")
       [["softCategory.update"], ["SoftCategory"]]
     ])
   );
+

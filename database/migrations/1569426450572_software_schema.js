@@ -1,3 +1,4 @@
+
 "use strict";
 
 /** @type {import('@adonisjs/lucid/src/Schema')} */
@@ -35,3 +36,4 @@ class SoftwareSchema extends Schema {
 }
 
 module.exports = SoftwareSchema;
+

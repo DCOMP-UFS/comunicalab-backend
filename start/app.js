@@ -20,9 +20,11 @@ const providers = [
   "@adonisjs/lucid/providers/LucidProvider",
   "adonis-swagger/providers/SwaggerProvider",
   "@adonisjs/validator/providers/ValidatorProvider",
+
   "@adonisjs/antl/providers/AntlProvider",
 
   path.join(__dirname, "..", "providers", "CustomValidationProvider")
+
 ];
 
 /*

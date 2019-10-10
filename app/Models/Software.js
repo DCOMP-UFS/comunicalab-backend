@@ -1,3 +1,4 @@
+
 "use strict";
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
@@ -22,3 +23,5 @@ class Software extends Model {
 }
 
 module.exports = Software;
+
+

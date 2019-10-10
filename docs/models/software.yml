@@ -1,3 +1,4 @@
+
 definitions:
   Software:
     type: object
@@ -33,3 +34,4 @@ definitions:
       - license
       - softCategory_id
       - specification_id
+

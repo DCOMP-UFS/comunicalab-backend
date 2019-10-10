@@ -1,3 +1,4 @@
+
 "use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -146,3 +147,4 @@ class SoftwareController {
 }
 
 module.exports = SoftwareController;
+
