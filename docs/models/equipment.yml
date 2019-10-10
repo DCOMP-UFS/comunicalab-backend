@@ -1,0 +1,35 @@
+definitions:
+  Equipment:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the equipment being created
+        example: 10
+      brand:
+        type: string
+        description: equipment brand
+        example: Hp
+      dateOfAcquisition:
+        type: date
+        description: equipment acquisition date
+        example: 10/10/1999
+      equipCategory_id:
+        type: uint
+        description: id of equipCategory that owns the equipment 
+        example: 10
+      laboratory_id:
+        type: uint
+        description: id of laboratory that owns the equipment
+        example: 10
+      specification_id:
+        type: uint
+        description: id of specification that belongs to equipment
+        example: 10
+    required:
+      - id
+      - brand
+      - dateOfAcquisition
+      - laboratory_id
+      - specification_id
+ 

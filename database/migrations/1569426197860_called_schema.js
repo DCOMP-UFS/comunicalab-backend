@@ -1,12 +1,12 @@
-"use strict";
+'use strict'
 
 /** @type {import('@adonisjs/lucid/src/Schema')} */
-const Schema = use("Schema");
+const Schema = use('Schema')
 
 class CalledSchema extends Schema {
-  up() {
-    this.create("calleds", table => {
-      table.increments();
+  up () {
+    this.create('calleds', (table) => {
+      table.increments()
       table.string("description").notNullable();
       table.string("type").notNullable();
       table
@@ -16,15 +16,16 @@ class CalledSchema extends Schema {
         .references("id")
         .inTable("equipment")
         .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+        .onDelete("CASCADE")
       table.boolean("isDeleted").notNullable();
-      table.timestamps();
-    });
+      table.timestamps()
+    })
   }
 
-  down() {
-    this.drop("calleds");
+  down () {
+    this.drop('calleds')
   }
 }
 
-module.exports = CalledSchema;
+module.exports = CalledSchema
+

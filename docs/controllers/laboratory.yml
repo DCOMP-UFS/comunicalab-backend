@@ -1,0 +1,144 @@
+/laboratory:
+  get:
+    tags:
+      - laboratory
+    summary: List all labs
+    operationId: indexLabs
+    description: Route that returns all labs
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/Laboratory"
+      "500":
+        description: Internal Server Error
+       
+  post:
+      tags:
+        - laboratory
+      summary: Lab registration
+      operationId: storeLab
+      description: Route that creates laboratory in the database
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: json
+          description: You need the following fields in the JSON file to create the lab.
+          schema:
+            properties:
+              name:
+                type: string
+                description: Lab name
+                example: Lab 1
+              location:
+                type: string
+                description: Laboratory location
+                example: Universidade Federal de Sergipe
+              latitude:
+                type: double
+                description: Laboratory latitude
+                example: -10.9264414
+              longitude:
+                type: double
+                description: Laboratory longitude
+                example: -37.1047417
+              status:
+                type: string
+                description:
+                example: Disponível
+              capacity:
+                type: uint
+                description: Laboratory capacity
+                example: 30
+     
+      responses:
+        "201":
+          description: Registered laboratory
+          schema:
+            $ref: "#/definitions/Laboratory"
+        "500":
+          description: Internal Server Error
+
+/laboratory/:id:
+  get:
+      tags:
+        - laboratory
+      summary: Lab show
+      operationId: showLab
+      description: Route showing a lab in the database
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Registered laboratory
+          schema:
+            $ref: "#/definitions/Laboratory"
+        "500":
+          description: Internal Server Error
+
+  put:
+      tags:
+        - laboratory
+      summary: Lab update
+      operationId: updateLab
+      description: Route that update laboratory in the database
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: json
+          description: You need the following fields in the JSON file to update the lab.
+          schema:
+            properties:
+              name:
+                type: string
+                description: Lab name
+                example: Lab 1
+              location:
+                type: string
+                description: Laboratory location
+                example: Universidade Federal de Sergipe
+              latitude:
+                type: double
+                description: Laboratory latitude
+                example: -10.9264414
+              longitude:
+                type: double
+                description: Laboratory longitude
+                example: -37.1047417
+              status:
+                type: string
+                description:
+                example: Disponível
+              capacity:
+                type: uint
+                description: Laboratory capacity
+                example: 30
+      responses:
+        "200":
+          description: Registered laboratory
+          schema:
+            $ref: "#/definitions/Laboratory"
+        "500":
+          description: Internal Server Error
+  
+  delete:
+      tags:
+        - laboratory
+      summary: Lab delete
+      operationId: deleteLab
+      description: Route that delete laboratory in the database
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Registered laboratory
+          schema:
+            $ref: "#/definitions/Laboratory"
+        "500":
+          description: Internal Server Error

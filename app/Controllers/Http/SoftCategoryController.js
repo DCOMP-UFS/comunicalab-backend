@@ -1,8 +1,10 @@
-'use strict'
+"use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
+
+const SoftCategory = use("App/Models/SoftCategory");
 
 /**
  * Resourceful controller for interacting with softcategories
@@ -17,19 +19,17 @@ class SoftCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-  }
+  async index({ request, response, view }) {
+    try {
+      const data = await SoftCategory.query()
+        .where("isDeleted", false)
+        .fetch();
 
-  /**
-   * Render a form to be used for creating a new softcategory.
-   * GET softcategories/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+
   }
 
   /**
@@ -40,7 +40,19 @@ class SoftCategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
+    try {
+      const data = request.only(["name"]);
+
+      data.isDeleted = false;
+
+      const softCategory = await SoftCategory.create(data);
+
+      return response.status(201).send(softCategory);
+
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -52,42 +64,85 @@ class SoftCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+
+  async show({ params, request, response, view }) {
+    try {
+      const softCategory = await SoftCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .fetch();
+
+      const softCategoryJSON = softCategory.toJSON();
+
+      if (Object.keys(softCategoryJSON).length === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      return response.status(200).send(softCategoryJSON[0]);
+
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
-   * Render a form to update an existing softcategory.
-   * GET softcategories/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update softcategory details.
-   * PUT or PATCH softcategories/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
-
-  /**
-   * Delete a softcategory with id.
-   * DELETE softcategories/:id
+   * Delete a software with id.
+   * DELETE softwares/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+
+  async update({ params, request, response }) {
+    try {
+      const data = request.post();
+
+      const softCategory = await SoftCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update(data);
+
+      if (softCategory === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const softCategoryUpdate = await SoftCategory.findOrFail(params.id);
+
+      return response.status(200).send(softCategoryUpdate);
+    } catch (error) {
+
+      return response.status(error.status).send({ message: error });
+    }
   }
+
+  /**
+   * Delete a software with id.
+   * DELETE softwares/:id
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+  async destroy({ params, request, response }) {
+    try {
+      const softCategory = await SoftCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update({ isDeleted: true });
+
+      if (softCategory === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const softCategoryUpdate = await SoftCategory.findOrFail(params.id);
+
+      return response.status(200).send(softCategoryUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
+
 }
 
-module.exports = SoftCategoryController
+module.exports = SoftCategoryController;
