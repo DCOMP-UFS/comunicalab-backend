@@ -2,10 +2,10 @@
 
 const { ServiceProvider } = require("@adonisjs/fold");
 
-const Database = use("Database");
-
 class CustomValidationProvider extends ServiceProvider {
   async existsFn(data, field, message, args, get) {
+    const Database = use("Database");
+
     const value = get(data, field);
     if (!value) {
       /**

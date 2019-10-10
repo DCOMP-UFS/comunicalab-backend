@@ -7,9 +7,9 @@ class SoftwareSchema extends Schema {
   up() {
     this.create("softwares", table => {
       table.increments();
-      table.string("name", 80).notNullable();
-      table.string("version", 20).notNullable();
-      table.string("license", 80).notNullable();
+      table.string("name", 100).notNullable();
+      table.string("version", 45).notNullable();
+      table.string("license", 45).notNullable();
       table
         .integer("softCategory_id")
         .unsigned()

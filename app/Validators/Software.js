@@ -13,8 +13,8 @@ class Software {
       version: "string|max:45",
       license: "string|max:45",
       isDeleted: "boolean",
-      softCategory_id: "exists:soft_categories,id"
-      //specification_id: "exists:specifications,id"
+      softCategory_id: "exists:soft_categories,id",
+      specification_id: "exists:specifications,id"
     };
   }
 
