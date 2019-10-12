@@ -49,3 +49,9 @@ Route.resource("softCategory", "SoftCategoryController")
     ])
   );
 
+Route.get("/specification_item", "SpecificationItemController.index");
+Route.post("/specification_item", "SpecificationItemController.store");
+Route.put("/specification_item/:id", "SpecificationItemController.update");
+Route.delete("/specification_item/:id", "SpecificationItemController.destroy");
+Route.get("/specification_item/:id", "SpecificationItemController.show");
+

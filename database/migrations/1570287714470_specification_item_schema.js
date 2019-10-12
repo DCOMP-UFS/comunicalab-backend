@@ -9,13 +9,14 @@ class SpecificationItemSchema extends Schema {
       table.increments()
       table.string("name").notNullable();
       table.string("value").notNullable();
+      table.boolean("isDeleted").notNullable();
       table
         .integer('specification_id')
         .unsigned()
         .notNullable()
         .references('id')
         .inTable('specifications')
-        .onUpdate('CASCADE')
+        .onUpdate('CASCADE');
       table.timestamps()
     })
   }
