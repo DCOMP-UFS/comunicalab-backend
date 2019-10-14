@@ -19,7 +19,7 @@ class EquipCategoryController {
    */
   async index ({ request, response, view }) {
     try {
-      const data = await EquipCategory.query().fetch();
+      const data = await EquipCategory.query().where("isDeleted", false).fetch();
 
 
       return response.status(200).send(data);
@@ -52,7 +52,7 @@ class EquipCategoryController {
     try {
       const data = request.only(["name"]);
 
-
+      data.isDeleted = false;
       const equipCategory = await EquipCategory.create(data);
 
       return response.status(201).send(equipCategory);
@@ -75,6 +75,7 @@ class EquipCategoryController {
     try {
       const equipCategory = await EquipCategory.query()
         .where("id", params.id)
+        .where("isDeleted", false)
         .fetch();
 
 
@@ -117,6 +118,7 @@ class EquipCategoryController {
 
       const equipCategory = await EquipCategory.query()
         .where("id", params.id)
+        .where("isDeleted", false)
         .update(data);
 
       if (equipCategory === 0) {
@@ -140,7 +142,24 @@ class EquipCategoryController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    try {
+      const equipCategory = await EquipCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update({ isDeleted: true });
+
+      if (equipCategory === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const equipCategoryUpdate = await EquipCategory.findOrFail(params.id);
+
+      return response.status(200).send(equipCategoryUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
+
 }
 
 module.exports = EquipCategoryController
