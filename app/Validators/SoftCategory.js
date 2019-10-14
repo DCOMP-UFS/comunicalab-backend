@@ -17,7 +17,7 @@ class SoftCategory {
   }
 
   get messages() {
-    return Antl.list("valitadion");
+    return Antl.list("validation");
   }
 }
 

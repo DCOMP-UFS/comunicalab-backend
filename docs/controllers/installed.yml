@@ -64,7 +64,7 @@
         description: Internal Server Error
   put:
     tags:
-      - Installed
+      - installed
     summary: Update installed
     operationId: updateInstalled
     description: Route that updates Installed softwares

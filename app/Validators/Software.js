@@ -19,7 +19,7 @@ class Software {
   }
 
   get messages() {
-    return Antl.list("valitadion");
+    return Antl.list("validation");
   }
 }
 

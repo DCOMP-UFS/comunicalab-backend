@@ -9,7 +9,7 @@ definitions:
       name:
         type: string
         description: equipment category name
-        example: driver
+        example: gabinete
         max: 100
     required:
       - id
