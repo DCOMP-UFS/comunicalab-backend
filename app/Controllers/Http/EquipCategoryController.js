@@ -112,6 +112,23 @@ class EquipCategoryController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      const data = request.post();
+
+      const equipCategory = await EquipCategory.query()
+        .where("id", params.id)
+        .update(data);
+
+      if (equipCategory === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const equipCategoryUpdate = await EquipCategory.findOrFail(params.id);
+
+      return response.status(200).send(equipCategoryUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
