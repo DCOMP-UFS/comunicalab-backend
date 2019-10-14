@@ -19,9 +19,7 @@ class EquipCategoryController {
    */
   async index ({ request, response, view }) {
     try {
-      const data = await EquipCategory.query()
-        .where("isDeleted", false)
-        .fetch();
+      const data = await EquipCategory.query().fetch();
 
 
       return response.status(200).send(data);
@@ -51,6 +49,17 @@ class EquipCategoryController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.only(["name"]);
+
+
+      const equipCategory = await EquipCategory.create(data);
+
+      return response.status(201).send(equipCategory);
+
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -66,7 +75,6 @@ class EquipCategoryController {
     try {
       const equipCategory = await EquipCategory.query()
         .where("id", params.id)
-        .where("isDeleted", false)
         .fetch();
 
 
