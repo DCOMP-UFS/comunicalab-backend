@@ -1,0 +1,16 @@
+definitions:
+  EquipCategory:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the equipment category being created
+        example: 10
+      name:
+        type: string
+        description: equipment category name
+        example: driver
+        max: 100
+    required:
+      - id
+      - name
