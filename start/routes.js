@@ -53,4 +53,5 @@ Route.resource("softCategory", "SoftCategoryController")
       [["softCategory.update"], ["SoftCategory"]]
     ])
   );
+Route.resource("equipCategory", "equipCategoryController").apiOnly()
 
