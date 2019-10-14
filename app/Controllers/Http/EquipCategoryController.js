@@ -3,7 +3,7 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-
+const EquipCategory = use("App/Models/EquipCategory");
 /**
  * Resourceful controller for interacting with equipcategories
  */
@@ -18,6 +18,14 @@ class EquipCategoryController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    try {
+      const data = await EquipCategory.query().where("isDeleted", false).fetch();
+
+
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -41,6 +49,17 @@ class EquipCategoryController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
+    try {
+      const data = request.only(["name"]);
+
+      data.isDeleted = false;
+      const equipCategory = await EquipCategory.create(data);
+
+      return response.status(201).send(equipCategory);
+
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -53,6 +72,24 @@ class EquipCategoryController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    try {
+      const equipCategory = await EquipCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .fetch();
+
+
+      const equipCategoryJSON = equipCategory.toJSON();
+
+      if (Object.keys(equipCategoryJSON).length === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      return response.status(200).send(equipCategoryJSON[0]);
+
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -76,6 +113,24 @@ class EquipCategoryController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try {
+      const data = request.post();
+
+      const equipCategory = await EquipCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update(data);
+
+      if (equipCategory === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const equipCategoryUpdate = await EquipCategory.findOrFail(params.id);
+
+      return response.status(200).send(equipCategoryUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -87,7 +142,24 @@ class EquipCategoryController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    try {
+      const equipCategory = await EquipCategory.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update({ isDeleted: true });
+
+      if (equipCategory === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const equipCategoryUpdate = await EquipCategory.findOrFail(params.id);
+
+      return response.status(200).send(equipCategoryUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
+
 }
 
 module.exports = EquipCategoryController

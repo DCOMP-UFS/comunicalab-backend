@@ -2,7 +2,7 @@
 
 const Antl = use("Antl");
 
-class SoftCategory {
+class EquipCategory {
   get validateAll() {
     return true;
   }
@@ -21,4 +21,4 @@ class SoftCategory {
   }
 }
 
-module.exports = SoftCategory;
+module.exports = EquipCategory;

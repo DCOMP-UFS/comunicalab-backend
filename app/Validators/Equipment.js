@@ -2,18 +2,17 @@
 
 const Antl = use("Antl");
 
-class Software {
+class Equipment {
   get validateAll() {
     return true;
   }
 
   get rules() {
     return {
-      name: "string|max:100",
-      version: "string|max:45",
-      license: "string|max:45",
+      brand: "string|max:100",
       isDeleted: "boolean",
-      softCategory_id: "exists:soft_categories,id",
+      equipCategory_id: "exists:equip_categories,id",
+      laboratory_id: "exists:laboratories,id",
       specification_id: "exists:specifications,id"
     };
   }
@@ -23,4 +22,4 @@ class Software {
   }
 }
 
-module.exports = Software;
+module.exports = Equipment;
