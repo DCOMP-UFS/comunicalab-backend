@@ -54,4 +54,10 @@ Route.resource("softCategory", "SoftCategoryController")
     ])
   );
 Route.resource("equipCategory", "equipCategoryController").apiOnly()
+.validator(
+  new Map([
+    [["equipCategory.store"], ["EquipCategory"]],
+    [["equipCategory.update"], ["EquipCategory"]]
+  ])
+);
 
