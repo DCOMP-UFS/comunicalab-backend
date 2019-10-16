@@ -98,6 +98,8 @@ class SpecificationController {
         .where("isDeleted", false)
         .update(data);
 
+      console.log("specification", specification);
+
       if (specification === 0) {
         return response.status(404).send({ message: "Not Found" });
       }

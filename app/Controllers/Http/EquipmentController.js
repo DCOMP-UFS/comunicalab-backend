@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -17,7 +17,7 @@ class EquipmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
     try {
       const data = await Equipment.query()
         .where("isDeleted", false)
@@ -38,8 +38,7 @@ class EquipmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
-  }
+  async create({ request, response, view }) {}
 
   /**
    * Create/save a new equipment.
@@ -49,15 +48,14 @@ class EquipmentController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
     try {
       const data = request.only([
         "brand",
         "equipCategory_id",
         "specification_id",
         "laboratory_id",
-        "dateOfAcquisition",
-        "isDeleted"
+        "dateOfAcquisition"
       ]);
 
       data.isDeleted = false;
@@ -79,11 +77,11 @@ class EquipmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
     try {
       const equipment = await Equipment.query()
         .where("id", params.id)
-        .where("isDelete", false)
+        .where("isDeleted", false)
         .fetch();
 
       const equipmentJSON = equipment.toJSON();
@@ -107,8 +105,7 @@ class EquipmentController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
-  }
+  async edit({ params, request, response, view }) {}
 
   /**
    * Update equipment details.
@@ -118,13 +115,13 @@ class EquipmentController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
     try {
       const data = request.post();
 
       const equipment = await Equipment.query()
         .where("id", params.id)
-        .where("isDelete", false)
+        .where("isDeleted", false)
         .update(data);
 
       if (equipment === 0) {
@@ -147,11 +144,11 @@ class EquipmentController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, request, response }) {
     try {
       const equipment = await Equipment.query()
         .where("id", params.id)
-        .where("isDelete", false)
+        .where("isDeleted", false)
         .update({ isDelete: true });
 
       if (equipment === 0) {
@@ -168,4 +165,4 @@ class EquipmentController {
   }
 }
 
-module.exports = EquipmentController
+module.exports = EquipmentController;

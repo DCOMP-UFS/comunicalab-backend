@@ -9,8 +9,8 @@ class Specification {
 
   get rules() {
     return {
-      softCategory_id: "in:exists:soft_categories,id,null",
-      eqipCategory_id: "in:exists:equip_categories,id,null",
+      softCategory_id: "exists:soft_categories,id",
+      eqipCategory_id: "exists:equip_categories,id",
       isDeleted: "boolean"
     };
   }
