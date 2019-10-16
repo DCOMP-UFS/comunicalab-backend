@@ -119,7 +119,6 @@ class SoftCategoryController {
       return response.status(error.status).send({ message: error });
     }
   }
-p
 
   /**
    * Delete a software with id.
