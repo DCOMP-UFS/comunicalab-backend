@@ -1,8 +1,10 @@
-'use strict'
+"use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
+
+const Specification = use("App/Models/Specification");
 
 /**
  * Resourceful controller for interacting with specifications
@@ -17,20 +19,7 @@ class SpecificationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-  }
-
-  /**
-   * Render a form to be used for creating a new specification.
-   * GET specifications/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
+  async index({ request, response, view }) {}
 
   /**
    * Create/save a new specification.
@@ -40,7 +29,18 @@ class SpecificationController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
+    try {
+      const data = request.only(["softCategory_id", "eqipCategory_id"]);
+
+      data.isDeleted = false;
+
+      const specification = await Specification.create(data);
+
+      return response.status(201).send(specification);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -52,20 +52,7 @@ class SpecificationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing specification.
-   * GET specifications/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+  async show({ params, request, response, view }) {}
 
   /**
    * Update specification details.
@@ -75,8 +62,7 @@ class SpecificationController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-  }
+  async update({ params, request, response }) {}
 
   /**
    * Delete a specification with id.
@@ -86,8 +72,7 @@ class SpecificationController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-  }
+  async destroy({ params, request, response }) {}
 }
 
-module.exports = SpecificationController
+module.exports = SpecificationController;

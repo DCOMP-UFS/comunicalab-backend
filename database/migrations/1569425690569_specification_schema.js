@@ -10,17 +10,16 @@ class SpecificationSchema extends Schema {
       table
         .integer("softCategory_id")
         .unsigned()
-        .notNullable()
         .references("id")
         .inTable("soft_categories")
-        .onUpdate("CASCADE")
+        .onUpdate("CASCADE");
       table
         .integer("eqipCategory_id")
         .unsigned()
-        .notNullable()
         .references("id")
         .inTable("equip_categories")
-        .onUpdate("CASCADE")   
+        .onUpdate("CASCADE");
+      table.boolean("isDeleted").notNullable();
       table.timestamps();
     });
   }
