@@ -19,7 +19,17 @@ class SpecificationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {}
+  async index({ request, response, view }) {
+    try {
+      const data = await Specification.query()
+        .where("isDeleted", false)
+        .fetch();
+
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
 
   /**
    * Create/save a new specification.
@@ -52,7 +62,24 @@ class SpecificationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {}
+  async show({ params, request, response, view }) {
+    try {
+      const specification = await Specification.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .fetch();
+
+      const specificationJSON = specification.toJSON();
+
+      if (Object.keys(specificationJSON).length === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      return response.status(200).send(specificationJSON[0]);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
 
   /**
    * Update specification details.
