@@ -74,3 +74,12 @@ Route.resource("equipCategory", "EquipCategoryController")
       [["equipCategory.update"], ["EquipCategory"]]
     ])
   );
+
+Route.resource("specification", "SpecificationController")
+  .apiOnly()
+  .validator(
+    new Map([
+      [["specification.store"], ["Specification"]],
+      [["specification.update"], ["Specification"]]
+    ])
+  );
