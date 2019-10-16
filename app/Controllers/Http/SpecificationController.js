@@ -89,7 +89,26 @@ class SpecificationController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update({ params, request, response }) {}
+  async update({ params, request, response }) {
+    try {
+      const data = request.post();
+
+      const specification = await Specification.query()
+        .where("id", params.id)
+        .where("isDeleted", false)
+        .update(data);
+
+      if (specification === 0) {
+        return response.status(404).send({ message: "Not Found" });
+      }
+
+      const specificationUpdate = await Specification.findOrFail(params.id);
+
+      return response.status(200).send(specificationUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
+  }
 
   /**
    * Delete a specification with id.
