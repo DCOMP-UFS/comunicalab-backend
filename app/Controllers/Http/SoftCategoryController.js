@@ -21,7 +21,6 @@ class SoftCategoryController {
    */
   async index({ request, response, view }) {
 
-
     try {
       const data = await SoftCategory.query()
         .where("isDeleted", false)

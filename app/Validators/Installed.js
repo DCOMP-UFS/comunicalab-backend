@@ -2,17 +2,15 @@
 
 const Antl = use("Antl");
 
-class SoftCategory {
+class Installed {
   get validateAll() {
     return true;
   }
 
   get rules() {
     return {
-
-      name: "string|max:100",
-      isDeleted: "boolean"
-
+      software_id: "exists:softwares,id",
+      equipment_id: "exists:equipments,id"
     };
   }
 
@@ -21,4 +19,4 @@ class SoftCategory {
   }
 }
 
-module.exports = SoftCategory;
+module.exports = Installed;

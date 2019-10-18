@@ -22,7 +22,7 @@
         description: Internal Server Error
   get:
     tags:
-      - Installed
+      - installed
     summary: List all installed
     operationId: indexInstalled
     description: Route that returns all installed softwares
@@ -64,7 +64,7 @@
         description: Internal Server Error
   put:
     tags:
-      - Installed
+      - installed
     summary: Update installed
     operationId: updateInstalled
     description: Route that updates Installed softwares

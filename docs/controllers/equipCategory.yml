@@ -1,0 +1,117 @@
+/equipCategory:
+  post:
+    tags:
+      - equipCategory
+    summary: Register equipment category
+    operationId: storeEquipCategory
+    description: Route that creates equipment category in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the equipment category.
+        schema:
+          $ref: "#/definitions/EquipCategory"
+    responses:
+      "201":
+        description: Registered equipment category
+        schema:
+          $ref: "#/definitions/EquipCategory"
+      "500":
+        description: Internal Server Error
+
+  get:
+    tags:
+      - equipCategory
+    summary: List all equipment category
+    operationId: indexEquipCategory
+    description: Route that returns all equipment category
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/EquipCategory"
+      "500":
+        description: Internal Server Error
+
+/equipCategory/:id:
+  get:
+    tags:
+      - equipCategory
+    summary: Returns one equipment category
+    operationId: showEquipCategory
+    description: Route that returns one the equipment category
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the equipment category that will be returned
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/EquipCategory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  put:
+    tags:
+      - equipCategory
+    summary: Update equipment category
+    operationId: updateEquipCategory
+    description: Route that updates equipment category
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the equipment category that will be updated
+        required: true
+        type: integer
+      - in: body
+        name: json
+        description: Any of the following fields in the JSON file can be used to be updated. Except isDeleted
+        schema:
+          $ref: "#/definitions/EquipCategory"
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/EquipCategory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  delete:
+    tags:
+      - equipCategory
+    summary: Delete equipment category
+    operationId: destroyEquipCategory
+    description: Route that deletes a equipment category
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the equipment category that will be deleted
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/EquipCategory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+
