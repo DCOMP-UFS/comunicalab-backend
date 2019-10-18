@@ -43,6 +43,14 @@ Route.put("/called/:id", "CalledController.update");
 Route.delete("/called/:id", "CalledController.destroy");
 Route.get("/called/:id", "CalledController.show");
 
+Route.resource("called", "SpecificationItemController").apiOnly()
+.validator(
+  new Map([
+    [["called.store"], ["Called"]],
+    [["called.update"], ["Called"]]
+  ])
+);
+
 Route.resource("/equipment", "EquipmentController").apiOnly()
 .validator(
   new Map([
@@ -74,9 +82,17 @@ Route.resource("equipCategory", "EquipCategoryController").apiOnly()
   ])
 );
 
-Route.get("/specification_item", "SpecificationItemController.index");
-Route.post("/specification_item", "SpecificationItemController.store");
-Route.put("/specification_item/:id", "SpecificationItemController.update");
-Route.delete("/specification_item/:id", "SpecificationItemController.destroy");
-Route.get("/specification_item/:id", "SpecificationItemController.show");
+// Route.get("/specification_item", "pecificationItemSController.index");
+// Route.post("/specification_item", "SpecificationItemController.store");
+// Route.put("/specification_item/:id", "SpecificationItemController.update");
+// Route.delete("/specification_item/:id", "SpecificationItemController.destroy");
+// Route.get("/specification_item/:id", "SpecificationItemController.show");
+
+Route.resource("specification_item", "SpecificationItemController").apiOnly()
+.validator(
+  new Map([
+    [["specification_item.store"], ["SpecificationItem"]],
+    [["specification_item.update"], ["SpecificationItem"]]
+  ])
+);
 
