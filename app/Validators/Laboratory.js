@@ -3,8 +3,8 @@
 class Laboratory {
   
   get validateAll() {
-  return true;
-}
+    return true;
+  }
   get rules () {
     return {
       name: "string|max:100",

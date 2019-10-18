@@ -7,8 +7,8 @@ class SpecificationItem {
 
   get rules () {
     return {
-      name: "string|max:45",
-      value: "string|max:45",
+      description: "string|max:1000000",
+      value: "string|max:10000",
       isDeleted: "boolean",
       specification_id: "exists:specifications,id"
     }

@@ -6,6 +6,9 @@ class Called {
       // validation rules
     }
   }
+  get messages() {
+    return Antl.list("validation");
+  }
 }
 
 module.exports = Called
