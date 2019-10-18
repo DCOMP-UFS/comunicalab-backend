@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -17,22 +17,15 @@ class InstalledController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
     try {
-      const data = await Installed.all()
-    
+      const data = await Installed.all();
+
       return response.status(200).send(data);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
-  
-    
-    
-
-
   }
-
-
 
   /**
    * Create/save a new installed.
@@ -42,7 +35,7 @@ class InstalledController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
     try {
       const data = request.only([
         "equipment_id",
@@ -54,6 +47,7 @@ class InstalledController {
 
       return response.status(201).send(installed);
     } catch (error) {
+      console.log(error.status, error);
       return response.status(error.status).send({ message: error });
     }
   }
@@ -67,15 +61,14 @@ class InstalledController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
     try {
-      const installed = await Installed.findOrFail(params.id)
+      const installed = await Installed.findOrFail(params.id);
       return response.status(200).send(installed);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
-
 
   /**
    * Update installed details.
@@ -85,7 +78,7 @@ class InstalledController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
     try {
       const data = request.post();
 
@@ -113,13 +106,10 @@ class InstalledController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    
-      const installed = await Installed.findOrFail(params.id)
-      await installed.delete()
-        
-  
+  async destroy({ params, request, response }) {
+    const installed = await Installed.findOrFail(params.id);
+    await installed.delete();
   }
 }
 
-module.exports = InstalledController
+module.exports = InstalledController;

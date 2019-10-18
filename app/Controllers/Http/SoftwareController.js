@@ -1,4 +1,3 @@
-
 "use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
@@ -140,11 +139,9 @@ class SoftwareController {
 
       return response.status(200).send(softwareUpdate);
     } catch (error) {
-      console.log(error);
       return response.status(error.status).send({ message: error });
     }
   }
 }
 
 module.exports = SoftwareController;
-

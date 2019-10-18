@@ -20,7 +20,6 @@ Route.get("/", () => {
   return { greeting: "Hello world in JSON" };
 });
 
-
 Route.resource("software", "SoftwareController")
   .apiOnly()
   .validator(
@@ -36,28 +35,29 @@ Route.put("/laboratory/:id", "LaboratoryController.update");
 Route.delete("/laboratory/:id", "LaboratoryController.destroy");
 Route.get("/laboratory/:id", "LaboratoryController.show");
 
-
 Route.get("/called", "CalledController.index");
 Route.post("/called", "CalledController.store");
 Route.put("/called/:id", "CalledController.update");
 Route.delete("/called/:id", "CalledController.destroy");
 Route.get("/called/:id", "CalledController.show");
 
-Route.resource("/equipment", "EquipmentController").apiOnly()
-.validator(
-  new Map([
-    [["equipment.store"], ["Equipment"]],
-    [["equipment.update"], ["Equipment"]]
-  ])
-);
+Route.resource("equipment", "EquipmentController")
+  .apiOnly()
+  .validator(
+    new Map([
+      [["equipment.store"], ["Equipment"]],
+      [["equipment.update"], ["Equipment"]]
+    ])
+  );
 
-Route.resource("/installed", "InstalledController").apiOnly().apiOnly()
-.validator(
-  new Map([
-    [["installed.store"], ["Installed"]],
-    [["installed.update"], ["Installed"]]
-  ])
-);
+Route.resource("installed", "InstalledController")
+  .apiOnly()
+  .validator(
+    new Map([
+      [["installed.store"], ["Installed"]],
+      [["installed.update"], ["Installed"]]
+    ])
+  );
 Route.resource("softCategory", "SoftCategoryController")
   .apiOnly()
   .validator(
@@ -66,11 +66,20 @@ Route.resource("softCategory", "SoftCategoryController")
       [["softCategory.update"], ["SoftCategory"]]
     ])
   );
-Route.resource("equipCategory", "EquipCategoryController").apiOnly()
-.validator(
-  new Map([
-    [["equipCategory.store"], ["EquipCategory"]],
-    [["equipCategory.update"], ["EquipCategory"]]
-  ])
-);
+Route.resource("equipCategory", "EquipCategoryController")
+  .apiOnly()
+  .validator(
+    new Map([
+      [["equipCategory.store"], ["EquipCategory"]],
+      [["equipCategory.update"], ["EquipCategory"]]
+    ])
+  );
 
+Route.resource("specification", "SpecificationController")
+  .apiOnly()
+  .validator(
+    new Map([
+      [["specification.store"], ["Specification"]],
+      [["specification.update"], ["Specification"]]
+    ])
+  );
