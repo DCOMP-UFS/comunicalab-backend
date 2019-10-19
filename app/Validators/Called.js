@@ -1,5 +1,8 @@
 'use strict'
 
+const Antl = use("Antl");
+
+
 class Called {
   get validateAll() {
     return true;

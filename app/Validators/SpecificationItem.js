@@ -1,5 +1,7 @@
 'use strict'
 
+const Antl = use("Antl");
+
 class SpecificationItem {
   get validateAll() {
     return true;

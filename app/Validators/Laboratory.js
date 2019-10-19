@@ -10,9 +10,9 @@ class Laboratory {
       name: "string|max:100",
       location: "string|max:10000",
       latitude: "exists:location,id",
-      longitude: "",
-      status: "",
-      capacity: "",
+      longitude: "double",
+      status: "enum",
+      capacity: "integer",
       isDeleted: "boolean",
     
     }
