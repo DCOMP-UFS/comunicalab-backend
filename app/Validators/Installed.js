@@ -9,8 +9,9 @@ class Installed {
 
   get rules() {
     return {
+      dateInstallation: "date",
       software_id: "exists:softwares,id",
-      equipment_id: "exists:equipments,id"
+      equipment_id: "exists:equipment,id"
     };
   }
 

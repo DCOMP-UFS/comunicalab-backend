@@ -1,0 +1,20 @@
+definitions:
+  Specification:
+    type: object
+    description: softCategory_id or eqipCategory_id must exist or be null, must exist one.
+    properties:
+      id:
+        type: uint
+        description: id of the specification being created
+        example: 10
+      softCategory_id:
+        type: uint
+        description: id of the softCategory_id the specification belongs to, can be null.
+        example: 1
+      eqipCategory_id:
+        type: uint
+        description: id of the eqipCategory_id the specification belongs to, can be null.
+        example: null
+    required:
+      - softCategory_id
+      - eqipCategory_id
