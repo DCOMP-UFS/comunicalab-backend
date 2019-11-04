@@ -14,7 +14,8 @@ class Software {
       license: "string|max:45",
       isDeleted: "boolean",
       softCategory_id: "exists:soft_categories,id",
-      specification_id: "exists:specifications,id"
+      specification_id: "exists:specifications,id",
+      active: "boolean"
     };
   }
 

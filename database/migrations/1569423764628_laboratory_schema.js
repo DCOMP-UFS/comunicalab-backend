@@ -1,6 +1,7 @@
 "use strict";
 
-const Antl = use("Antl");
+/** @type {import('@adonisjs/lucid/src/Schema')} */
+const Schema = use("Schema");
 
 
 class LaboratorySchema extends Schema {

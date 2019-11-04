@@ -46,7 +46,8 @@ class SoftwareController {
         "version",
         "license",
         "softCategory_id",
-        "specification_id"
+        "specification_id",
+        "active"
       ]);
 
       data.isDeleted = false;

@@ -13,7 +13,8 @@ class Equipment {
       isDeleted: "boolean",
       equipCategory_id: "exists:equip_categories,id",
       laboratory_id: "exists:laboratories,id",
-      specification_id: "exists:specifications,id"
+      specification_id: "exists:specifications,id",
+      active: "boolean"
     };
   }
 
