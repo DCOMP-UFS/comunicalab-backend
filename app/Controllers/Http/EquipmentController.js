@@ -55,7 +55,8 @@ class EquipmentController {
         "equipCategory_id",
         "specification_id",
         "laboratory_id",
-        "dateOfAcquisition"
+        "dateOfAcquisition",
+        "active"
       ]);
 
       data.isDeleted = false;
