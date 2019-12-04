@@ -140,5 +140,5 @@ class EquipmentController {
     }
   }
 }
-
+/**/
 module.exports = EquipmentController;
