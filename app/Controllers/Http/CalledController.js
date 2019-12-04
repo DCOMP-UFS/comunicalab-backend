@@ -1,10 +1,8 @@
-"use strict";
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Called = use("App/Models/Called");
+const Called = use('App/Models/Called');
 
 /**
  * Resourceful controller for interacting with calleds
@@ -22,7 +20,7 @@ class CalledController {
   async index({ request, response, view }) {
     try {
       const data = await Called.query()
-        .where("isDeleted", false)
+        .where('isDeleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -30,13 +28,14 @@ class CalledController {
       return response.status(error.status).send({ message: error });
     }
   }
+
   /**
    * Create/save a new called.
    * POST calleds
    */
   async store({ request, response }) {
     try {
-      const data = request.only(["description", "type", "equipment_id"]);
+      const data = request.only(['description', 'type', 'equipment_id']);
       data.isDeleted = false;
       const called = await Called.create(data);
 
@@ -53,14 +52,14 @@ class CalledController {
   async show({ params, request, response, view }) {
     try {
       const called = await Called.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .fetch();
 
       const calledJSON = called.toJSON();
 
       if (Object.keys(calledJSON).length === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       return response.status(200).send(calledJSON[0]);
@@ -78,12 +77,12 @@ class CalledController {
       const data = request.post();
 
       const called = await Called.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .update(data);
 
       if (called === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const calledUpdate = await Called.findOrFail(params.id);
@@ -101,11 +100,11 @@ class CalledController {
   async destroy({ params, request, response }) {
     try {
       const called = await Called.query()
-        .where("id", params.id)
+        .where('id', params.id)
         .update({ isDeleted: true });
 
       if (called === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const calledDeleted = await Called.findOrFail(params.id);

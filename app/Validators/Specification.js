@@ -1,6 +1,4 @@
-"use strict";
-
-const Antl = use("Antl");
+const Antl = use('Antl');
 
 class Specification {
   get validateAll() {
@@ -9,14 +7,14 @@ class Specification {
 
   get rules() {
     return {
-      softCategory_id: "exists:soft_categories,id",
-      eqipCategory_id: "exists:equip_categories,id",
-      isDeleted: "boolean"
+      softCategory_id: 'exists:soft_categories,id',
+      eqipCategory_id: 'exists:equip_categories,id',
+      isDeleted: 'boolean',
     };
   }
 
   get messages() {
-    return Antl.list("validation");
+    return Antl.list('validation');
   }
 }
 

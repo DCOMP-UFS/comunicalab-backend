@@ -1,10 +1,8 @@
-"use strict";
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Software = use("App/Models/Software");
+const Software = use('App/Models/Software');
 
 /**
  * Resourceful controller for interacting with softwares
@@ -22,7 +20,7 @@ class SoftwareController {
   async index({ request, response, view }) {
     try {
       const data = await Software.query()
-        .where("isDeleted", false)
+        .where('isDeleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -42,12 +40,12 @@ class SoftwareController {
   async store({ request, response }) {
     try {
       const data = request.only([
-        "name",
-        "version",
-        "license",
-        "softCategory_id",
-        "specification_id",
-        "active"
+        'name',
+        'version',
+        'license',
+        'softCategory_id',
+        'specification_id',
+        'active',
       ]);
 
       data.isDeleted = false;
@@ -72,14 +70,14 @@ class SoftwareController {
   async show({ params, request, response, view }) {
     try {
       const software = await Software.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .fetch();
 
       const softwareJSON = software.toJSON();
 
       if (Object.keys(softwareJSON).length === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       return response.status(200).send(softwareJSON[0]);
@@ -101,12 +99,12 @@ class SoftwareController {
       const data = request.post();
 
       const software = await Software.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .update(data);
 
       if (software === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const softwareUpdate = await Software.findOrFail(params.id);
@@ -128,12 +126,12 @@ class SoftwareController {
   async destroy({ params, request, response }) {
     try {
       const software = await Software.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .update({ isDeleted: true });
 
       if (software === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const softwareUpdate = await Software.findOrFail(params.id);

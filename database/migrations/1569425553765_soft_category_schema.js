@@ -1,20 +1,18 @@
-"use strict";
-
 /** @type {import('@adonisjs/lucid/src/Schema')} */
-const Schema = use("Schema");
+const Schema = use('Schema');
 
 class SoftCategorySchema extends Schema {
   up() {
-    this.create("soft_categories", table => {
+    this.create('soft_categories', table => {
       table.increments();
-      table.string("name", 100).notNullable();
-      table.boolean("isDeleted").notNullable();
+      table.string('name', 100).notNullable();
+      table.boolean('isDeleted').notNullable();
       table.timestamps();
     });
   }
 
   down() {
-    this.drop("soft_categories");
+    this.drop('soft_categories');
   }
 }
 

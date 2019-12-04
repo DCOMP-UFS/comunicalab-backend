@@ -1,9 +1,7 @@
-"use strict";
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const Installed = use("App/Models/Installed");
+const Installed = use('App/Models/Installed');
 /**
  * Resourceful controller for interacting with installeds
  */
@@ -38,16 +36,15 @@ class InstalledController {
   async store({ request, response }) {
     try {
       const data = request.only([
-        "equipment_id",
-        "software_id",
-        "dateInstallation"
+        'equipment_id',
+        'software_id',
+        'dateInstallation',
       ]);
 
       const installed = await Installed.create(data);
 
       return response.status(201).send(installed);
     } catch (error) {
-      console.log(error.status, error);
       return response.status(error.status).send({ message: error });
     }
   }
@@ -83,11 +80,11 @@ class InstalledController {
       const data = request.post();
 
       const installed = await Installed.query()
-        .where("id", params.id)
+        .where('id', params.id)
         .update(data);
 
       if (installed === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const installedUpdate = await Installed.findOrFail(params.id);
