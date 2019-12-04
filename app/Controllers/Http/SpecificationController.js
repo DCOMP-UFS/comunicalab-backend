@@ -1,10 +1,8 @@
-"use strict";
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Specification = use("App/Models/Specification");
+const Specification = use('App/Models/Specification');
 
 /**
  * Resourceful controller for interacting with specifications
@@ -22,7 +20,7 @@ class SpecificationController {
   async index({ request, response, view }) {
     try {
       const data = await Specification.query()
-        .where("isDeleted", false)
+        .where('isDeleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -41,7 +39,7 @@ class SpecificationController {
    */
   async store({ request, response }) {
     try {
-      const data = request.only(["softCategory_id", "eqipCategory_id"]);
+      const data = request.only(['softCategory_id', 'eqipCategory_id']);
 
       data.isDeleted = false;
 
@@ -65,14 +63,14 @@ class SpecificationController {
   async show({ params, request, response, view }) {
     try {
       const specification = await Specification.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .fetch();
 
       const specificationJSON = specification.toJSON();
 
       if (Object.keys(specificationJSON).length === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       return response.status(200).send(specificationJSON[0]);
@@ -94,14 +92,12 @@ class SpecificationController {
       const data = request.post();
 
       const specification = await Specification.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .update(data);
 
-      console.log("specification", specification);
-
       if (specification === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const specificationUpdate = await Specification.findOrFail(params.id);
@@ -123,12 +119,12 @@ class SpecificationController {
   async destroy({ params, request, response }) {
     try {
       const specification = await Specification.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .update({ isDeleted: true });
 
       if (specification === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const specificationUpdate = await Specification.findOrFail(params.id);

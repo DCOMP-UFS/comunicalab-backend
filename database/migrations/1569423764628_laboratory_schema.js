@@ -1,26 +1,25 @@
-"use strict";
-
 /** @type {import('@adonisjs/lucid/src/Schema')} */
-const Schema = use("Schema");
-
+const Schema = use('Schema');
 
 class LaboratorySchema extends Schema {
   up() {
-    this.create("laboratories", table => {
+    this.create('laboratories', table => {
       table.increments();
-      table.string("name", 80).notNullable();
-      table.string("location").notNullable();
-      table.double("latitude").notNullable();
-      table.double("longitude").notNullable();
-      table.enu("status", ["Disponível", "Reservado", "Em aula", "Em reforma"]).notNullable();
-      table.integer("capacity").notNullable();
-      table.boolean("isDeleted").notNullable();
+      table.string('name', 80).notNullable();
+      table.string('location').notNullable();
+      table.double('latitude').notNullable();
+      table.double('longitude').notNullable();
+      table
+        .enu('status', ['Disponível', 'Reservado', 'Em aula', 'Em reforma'])
+        .notNullable();
+      table.integer('capacity').notNullable();
+      table.boolean('isDeleted').notNullable();
       table.timestamps();
     });
   }
 
   down() {
-    this.drop("laboratories");
+    this.drop('laboratories');
   }
 }
 

@@ -1,6 +1,4 @@
-"use strict";
-
-const Antl = use("Antl");
+const Antl = use('Antl');
 
 class SoftCategory {
   get validateAll() {
@@ -9,13 +7,13 @@ class SoftCategory {
 
   get rules() {
     return {
-      name: "string|max:100",
-      isDeleted: "boolean"
+      name: 'string|max:100',
+      isDeleted: 'boolean',
     };
   }
 
   get messages() {
-    return Antl.list("validation");
+    return Antl.list('validation');
   }
 }
 
