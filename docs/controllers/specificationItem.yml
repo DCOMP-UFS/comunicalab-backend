@@ -1,0 +1,121 @@
+
+/specification_item:
+  get:
+    tags:
+      - specificationItem
+    summary: List all specification_item
+    operationId: indexSpecificationItem
+    description: Route that returns all specification_item
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/specificationItem"
+      "500":
+        description: Internal Server Error
+       
+  post:
+      tags:
+        - specificationItem
+      summary: Specification_item registration
+      operationId: storeSpecificationItem
+      description: Route that creates specification_item in the database
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: json
+          description: You need the following fields in the JSON file to create the lab.
+          schema:
+            properties:
+              name:
+                type: string
+                description: item name
+                example: 
+              value:
+                type: string
+                description: "item values"
+                example: 45.90
+              specification_id:
+                type: uint
+                description: specification id
+                example: 
+     
+      responses:
+        "201":
+          description: Registered specification_item
+          schema:
+            $ref: "#/definitions/specificationItem"
+        "500":
+          description: Internal Server Error
+
+/specification_item/:id:
+  get:
+    tags:
+      - specificationItem
+    summary: Specification_item show
+    operationId: showSpecificationItemLab
+    description: Route showing a specification_item in the database
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Registered specification_item
+        schema:
+        $ref: "#/definitions/specificationItem"
+      "500":
+        description: Internal Server Error
+
+  put:
+      tags:
+        - specificationItem
+      summary: specification_item update
+      operationId: updateSpecificationItem
+      description: Route that update specification_item in the database
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: json
+          description: You need the following fields in the JSON file to update the lab.
+          schema:
+            properties:
+              name:
+                type: string
+                description: item name
+                example: 
+              value:
+                type: string
+                description: "item values"
+                example: 45.90
+              specification_id:
+                type: uint
+                description: specification id
+                example: 
+      responses:
+        "200":
+          description: Registered specification_item
+          schema:
+          $ref: "#/definitions/specificationItem"
+        "500":
+          description: Internal Server Error
+  
+  delete:
+      tags:
+        - specificationItem
+      summary: SpecificationItem delete
+      operationId: deleteLab
+      description: Route that delete specification_item in the database
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Deleted specification_item
+          schema:
+          $ref: "#/definitions/specificationItem"
+        "500":
+          description: Internal Server Error

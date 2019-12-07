@@ -1,0 +1,116 @@
+/specification:
+  post:
+    tags:
+      - specification
+    summary: Register specification
+    operationId: storeSpecification
+    description: Route that creates specification in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the specification.
+        schema:
+          $ref: "#/definitions/Specification"
+    responses:
+      "201":
+        description: Registered Speficication
+        schema:
+          $ref: "#/definitions/Specification"
+      "500":
+        description: Internal Server Error
+
+  get:
+    tags:
+      - specification
+    summary: List all specification
+    operationId: indexSpecification
+    description: Route that returns all specification
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/Specification"
+      "500":
+        description: Internal Server Error
+
+/specification/:id:
+  get:
+    tags:
+      - specification
+    summary: Returns one specification
+    operationId: showSpecification
+    description: Route that returns one the specification
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the specification that will be returned
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Specification"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  put:
+    tags:
+      - specification
+    summary: Update specification
+    operationId: updateSpecification
+    description: Route that updates specification
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the specification that will be updated
+        required: true
+        type: integer
+      - in: body
+        name: json
+        description: Any of the following fields in the JSON file can be used to be updated. Except isDeleted. softCategory_id or eqipCategory_id must be null.
+        schema:
+          $ref: "#/definitions/Specification"
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Specification"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  delete:
+    tags:
+      - specification
+    summary: Delete specification
+    operationId: destroySpecification
+    description: Route that deletes a specification
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the specification that will be deleted
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/Specification"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error

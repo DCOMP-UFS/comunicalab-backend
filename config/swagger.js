@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   /*
   |--------------------------------------------------------------------------
@@ -10,48 +8,48 @@ module.exports = {
   */
 
   enable: true,
-  specUrl: "/swagger.json",
+  specUrl: '/swagger.json',
 
   options: {
     swaggerDefinition: {
       info: {
-        title: "ComunicaLab API",
-        version: "1.0.0"
+        title: 'ComunicaLab API',
+        version: '1.0.0',
       },
 
-      basePath: "/",
+      basePath: '/',
 
       // Example security definitions.
       securityDefinitions: {
         ApiKey: {
-          description: "ApiKey description",
-          name: "Authorization"
+          description: 'ApiKey description',
+          name: 'Authorization',
         },
 
         // OAuth2 configuration
         OAuth2: {
-          authorizationUrl: "https://example.com/oauth/authorize",
-          tokenUrl: "https://example.com/oauth/token",
+          authorizationUrl: 'https://example.com/oauth/authorize',
+          tokenUrl: 'https://example.com/oauth/token',
 
           // define your scopes here
           // remove read, write and admin if not necessary
           scopes: {
-            read: "Grants read access (this is just sample)",
-            write: "Grants write access (this is just sample)",
+            read: 'Grants read access (this is just sample)',
+            write: 'Grants write access (this is just sample)',
             admin:
-              "Grants read and write access to administrative information (this is just sample)"
-          }
-        }
-      }
+              'Grants read and write access to administrative information (this is just sample)',
+          },
+        },
+      },
     },
 
     // Path to the API docs
     // Sample usage
     apis: [
-      "docs/**/*.yml", // load recursive all .yml file in docs directory
-      "docs/**/*.js",
-      "app/**/*.js",
-      "start/routes.js" // load recursive all .js file in docs directory
-    ]
-  }
+      'docs/**/*.yml', // load recursive all .yml file in docs directory
+      'docs/**/*.js',
+      'app/**/*.js',
+      'start/routes.js', // load recursive all .js file in docs directory
+    ],
+  },
 };

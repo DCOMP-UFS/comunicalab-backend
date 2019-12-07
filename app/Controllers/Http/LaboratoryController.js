@@ -1,12 +1,8 @@
-
-'use strict'
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-
-const Laboratory = use("App/Models/Laboratory");
+const Laboratory = use('App/Models/Laboratory');
 
 /**
  * Resourceful controller for interacting with laboratories
@@ -21,28 +17,33 @@ class LaboratoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({request, params, response}) {
+  async index({ request, params, response }) {
     try {
-      //const page = params.page;
-      //const page = request.only(["page"]);
+      // const page = params.page;
+      // const page = request.only(["page"]);
       const data = await Laboratory.query()
-          .where("isDeleted", false)
-          .fetch();
-          //.paginate(page.page, 10)
-        ;
-       
+        .where('isDeleted', false)
+        .fetch();
+      // .paginate(page.page, 10)
       return response.status(200).send(data);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
+
   /**
    * Create/save a new laboratory.
    * POST laboratories
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
     try {
-      const data = request.only(["name", "location","latitude", "longitude", "status", "capacity"]);
+      const data = request.only([
+        'name',
+        'location',
+        'status',
+        'capacity',
+        'active',
+      ]);
       data.isDeleted = false;
       const lab = await Laboratory.create(data);
 
@@ -56,17 +57,17 @@ class LaboratoryController {
    * Display a single laboratory.
    * GET laboratories/:id
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
     try {
       const lab = await Laboratory.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .fetch();
 
       const labJSON = lab.toJSON();
 
       if (Object.keys(labJSON).length === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       return response.status(200).send(labJSON[0]);
@@ -75,21 +76,21 @@ class LaboratoryController {
     }
   }
 
-   /**
+  /**
    * Update laboratory details.
    * PUT or PATCH laboratories/:id
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
     try {
       const data = request.post();
 
       const lab = await Laboratory.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .update(data);
 
       if (lab === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const labUpdate = await Laboratory.findOrFail(params.id);
@@ -104,14 +105,14 @@ class LaboratoryController {
    * Delete a laboratory with id.
    * DELETE laboratories/:id
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, request, response }) {
     try {
       const lab = await Laboratory.query()
-        .where("id", params.id)
-        .update({isDeleted: true});
+        .where('id', params.id)
+        .update({ isDeleted: true });
 
       if (lab === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const labDeleted = await Laboratory.findOrFail(params.id);
@@ -120,8 +121,7 @@ class LaboratoryController {
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
-
   }
 }
 
-module.exports = LaboratoryController
+module.exports = LaboratoryController;
