@@ -38,12 +38,14 @@ class EquipmentController {
   async store({ request, response }) {
     try {
       const data = request.only([
-        'brand',
-        'equipCategory_id',
-        'specification_id',
-        'laboratory_id',
-        'dateOfAcquisition',
         'active',
+        'brand',
+        'allocationDate',
+        'acquisitionDate',
+        'patrimony',
+        'idLaboratory',
+        'idEquipCategory',
+        'idSpecification'
       ]);
 
       data.isDeleted = false;
