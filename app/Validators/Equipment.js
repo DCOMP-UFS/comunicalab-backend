@@ -7,12 +7,15 @@ class Equipment {
 
   get rules() {
     return {
-      brand: 'string|max:100',
-      isDeleted: 'boolean',
-      equipCategory_id: 'exists:equip_categories,id',
-      laboratory_id: 'exists:laboratories,id',
-      specification_id: 'exists:specifications,id',
       active: 'boolean',
+      brand: 'string|max:100',
+      allocationDate: validations.dateFormat(['DD/MM/YYYY']),
+      acquisitionDate: validations.dateFormat(['DD/MM/YYYY']),
+      patrimony:  'string|max:100',
+      idLaboratory: 'integer',
+      idEquipCategory: 'integer',
+      idSpecification: 'integer',
+      isDeleted: 'boolean',
     };
   }
 
