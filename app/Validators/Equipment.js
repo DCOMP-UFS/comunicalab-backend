@@ -9,12 +9,12 @@ class Equipment {
     return {
       active: 'boolean',
       brand: 'string|max:100',
-      allocationDate: validations.dateFormat(['DD/MM/YYYY']),
-      acquisitionDate: validations.dateFormat(['DD/MM/YYYY']),
+      allocationDate: 'date',
+      acquisitionDate: 'date',
       patrimony:  'string|max:100',
-      idLaboratory: 'integer',
-      idEquipCategory: 'integer',
-      idSpecification: 'integer',
+      idLaboratory: 'exists:laboratories,id|integer',
+      idEquipCategory: 'exists:soft_categories,id|integer',
+      idSpecification: 'exists:specifications,id|integer',
       isDeleted: 'boolean',
     };
   }
