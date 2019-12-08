@@ -7,8 +7,8 @@ class EquipmentSchema extends Schema {
       table.increments();
       table.boolean('active').notNullable().defaultTo(true);
       table.string('brand', 80).notNullable();
-      table.date('allocationDate') .notNullable;
-      table.date('acquisitionDate') .notNullable;
+      table.date('allocationDate').notNullable();
+      table.date('acquisitionDate').notNullable();
       table.string('patrimony', 100).notNullable();
       table.boolean('isDeleted').notNullable().defaultTo(false);
       table.integer('idLaboratory').notNullable()
