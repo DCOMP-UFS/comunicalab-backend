@@ -5,7 +5,6 @@ class EquipmentSchema extends Schema {
   up() {
     this.create('equipment', table => {
       table.increments();
-      table.boolean('active').notNullable().defaultTo(true);
       table.string('brand', 80).notNullable();
       table.date('allocationDate').notNullable();
       table.date('acquisitionDate').notNullable();
@@ -22,7 +21,7 @@ class EquipmentSchema extends Schema {
                                       .notNullable()
                                       .references('id')
                                       .inTable('equip_categories')
-                                      .onUpdate('CASCADE');;
+                                      .onUpdate('CASCADE');
       table.integer('idSpecification').notNullable()
                                       .unsigned()
                                       .notNullable()
