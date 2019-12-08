@@ -12,7 +12,36 @@
         name: json
         description: You need the following fields in the JSON file to create the equipment.
         schema:
-          $ref: "#/definitions/Equipment"
+          properties:
+            brand:
+              type: string
+              description: equipment brand
+              example: Hp
+            allocationDate:
+              type: date
+              description: equipment allocation date
+              example: 10/10/2019
+            acquisitionDate:
+              type: date
+              description: equipment acquisition date
+              example: 10/10/2019
+            patrimony:
+              type: string
+              description: patrimony
+              example: 
+            idLaboratory:
+              type: uint
+              description: id of laboratory that owns the equipment
+              example: 10
+            idEquipCategory:
+              type: uint
+              description: id of EquipCategory that owns the equipment
+              example: 10
+            idSpecification:
+              type: uint
+              description: id of specification that belongs to equipment
+              example: 10
+
     responses:
       "201":
         description: Registered equipment
