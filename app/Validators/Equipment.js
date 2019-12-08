@@ -7,7 +7,6 @@ class Equipment {
 
   get rules() {
     return {
-      active: 'boolean',
       brand: 'string|max:100',
       allocationDate: 'date',
       acquisitionDate: 'date',
