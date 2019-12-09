@@ -1,93 +1,96 @@
-'use strict'
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
+
+const SpecificationItem = use('App/Models/SpecificationItem');
 
 /**
  * Resourceful controller for interacting with specificationitems
  */
 class SpecificationItemController {
-  /**
-   * Show a list of all specificationitems.
-   * GET specificationitems
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async index ({ request, response, view }) {
+  async index({ request, params, response }) {
+    try {
+      // const page = params.page;
+      // const page = request.only(["page"]);
+      const data = await SpecificationItem.query()
+        .where('isDeleted', false)
+        .fetch();
+      // .paginate(page.page, 10)
+      return response.status(200).send(data);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
-  /**
-   * Render a form to be used for creating a new specificationitem.
-   * GET specificationitems/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+  async store({ request, response }) {
+    try {
+      const data = request.only(['name', 'value', 'specification_id']);
+      data.isDeleted = false;
+      const specItem = await SpecificationItem.create(data);
+
+      return response.status(201).send(specItem);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
-  /**
-   * Create/save a new specificationitem.
-   * POST specificationitems
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
+  async show({ params, request, response, view }) {
+    try {
+      const specItem = await SpecificationItem.query()
+        .where('id', params.id)
+        .where('isDeleted', false)
+        .fetch();
+
+      const specItemJSON = specItem.toJSON();
+
+      if (Object.keys(specItemJSON).length === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      return response.status(200).send(specItemJSON[0]);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
-  /**
-   * Display a single specificationitem.
-   * GET specificationitems/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async show ({ params, request, response, view }) {
+  async update({ params, request, response }) {
+    try {
+      const data = request.post();
+
+      const specItem = await SpecificationItem.query()
+        .where('id', params.id)
+        .where('isDeleted', false)
+        .update(data);
+
+      if (specItem === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      const specItemUpdate = await SpecificationItem.findOrFail(params.id);
+
+      return response.status(200).send(specItemUpdate);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
-  /**
-   * Render a form to update an existing specificationitem.
-   * GET specificationitems/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
+  async destroy({ params, request, response }) {
+    try {
+      const specItem = await SpecificationItem.query()
+        .where('id', params.id)
+        .update({ isDeleted: true });
 
-  /**
-   * Update specificationitem details.
-   * PUT or PATCH specificationitems/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
-  }
+      if (specItem === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
 
-  /**
-   * Delete a specificationitem with id.
-   * DELETE specificationitems/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+      const specItemDeleted = await SpecificationItem.findOrFail(params.id);
+
+      return response.status(200).send(specItemDeleted);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 }
 
-module.exports = SpecificationItemController
+module.exports = SpecificationItemController;

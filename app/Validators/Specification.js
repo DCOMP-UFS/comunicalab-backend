@@ -1,13 +1,14 @@
 const Antl = use('Antl');
 
-class EquipCategory {
+class Specification {
   get validateAll() {
     return true;
   }
 
   get rules() {
     return {
-      name: 'string|max:100',
+      softCategory_id: 'exists:soft_categories,id',
+      eqipCategory_id: 'exists:equip_categories,id',
       isDeleted: 'boolean',
     };
   }
@@ -17,4 +18,4 @@ class EquipCategory {
   }
 }
 
-module.exports = EquipCategory;
+module.exports = Specification;

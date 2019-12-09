@@ -1,9 +1,7 @@
-'use strict'
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const EquipCategory = use("App/Models/EquipCategory");
+const EquipCategory = use('App/Models/EquipCategory');
 /**
  * Resourceful controller for interacting with equipcategories
  */
@@ -17,27 +15,16 @@ class EquipCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
     try {
-      const data = await EquipCategory.query().where("isDeleted", false).fetch();
-
+      const data = await EquipCategory.query()
+        .where('isDeleted', false)
+        .fetch();
 
       return response.status(200).send(data);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
-  }
-
-  /**
-   * Render a form to be used for creating a new equipcategory.
-   * GET equipcategories/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
   }
 
   /**
@@ -48,15 +35,14 @@ class EquipCategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
     try {
-      const data = request.only(["name"]);
+      const data = request.only(['name']);
 
       data.isDeleted = false;
       const equipCategory = await EquipCategory.create(data);
 
       return response.status(201).send(equipCategory);
-
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
@@ -71,37 +57,23 @@ class EquipCategoryController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
     try {
       const equipCategory = await EquipCategory.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .fetch();
-
 
       const equipCategoryJSON = equipCategory.toJSON();
 
       if (Object.keys(equipCategoryJSON).length === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       return response.status(200).send(equipCategoryJSON[0]);
-
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
-  }
-
-  /**
-   * Render a form to update an existing equipcategory.
-   * GET equipcategories/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
   }
 
   /**
@@ -112,17 +84,17 @@ class EquipCategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
     try {
       const data = request.post();
 
       const equipCategory = await EquipCategory.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .update(data);
 
       if (equipCategory === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const equipCategoryUpdate = await EquipCategory.findOrFail(params.id);
@@ -141,25 +113,24 @@ class EquipCategoryController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy({ params, request, response }) {
     try {
       const equipCategory = await EquipCategory.query()
-        .where("id", params.id)
-        .where("isDeleted", false)
+        .where('id', params.id)
+        .where('isDeleted', false)
         .update({ isDeleted: true });
 
       if (equipCategory === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const equipCategoryUpdate = await EquipCategory.findOrFail(params.id);
 
       return response.status(200).send(equipCategoryUpdate);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      return response.status(error.stfatus).send({ message: error });
     }
   }
-
 }
 
-module.exports = EquipCategoryController
+module.exports = EquipCategoryController;

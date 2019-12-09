@@ -1,6 +1,4 @@
-"use strict";
-
-const Antl = use("Antl");
+const Antl = use('Antl');
 
 class Equipment {
   get validateAll() {
@@ -9,16 +7,17 @@ class Equipment {
 
   get rules() {
     return {
-      brand: "string|max:100",
-      isDeleted: "boolean",
-      equipCategory_id: "exists:equip_categories,id",
-      laboratory_id: "exists:laboratories,id",
-      specification_id: "exists:specifications,id"
+      brand: 'string|max:100',
+      isDeleted: 'boolean',
+      equipCategory_id: 'exists:equip_categories,id',
+      laboratory_id: 'exists:laboratories,id',
+      specification_id: 'exists:specifications,id',
+      active: 'boolean',
     };
   }
 
   get messages() {
-    return Antl.list("validation");
+    return Antl.list('validation');
   }
 }
 

@@ -1,6 +1,4 @@
-"use strict";
-
-const Antl = use("Antl");
+const Antl = use('Antl');
 
 class Software {
   get validateAll() {
@@ -9,17 +7,18 @@ class Software {
 
   get rules() {
     return {
-      name: "string|max:100",
-      version: "string|max:45",
-      license: "string|max:45",
-      isDeleted: "boolean",
-      softCategory_id: "exists:soft_categories,id",
-      specification_id: "exists:specifications,id"
+      name: 'string|max:100',
+      version: 'string|max:45',
+      license: 'string|max:45',
+      isDeleted: 'boolean',
+      softCategory_id: 'exists:soft_categories,id',
+      specification_id: 'exists:specifications,id',
+      active: 'boolean',
     };
   }
 
   get messages() {
-    return Antl.list("validation");
+    return Antl.list('validation');
   }
 }
 

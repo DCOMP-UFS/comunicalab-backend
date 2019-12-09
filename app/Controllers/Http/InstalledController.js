@@ -1,9 +1,7 @@
-'use strict'
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const Installed = use("App/Models/Installed");
+const Installed = use('App/Models/Installed');
 /**
  * Resourceful controller for interacting with installeds
  */
@@ -17,22 +15,15 @@ class InstalledController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
     try {
-      const data = await Installed.all()
-    
+      const data = await Installed.all();
+
       return response.status(200).send(data);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
-  
-    
-    
-
-
   }
-
-
 
   /**
    * Create/save a new installed.
@@ -42,12 +33,12 @@ class InstalledController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store({ request, response }) {
     try {
       const data = request.only([
-        "equipment_id",
-        "software_id",
-        "dateInstallation"
+        'equipment_id',
+        'software_id',
+        'dateInstallation',
       ]);
 
       const installed = await Installed.create(data);
@@ -67,15 +58,14 @@ class InstalledController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
     try {
-      const installed = await Installed.findOrFail(params.id)
+      const installed = await Installed.findOrFail(params.id);
       return response.status(200).send(installed);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
-
 
   /**
    * Update installed details.
@@ -85,16 +75,16 @@ class InstalledController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
     try {
       const data = request.post();
 
       const installed = await Installed.query()
-        .where("id", params.id)
+        .where('id', params.id)
         .update(data);
 
       if (installed === 0) {
-        return response.status(404).send({ message: "Not Found" });
+        return response.status(404).send({ message: 'Not Found' });
       }
 
       const installedUpdate = await Installed.findOrFail(params.id);
@@ -113,13 +103,10 @@ class InstalledController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    
-      const installed = await Installed.findOrFail(params.id)
-      await installed.delete()
-        
-  
+  async destroy({ params, request, response }) {
+    const installed = await Installed.findOrFail(params.id);
+    await installed.delete();
   }
 }
 
-module.exports = InstalledController
+module.exports = InstalledController;
