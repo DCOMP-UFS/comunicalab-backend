@@ -8,11 +8,13 @@ class Equipment {
   get rules() {
     return {
       brand: 'string|max:100',
+      allocationDate: 'date',
+      acquisitionDate: 'date',
+      patrimony:  'string|max:100',
+      idLaboratory: 'exists:laboratories,id|integer',
+      idEquipCategory: 'exists:soft_categories,id|integer',
+      idSpecification: 'exists:specifications,id|integer',
       isDeleted: 'boolean',
-      equipCategory_id: 'exists:equip_categories,id',
-      laboratory_id: 'exists:laboratories,id',
-      specification_id: 'exists:specifications,id',
-      active: 'boolean',
     };
   }
 
