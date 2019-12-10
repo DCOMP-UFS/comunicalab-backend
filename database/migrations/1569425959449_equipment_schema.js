@@ -9,7 +9,7 @@ class EquipmentSchema extends Schema {
       table.date('allocationDate').notNullable();
       table.date('acquisitionDate').notNullable();
       table.string('patrimony', 100).notNullable();
-      table.boolean('isDeleted').notNullable().defaultTo(false);
+      table.boolean('isDeleted').notNullable();
       table.integer('idLaboratory').notNullable()
                                    .unsigned()
                                    .notNullable()

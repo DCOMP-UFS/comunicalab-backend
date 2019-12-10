@@ -38,7 +38,6 @@ class EquipmentController {
   async store({ request, response }) {
     try {
       const data = request.only([
-        'active',
         'brand',
         'allocationDate',
         'acquisitionDate',
@@ -128,7 +127,7 @@ class EquipmentController {
       const equipment = await Equipment.query()
         .where('id', params.id)
         .where('isDeleted', false)
-        .update({ isDelete: true });
+        .update({ isDeleted: true });
 
       if (equipment === 0) {
         return response.status(404).send({ message: 'Not Found' });

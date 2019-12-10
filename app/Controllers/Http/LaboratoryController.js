@@ -41,8 +41,8 @@ class LaboratoryController {
         'name',
         'location',
         'status',
-        'capacity',
-        'active',
+        
+        'capacity'
       ]);
       data.isDeleted = false;
       const lab = await Laboratory.create(data);
