@@ -6,7 +6,7 @@ class EquipCategorySchema extends Schema {
     this.create('equip_categories', table => {
       table.increments();
       table.string('name').notNullable();
-      table.boolean('isDeleted').notNullable();
+      table.boolean('is_deleted').notNullable();
       table.timestamps();
     });
   }

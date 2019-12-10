@@ -1,9 +1,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class InstalledSchema extends Schema {
+class InstallationSchema extends Schema {
   up() {
-    this.create('installeds', table => {
+    this.create('installation', table => {
       table.increments();
       table.date('dateInstallation').notNullable();
       table
@@ -29,4 +29,4 @@ class InstalledSchema extends Schema {
   }
 }
 
-module.exports = InstalledSchema;
+module.exports = InstallationSchema;

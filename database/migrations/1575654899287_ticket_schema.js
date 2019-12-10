@@ -5,8 +5,10 @@ class TicketSchema extends Schema {
   up() {
     this.create('tickets', table => {
       table.increments();
-      table.string('description').notNullable();
-      table.boolean('isDeleted').notNullable();
+      table.string('title').notNullable();
+      table.date('opened_at').notNullable();
+      table.date('closed_at');
+      table.table.boolean('is_deleted').notNullable();
       table.timestamps();
     });
   }

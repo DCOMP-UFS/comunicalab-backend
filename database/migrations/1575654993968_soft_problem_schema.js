@@ -6,6 +6,7 @@ class SoftProblemSchema extends Schema {
     this.create('soft_problems', table => {
       table.increments();
       table.string('name').notNullable();
+      table.boolean('is_deleted').notNullable();
       table.timestamps();
     });
   }

@@ -3,12 +3,14 @@ const Schema = use('Schema');
 
 class EquipmentSchema extends Schema {
   up() {
-    this.create('equipment', table => {
+    this.create('equipments', table => {
       table.increments();
-      table.string('brand').notNullable();
-      table.date('dateOfAcquisition').notNullable();
+      table.string('brand');
+      table.date('allocated_at');
+      table.date('acquired_at');
+      table.string('asset_tag', 10);
       table
-        .integer('equipCategory_id')
+        .integer('equip_category_id')
         .unsigned()
         .notNullable()
         .references('id')
@@ -28,13 +30,13 @@ class EquipmentSchema extends Schema {
         .references('id')
         .inTable('specifications')
         .onUpdate('CASCADE');
-      table.boolean('isDeleted').notNullable();
+      table.boolean('is_deleted').notNullable();
       table.timestamps();
     });
   }
 
   down() {
-    this.drop('equipment');
+    this.drop('equipments');
   }
 }
 
