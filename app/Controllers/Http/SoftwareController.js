@@ -20,7 +20,7 @@ class SoftwareController {
   async index({ request, response, view }) {
     try {
       const data = await Software.query()
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -48,7 +48,7 @@ class SoftwareController {
         'active',
       ]);
 
-      data.isDeleted = false;
+      data.is_deleted = false;
 
       const software = await Software.create(data);
 
@@ -71,7 +71,7 @@ class SoftwareController {
     try {
       const software = await Software.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       const softwareJSON = software.toJSON();
@@ -100,7 +100,7 @@ class SoftwareController {
 
       const software = await Software.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .update(data);
 
       if (software === 0) {
@@ -127,8 +127,8 @@ class SoftwareController {
     try {
       const software = await Software.query()
         .where('id', params.id)
-        .where('isDeleted', false)
-        .update({ isDeleted: true });
+        .where('is_deleted', false)
+        .update({ is_deleted: true });
 
       if (software === 0) {
         return response.status(404).send({ message: 'Not Found' });

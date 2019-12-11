@@ -3,7 +3,7 @@ const Model = use('Model');
 
 class Specification extends Model {
   static get hidden() {
-    return ['created_at', 'updated_at'];
+    return ['created_at', 'updated_at', 'is_deleted'];
   }
 
   softCategory() {
@@ -14,8 +14,8 @@ class Specification extends Model {
     return this.belongsTo('App/Models/EquipCategory');
   }
 
-  specificationItem() {
-    return this.hasMany('App/Models/SpecificationItem');
+  specItems() {
+    return this.hasMany('App/Models/SpecItem');
   }
 
   equipment() {

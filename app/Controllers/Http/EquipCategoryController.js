@@ -18,7 +18,7 @@ class EquipCategoryController {
   async index({ request, response, view }) {
     try {
       const data = await EquipCategory.query()
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -39,7 +39,7 @@ class EquipCategoryController {
     try {
       const data = request.only(['name']);
 
-      data.isDeleted = false;
+      data.is_deleted = false;
       const equipCategory = await EquipCategory.create(data);
 
       return response.status(201).send(equipCategory);
@@ -61,7 +61,7 @@ class EquipCategoryController {
     try {
       const equipCategory = await EquipCategory.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       const equipCategoryJSON = equipCategory.toJSON();
@@ -90,7 +90,7 @@ class EquipCategoryController {
 
       const equipCategory = await EquipCategory.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .update(data);
 
       if (equipCategory === 0) {
@@ -117,8 +117,8 @@ class EquipCategoryController {
     try {
       const equipCategory = await EquipCategory.query()
         .where('id', params.id)
-        .where('isDeleted', false)
-        .update({ isDeleted: true });
+        .where('is_deleted', false)
+        .update({ is_deleted: true });
 
       if (equipCategory === 0) {
         return response.status(404).send({ message: 'Not Found' });

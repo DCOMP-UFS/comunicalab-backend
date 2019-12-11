@@ -3,11 +3,11 @@ const Model = use('Model');
 
 class Equipment extends Model {
   static get hidden() {
-    return ['created_at', 'updated_at'];
+    return ['created_at', 'updated_at', 'is_deleted'];
   }
 
   installed() {
-    return this.hasMany('App/Models/Installed');
+    return this.hasMany('App/Models/Installation');
   }
 
   laboratory() {
@@ -22,11 +22,11 @@ class Equipment extends Model {
     return this.belongsTo('App/Models/Specification');
   }
 
-  //historicoEquipamento - hasMany
-  
-  //instalacso_Equip_Imagem - hasMany
+  // historicoEquipamento - hasMany
 
-  //chamado_equipmento - hasMany
+  // instalacso_Equip_Imagem - hasMany
+
+  // chamado_equipmento - hasMany
 }
 
 module.exports = Equipment;

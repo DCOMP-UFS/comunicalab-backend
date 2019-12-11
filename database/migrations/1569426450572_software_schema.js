@@ -9,20 +9,21 @@ class SoftwareSchema extends Schema {
       table.string('version', 45).notNullable();
       table.string('license', 45).notNullable();
       table
-        .integer('softCategory_id')
+        .boolean('is_active')
+        .notNullable()
+        .defaultTo(true);
+      table
+        .integer('soft_category_id')
         .unsigned()
         .notNullable()
         .references('id')
         .inTable('soft_categories')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL');
       table
-        .integer('specification_id')
-        .unsigned()
+        .boolean('is_deleted')
         .notNullable()
-        .references('id')
-        .inTable('specifications')
-        .onUpdate('CASCADE');
-      table.boolean('isDeleted').notNullable();
+        .defaultTo(false);
       table.timestamps();
     });
   }

@@ -5,19 +5,11 @@ class SpecificationSchema extends Schema {
   up() {
     this.create('specifications', table => {
       table.increments();
+      table.string('name', 100).notNullable();
       table
-        .integer('softCategory_id')
-        .unsigned()
-        .references('id')
-        .inTable('soft_categories')
-        .onUpdate('CASCADE');
-      table
-        .integer('eqipCategory_id')
-        .unsigned()
-        .references('id')
-        .inTable('equip_categories')
-        .onUpdate('CASCADE');
-      table.boolean('isDeleted').notNullable();
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

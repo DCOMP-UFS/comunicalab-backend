@@ -31,17 +31,17 @@ Route.resource('laboratory', 'LaboratoryController')
   .apiOnly()
   .validator(
     new Map([
-      [['Laboratory.store'], ['Laboratory']],
-      [['Laboratory.update'], ['Laboratory']],
+      [['laboratory.store'], ['Laboratory']],
+      [['laboratory.update'], ['Laboratory']],
     ])
   );
 
-Route.resource('called', 'SpecificationItemController')
+Route.resource('ticket', 'TicketController')
   .apiOnly()
   .validator(
     new Map([
-      [['called.store'], ['Called']],
-      [['called.update'], ['Called']],
+      [['ticket.store'], ['Ticket']],
+      [['ticket.update'], ['Ticket']],
     ])
   );
 
@@ -54,37 +54,37 @@ Route.resource('equipment', 'EquipmentController')
     ])
   );
 
-Route.resource('installed', 'InstalledController')
+Route.resource('installation', 'InstallationController')
   .apiOnly()
   .validator(
     new Map([
-      [['installed.store'], ['Installed']],
-      [['installed.update'], ['Installed']],
+      [['installation.store'], ['Installation']],
+      [['installation.update'], ['Installation']],
     ])
   );
-Route.resource('softCategory', 'SoftCategoryController')
+Route.resource('soft_category', 'SoftCategoryController')
   .apiOnly()
   .validator(
     new Map([
-      [['softCategory.store'], ['SoftCategory']],
-      [['softCategory.update'], ['SoftCategory']],
+      [['soft_category.store'], ['SoftCategory']],
+      [['soft_category.update'], ['SoftCategory']],
     ])
   );
-Route.resource('equipCategory', 'EquipCategoryController')
+Route.resource('equip_category', 'EquipCategoryController')
   .apiOnly()
   .validator(
     new Map([
-      [['equipCategory.store'], ['EquipCategory']],
-      [['equipCategory.update'], ['EquipCategory']],
+      [['equip_category.store'], ['EquipCategory']],
+      [['equip_category.update'], ['EquipCategory']],
     ])
   );
 
-Route.resource('specification_item', 'SpecificationItemController')
+Route.resource('spec_item', 'SpecItemController')
   .apiOnly()
   .validator(
     new Map([
-      [['specification_item.store'], ['SpecificationItem']],
-      [['specification_item.update'], ['SpecificationItem']],
+      [['spec_item.store'], ['SpecItem']],
+      [['spec_item.update'], ['SpecItem']],
     ])
   );
 

@@ -1,0 +1,120 @@
+/spec_item:
+  get:
+    tags:
+      - specItem
+    summary: List all spec_item
+    operationId: indexSpecItem
+    description: Route that returns all spec_item
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/specItem'
+      '500':
+        description: Internal Server Error
+
+  post:
+    tags:
+      - specItem
+    summary: Spec_item registration
+    operationId: storeSpecItem
+    description: Route that creates spec_item in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the lab.
+        schema:
+          properties:
+            name:
+              type: string
+              description: item name
+              example:
+            value:
+              type: string
+              description: 'item values'
+              example: 45.90
+            specification_id:
+              type: uint
+              description: specification id
+              example:
+
+    responses:
+      '201':
+        description: Registered spec_item
+        schema:
+          $ref: '#/definitions/specItem'
+      '500':
+        description: Internal Server Error
+
+/spec_item/:id:
+  get:
+    tags:
+      - specItem
+    summary: Spec_item show
+    operationId: showSpecItemLab
+    description: Route showing a spec_item in the database
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Registered spec_item
+        schema:
+        $ref: '#/definitions/specItem'
+      '500':
+        description: Internal Server Error
+
+  put:
+    tags:
+      - specItem
+    summary: spec_item update
+    operationId: updateSpecItem
+    description: Route that update spec_item in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to update the lab.
+        schema:
+          properties:
+            name:
+              type: string
+              description: item name
+              example:
+            value:
+              type: string
+              description: 'item values'
+              example: 45.90
+            specification_id:
+              type: uint
+              description: specification id
+              example:
+    responses:
+      '200':
+        description: Registered spec_item
+        schema:
+        $ref: '#/definitions/specItem'
+      '500':
+        description: Internal Server Error
+
+  delete:
+    tags:
+      - specItem
+    summary: SpecItem delete
+    operationId: deleteLab
+    description: Route that delete spec_item in the database
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Deleted spec_item
+        schema:
+        $ref: '#/definitions/specItem'
+      '500':
+        description: Internal Server Error

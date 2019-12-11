@@ -14,6 +14,17 @@ class UserSchema extends Schema {
         .notNullable()
         .unique();
       table.string('password', 60).notNullable();
+      table
+        .integer('affiliation_id')
+        .unsigned()
+        .references('id')
+        .inTable('affiliations')
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL');
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

@@ -1,0 +1,25 @@
+definitions:
+  SpecItem:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the software beversioning created
+        example: 10
+      name:
+        type: string
+        description: item name
+        example:
+      value:
+        type: string
+        description: 'item values'
+        example: 45.90
+      specification_id:
+        type: uint
+        description: specification id
+        example:
+    required:
+      - id
+      - name
+      - values
+      - specification_id
