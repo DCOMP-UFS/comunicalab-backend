@@ -10,7 +10,7 @@ class TicketLaboratorySchema extends Schema {
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('ticket')
+        .inTable('tickets')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
@@ -19,7 +19,7 @@ class TicketLaboratorySchema extends Schema {
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('laboratory')
+        .inTable('laboratories')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
@@ -28,7 +28,7 @@ class TicketLaboratorySchema extends Schema {
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('lab_problem')
+        .inTable('lab_problems')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();

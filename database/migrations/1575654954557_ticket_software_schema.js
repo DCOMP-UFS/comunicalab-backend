@@ -10,7 +10,7 @@ class TicketSoftwareSchema extends Schema {
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('ticket')
+        .inTable('tickets')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
@@ -19,7 +19,7 @@ class TicketSoftwareSchema extends Schema {
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('software')
+        .inTable('softwares')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
@@ -28,7 +28,7 @@ class TicketSoftwareSchema extends Schema {
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('soft_problem')
+        .inTable('soft_problems')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
