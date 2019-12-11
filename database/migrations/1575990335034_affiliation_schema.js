@@ -6,7 +6,10 @@ class AffiliationSchema extends Schema {
     this.create('affiliations', table => {
       table.increments();
       table.string('name', 40).notNullable();
-      table.boolean('is_deleted').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

@@ -22,7 +22,10 @@ class InstallationSchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
-      table.boolean('is_deleted').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

@@ -32,8 +32,10 @@ class TicketLaboratorySchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
-      table.boolean('is_deleted').notNullable();
-      table.unique(['ticket_id', 'laboratory_id', 'lab_problem_id']);
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

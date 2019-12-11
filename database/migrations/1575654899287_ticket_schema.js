@@ -8,7 +8,10 @@ class TicketSchema extends Schema {
       table.string('title').notNullable();
       table.date('opened_at').notNullable();
       table.date('closed_at');
-      table.boolean('is_deleted').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

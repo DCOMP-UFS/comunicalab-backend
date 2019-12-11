@@ -15,8 +15,12 @@ class LaboratorySchema extends Schema {
         .notNullable()
         .references('id')
         .inTable('locations')
-        .onUpdate('CASCADE');
-      table.boolean('is_deleted').notNullable();
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL');
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

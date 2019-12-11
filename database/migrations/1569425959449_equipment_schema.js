@@ -22,7 +22,8 @@ class EquipmentSchema extends Schema {
         .notNullable()
         .references('id')
         .inTable('laboratories')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL');
       table
         .integer('specification_id')
         .unsigned()
@@ -30,7 +31,10 @@ class EquipmentSchema extends Schema {
         .references('id')
         .inTable('specifications')
         .onUpdate('CASCADE');
-      table.boolean('is_deleted').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

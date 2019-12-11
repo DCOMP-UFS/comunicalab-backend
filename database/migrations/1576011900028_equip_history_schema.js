@@ -16,7 +16,18 @@ class EquipHistorySchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
-      table.boolean('is_deleted');
+      table
+        .integer('user_id')
+        .unsigned()
+        .references('id')
+        .inTable('users')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+        .notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

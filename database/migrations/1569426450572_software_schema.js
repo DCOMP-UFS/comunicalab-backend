@@ -8,15 +8,22 @@ class SoftwareSchema extends Schema {
       table.string('name', 100).notNullable();
       table.string('version', 45).notNullable();
       table.string('license', 45).notNullable();
-      table.boolean('is_active').notNullable();
+      table
+        .boolean('is_active')
+        .notNullable()
+        .defaultTo(true);
       table
         .integer('soft_category_id')
         .unsigned()
         .notNullable()
         .references('id')
         .inTable('soft_categories')
-        .onUpdate('CASCADE');
-      table.boolean('is_deleted').notNullable();
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL');
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

@@ -7,7 +7,10 @@ class LocationSchema extends Schema {
       table.increments();
       table.string('building', 80).notNullable();
       table.string('floor', 10).notNullable();
-      table.boolean('is_deleted').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

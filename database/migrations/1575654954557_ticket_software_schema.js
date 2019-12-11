@@ -32,8 +32,10 @@ class TicketSoftwareSchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
-      table.boolean('is_deleted').notNullable();
-      table.unique(['ticket_id', 'software_id', 'soft_problem_id']);
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

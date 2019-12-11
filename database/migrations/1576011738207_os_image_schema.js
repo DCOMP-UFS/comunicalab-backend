@@ -7,7 +7,10 @@ class OsImageSchema extends Schema {
       table.increments();
       table.string('name', 64).notNullable();
       table.date('built_at').notNullable();
-      table.boolean('is_deleted').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

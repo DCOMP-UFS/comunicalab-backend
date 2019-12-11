@@ -32,8 +32,10 @@ class TicketEquipmentSchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
-      table.boolean('is_deleted').notNullable();
-      table.unique(['ticket_id', 'equipment_id', 'equip_problem_id']);
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

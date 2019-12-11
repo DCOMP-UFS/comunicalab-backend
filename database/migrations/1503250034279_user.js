@@ -18,8 +18,13 @@ class UserSchema extends Schema {
         .integer('affiliation_id')
         .unsigned()
         .references('id')
-        .inTable('affiliations');
-      table.boolean('is_deleted').notNullable();
+        .inTable('affiliations')
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL');
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

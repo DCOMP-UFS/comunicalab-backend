@@ -6,7 +6,10 @@ class SpecificationSchema extends Schema {
     this.create('specifications', table => {
       table.increments();
       table.string('name', 100).notNullable();
-      table.boolean('is_deleted').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }
