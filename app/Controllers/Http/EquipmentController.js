@@ -39,11 +39,12 @@ class EquipmentController {
     try {
       const data = request.only([
         'brand',
-        'equipCategory_id',
-        'specification_id',
-        'laboratory_id',
-        'dateOfAcquisition',
-        'active',
+        'allocationDate',
+        'acquisitionDate',
+        'patrimony',
+        'idLaboratory',
+        'idEquipCategory',
+        'idSpecification',
       ]);
 
       data.isDeleted = false;
@@ -126,7 +127,7 @@ class EquipmentController {
       const equipment = await Equipment.query()
         .where('id', params.id)
         .where('isDeleted', false)
-        .update({ isDelete: true });
+        .update({ isDeleted: true });
 
       if (equipment === 0) {
         return response.status(404).send({ message: 'Not Found' });

@@ -21,6 +21,12 @@ class Equipment extends Model {
   specification() {
     return this.belongsTo('App/Models/Specification');
   }
+
+  // historicoEquipamento - hasMany
+
+  // instalacso_Equip_Imagem - hasMany
+
+  // chamado_equipmento - hasMany
 }
 
 module.exports = Equipment;

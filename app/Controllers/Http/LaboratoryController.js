@@ -37,13 +37,7 @@ class LaboratoryController {
    */
   async store({ request, response }) {
     try {
-      const data = request.only([
-        'name',
-        'location',
-        'status',
-        'capacity',
-        'active',
-      ]);
+      const data = request.only(['name', 'location', 'status', 'capacity']);
       data.isDeleted = false;
       const lab = await Laboratory.create(data);
 
