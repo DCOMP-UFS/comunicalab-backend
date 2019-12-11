@@ -27,7 +27,7 @@ class ProgressSchema extends Schema {
         .enu('status', ['Pendente', 'Andamento', 'Finalizado', 'Cancelado'])
         .notNullable();
       table.boolean('is_deleted').notNullable();
-      table.table.timestamps();
+      table.timestamps();
     });
   }
 
