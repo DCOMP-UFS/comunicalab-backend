@@ -20,7 +20,7 @@ class SoftCategoryController {
   async index({ request, response, view }) {
     try {
       const data = await SoftCategory.query()
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -41,7 +41,7 @@ class SoftCategoryController {
     try {
       const data = request.only(['name']);
 
-      data.isDeleted = false;
+      data.is_deleted = false;
 
       const softCategory = await SoftCategory.create(data);
 
@@ -65,7 +65,7 @@ class SoftCategoryController {
     try {
       const softCategory = await SoftCategory.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       const softCategoryJSON = softCategory.toJSON();
@@ -95,7 +95,7 @@ class SoftCategoryController {
 
       const softCategory = await SoftCategory.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .update(data);
 
       if (softCategory === 0) {
@@ -122,8 +122,8 @@ class SoftCategoryController {
     try {
       const softCategory = await SoftCategory.query()
         .where('id', params.id)
-        .where('isDeleted', false)
-        .update({ isDeleted: true });
+        .where('is_deleted', false)
+        .update({ is_deleted: true });
 
       if (softCategory === 0) {
         return response.status(404).send({ message: 'Not Found' });

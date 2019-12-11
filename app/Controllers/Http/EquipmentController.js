@@ -18,7 +18,7 @@ class EquipmentController {
   async index({ request, response, view }) {
     try {
       const data = await Equipment.query()
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -47,7 +47,7 @@ class EquipmentController {
         'idSpecification',
       ]);
 
-      data.isDeleted = false;
+      data.is_deleted = false;
 
       const equipment = await Equipment.create(data);
 
@@ -70,7 +70,7 @@ class EquipmentController {
     try {
       const equipment = await Equipment.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       const equipmentJSON = equipment.toJSON();
@@ -99,7 +99,7 @@ class EquipmentController {
 
       const equipment = await Equipment.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .update(data);
 
       if (equipment === 0) {
@@ -126,8 +126,8 @@ class EquipmentController {
     try {
       const equipment = await Equipment.query()
         .where('id', params.id)
-        .where('isDeleted', false)
-        .update({ isDeleted: true });
+        .where('is_deleted', false)
+        .update({ is_deleted: true });
 
       if (equipment === 0) {
         return response.status(404).send({ message: 'Not Found' });

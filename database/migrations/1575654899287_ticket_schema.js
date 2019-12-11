@@ -5,7 +5,7 @@ class TicketSchema extends Schema {
   up() {
     this.create('tickets', table => {
       table.increments();
-      table.string('title').notNullable();
+      table.string('title', 100).notNullable();
       table.date('opened_at').notNullable();
       table.date('closed_at');
       table

@@ -3,7 +3,7 @@ const Model = use('Model');
 
 class TicketSoftware extends Model {
   static get hidden() {
-    return ['created_at', 'updated_at'];
+    return ['created_at', 'updated_at', 'is_deleted'];
   }
 
   problem() {

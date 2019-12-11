@@ -3,11 +3,11 @@ const Model = use('Model');
 
 class Software extends Model {
   static get hidden() {
-    return ['created_at', 'updated_at'];
+    return ['created_at', 'updated_at', 'is_deleted'];
   }
 
   installed() {
-    return this.hasMany('App/Models/Installed');
+    return this.hasMany('App/Models/Installation');
   }
 
   softCategory() {

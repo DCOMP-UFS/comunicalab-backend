@@ -8,7 +8,7 @@ class SoftCategory {
   get rules() {
     return {
       name: 'string|max:100',
-      isDeleted: 'boolean',
+      is_deleted: 'boolean',
     };
   }
 

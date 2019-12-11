@@ -10,10 +10,9 @@ class Software {
       name: 'string|max:100',
       version: 'string|max:45',
       license: 'string|max:45',
-      isDeleted: 'boolean',
-      softCategory_id: 'exists:soft_categories,id',
+      is_deleted: 'boolean',
+      soft_category_id: 'exists:soft_categories,id',
       specification_id: 'exists:specifications,id',
-      active: 'boolean',
     };
   }
 

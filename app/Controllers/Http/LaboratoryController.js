@@ -22,7 +22,7 @@ class LaboratoryController {
       // const page = params.page;
       // const page = request.only(["page"]);
       const data = await Laboratory.query()
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
       // .paginate(page.page, 10)
       return response.status(200).send(data);
@@ -38,7 +38,7 @@ class LaboratoryController {
   async store({ request, response }) {
     try {
       const data = request.only(['name', 'location', 'status', 'capacity']);
-      data.isDeleted = false;
+      data.is_deleted = false;
       const lab = await Laboratory.create(data);
 
       return response.status(201).send(lab);
@@ -55,7 +55,7 @@ class LaboratoryController {
     try {
       const lab = await Laboratory.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       const labJSON = lab.toJSON();
@@ -80,7 +80,7 @@ class LaboratoryController {
 
       const lab = await Laboratory.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .update(data);
 
       if (lab === 0) {
@@ -103,7 +103,7 @@ class LaboratoryController {
     try {
       const lab = await Laboratory.query()
         .where('id', params.id)
-        .update({ isDeleted: true });
+        .update({ is_deleted: true });
 
       if (lab === 0) {
         return response.status(404).send({ message: 'Not Found' });

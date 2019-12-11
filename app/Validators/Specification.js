@@ -7,9 +7,9 @@ class Specification {
 
   get rules() {
     return {
-      softCategory_id: 'exists:soft_categories,id',
-      eqipCategory_id: 'exists:equip_categories,id',
-      isDeleted: 'boolean',
+      soft_category_id: 'exists:soft_categories,id',
+      equip_category_id: 'exists:equip_categories,id',
+      is_deleted: 'boolean',
     };
   }
 

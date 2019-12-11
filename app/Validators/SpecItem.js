@@ -1,6 +1,6 @@
 const Antl = use('Antl');
 
-class SpecificationItem {
+class SpecItem {
   get validateAll() {
     return true;
   }
@@ -9,7 +9,7 @@ class SpecificationItem {
     return {
       description: 'string|max:1000000',
       value: 'string|max:10000',
-      isDeleted: 'boolean',
+      is_deleted: 'boolean',
       specification_id: 'exists:specifications,id',
     };
   }
@@ -19,4 +19,4 @@ class SpecificationItem {
   }
 }
 
-module.exports = SpecificationItem;
+module.exports = SpecItem;
