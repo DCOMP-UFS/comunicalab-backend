@@ -1,13 +1,12 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class InstallationSchema extends Schema {
+class EquipmentOsImageSchema extends Schema {
   up() {
-    this.create('installation', table => {
+    this.create('equipment_os_images', table => {
       table.increments();
-      table.date('installed_at').notNullable();
       table
-        .integer('software_id')
+        .integer('equipment_id')
         .unsigned()
         .references('id')
         .inTable('softwares')
@@ -15,21 +14,20 @@ class InstallationSchema extends Schema {
         .onDelete('CASCADE')
         .notNullable();
       table
-        .integer('equipment_id')
+        .integer('os_image_id')
         .unsigned()
         .references('id')
-        .inTable('equipments')
+        .inTable('os_images')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
-      table.boolean('is_deleted').notNullable();
       table.timestamps();
     });
   }
 
   down() {
-    this.drop('installation');
+    this.drop('equipment_os_images');
   }
 }
 
-module.exports = InstallationSchema;
+module.exports = EquipmentOsImageSchema;

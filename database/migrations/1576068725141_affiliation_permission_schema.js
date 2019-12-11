@@ -1,24 +1,23 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class InstallationSchema extends Schema {
+class AffiliationPermissionSchema extends Schema {
   up() {
-    this.create('installation', table => {
+    this.create('affiliation_permissions', table => {
       table.increments();
-      table.date('installed_at').notNullable();
       table
-        .integer('software_id')
+        .integer('affiliation_id')
         .unsigned()
         .references('id')
-        .inTable('softwares')
+        .inTable('affiliations')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
       table
-        .integer('equipment_id')
+        .integer('permission_id')
         .unsigned()
         .references('id')
-        .inTable('equipments')
+        .inTable('permissions')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
@@ -28,8 +27,8 @@ class InstallationSchema extends Schema {
   }
 
   down() {
-    this.drop('installation');
+    this.drop('affiliation_permissions');
   }
 }
 
-module.exports = InstallationSchema;
+module.exports = AffiliationPermissionSchema;

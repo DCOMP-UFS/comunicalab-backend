@@ -12,7 +12,8 @@ class TicketLaboratorySchema extends Schema {
         .references('id')
         .inTable('ticket')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table
         .integer('laboratory_id')
         .unsigned()
@@ -20,7 +21,8 @@ class TicketLaboratorySchema extends Schema {
         .references('id')
         .inTable('laboratory')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table
         .integer('lab_problem_id')
         .unsigned()
@@ -28,7 +30,8 @@ class TicketLaboratorySchema extends Schema {
         .references('id')
         .inTable('lab_problem')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table.boolean('is_deleted').notNullable();
       table.unique(['ticket_id', 'laboratory_id', 'lab_problem_id']);
       table.timestamps();

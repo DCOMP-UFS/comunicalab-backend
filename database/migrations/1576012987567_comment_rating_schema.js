@@ -1,35 +1,34 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class InstallationSchema extends Schema {
+class CommentRatingSchema extends Schema {
   up() {
-    this.create('installation', table => {
+    this.create('comment_ratings', table => {
       table.increments();
-      table.date('installed_at').notNullable();
+      table.integer('plus_minus_one').notNullable();
       table
-        .integer('software_id')
+        .integer('comment_id')
         .unsigned()
         .references('id')
-        .inTable('softwares')
+        .inTable('comments')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
       table
-        .integer('equipment_id')
+        .integer('user_id')
         .unsigned()
         .references('id')
-        .inTable('equipments')
+        .inTable('users')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
-      table.boolean('is_deleted').notNullable();
       table.timestamps();
     });
   }
 
   down() {
-    this.drop('installation');
+    this.drop('comment_ratings');
   }
 }
 
-module.exports = InstallationSchema;
+module.exports = CommentRatingSchema;

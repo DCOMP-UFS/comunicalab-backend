@@ -13,7 +13,9 @@ class SpecItemSchema extends Schema {
         .notNullable()
         .references('id')
         .inTable('specifications')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE')
+        .notNullable();
       table.boolean('is_deleted').notNullable();
       table.timestamps();
     });

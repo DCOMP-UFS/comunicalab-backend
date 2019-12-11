@@ -12,7 +12,8 @@ class TicketSoftwareSchema extends Schema {
         .references('id')
         .inTable('ticket')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table
         .integer('software_id')
         .unsigned()
@@ -20,7 +21,8 @@ class TicketSoftwareSchema extends Schema {
         .references('id')
         .inTable('software')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table
         .integer('soft_problem_id')
         .unsigned()
@@ -28,7 +30,8 @@ class TicketSoftwareSchema extends Schema {
         .references('id')
         .inTable('soft_problem')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table.boolean('is_deleted').notNullable();
       table.unique(['ticket_id', 'software_id', 'soft_problem_id']);
       table.timestamps();

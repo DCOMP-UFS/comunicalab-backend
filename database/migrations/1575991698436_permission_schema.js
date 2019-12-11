@@ -7,6 +7,7 @@ class PermissionSchema extends Schema {
       table.increments();
       table.string('route', 128);
       table.enu('method', ['GET', 'POST', 'PUT', 'DELETE']).notNullable();
+      table.boolean('is_deleted').notNullable();
       table.timestamps();
     });
   }
