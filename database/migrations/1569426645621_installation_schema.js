@@ -5,7 +5,7 @@ class InstallationSchema extends Schema {
   up() {
     this.create('installation', table => {
       table.increments();
-      table.date('installed_at').notNullable();
+      table.timestamp('installed_at').notNullable();
       table
         .integer('software_id')
         .unsigned()

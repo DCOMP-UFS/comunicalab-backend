@@ -6,7 +6,7 @@ class ProgressSchema extends Schema {
     this.create('progresses', table => {
       table.increments();
       table.text('description').notNullable();
-      table.date('progressed_at').notNullable();
+      table.timestamp('progressed_at').notNullable();
       table
         .integer('ticket_id')
         .unsigned()

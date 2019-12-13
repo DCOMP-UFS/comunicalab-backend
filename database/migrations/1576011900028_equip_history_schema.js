@@ -5,7 +5,7 @@ class EquipHistorySchema extends Schema {
   up() {
     this.create('equip_histories', table => {
       table.increments();
-      table.date('tracked_at').notNullable();
+      table.timestamp('tracked_at').notNullable();
       table.enu('usage_status', ['Disponível', 'Indisponível']).notNullable();
       table.enu('problem_status', ['OK', 'SW', 'HW', 'Rede']).notNullable();
       table

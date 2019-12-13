@@ -6,7 +6,7 @@ class OsImageSchema extends Schema {
     this.create('os_images', table => {
       table.increments();
       table.string('name', 64).notNullable();
-      table.date('built_at').notNullable();
+      table.timestamp('built_at').notNullable();
       table
         .boolean('is_deleted')
         .notNullable()
