@@ -3,6 +3,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const Ticket = use('App/Models/Ticket');
+const Progress = use('App/Models/Progress');
 
 /**
  * Resourceful controller for interacting with tickets
@@ -19,11 +20,12 @@ class TicketController {
    */
   async index({ request, response, view }) {
     try {
-      const data = await Ticket.query()
+      const ticket = await Ticket.query()
+        .with('progresses')
+        .with('users')
         .where('is_deleted', false)
-        .fetch();
-
-      return response.status(200).send(data);
+        .first();
+      return response.status(200).send(ticket);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }

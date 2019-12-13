@@ -18,16 +18,28 @@ class Ticket extends Model {
     return this.manyThrough('App/Models/TicketEquipment', 'equipment');
   }
 
+  progresses() {
+    return this.hasMany('App/Models/Progress');
+  }
+
   labProblems() {
-    return this.manyThrough('App/Model/TicketLaboratory', 'problem');
+    return this.manyThrough('App/Models/TicketLaboratory', 'problem');
   }
 
   softProblems() {
-    return this.manyThrough('App/Model/TicketSoftware', 'problem');
+    return this.manyThrough('App/Models/TicketSoftware', 'problem');
   }
 
   equipProblems() {
-    return this.manyThrough('App/Model/TicketEquipment', 'problem');
+    return this.manyThrough('App/Models/TicketEquipment', 'problem');
+  }
+
+  users() {
+    return this.manyThrough('App/Models/Progress', 'user');
+  }
+
+  lastProgress() {
+    return this.manyThrough('App/Models/Progress').first();
   }
 }
 
