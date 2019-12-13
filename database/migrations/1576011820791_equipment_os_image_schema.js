@@ -21,7 +21,7 @@ class EquipmentOsImageSchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
-      table.date('installed_at');
+      table.timestamp('installed_at');
       table
         .boolean('is_deleted')
         .notNullable()

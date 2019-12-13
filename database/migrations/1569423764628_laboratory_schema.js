@@ -8,7 +8,7 @@ class LaboratorySchema extends Schema {
       table.string('name', 80).notNullable();
       table.integer('capacity').notNullable();
       table.boolean('is_in_use').notNullable();
-      table.date('occupied_at');
+      table.timestamp('occupied_at');
       table
         .integer('location_id')
         .unsigned()

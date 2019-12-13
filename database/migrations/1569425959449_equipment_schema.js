@@ -6,8 +6,8 @@ class EquipmentSchema extends Schema {
     this.create('equipments', table => {
       table.increments();
       table.string('brand');
-      table.date('allocated_at');
-      table.date('acquired_at');
+      table.timestamp('allocated_at');
+      table.timestamp('acquired_at');
       table.string('asset_tag', 10);
       table
         .integer('equip_category_id')
