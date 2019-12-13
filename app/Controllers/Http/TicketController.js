@@ -2,7 +2,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Ticket = use('App/Model/Ticket');
+const Ticket = use('App/Models/Ticket');
 
 /**
  * Resourceful controller for interacting with tickets
