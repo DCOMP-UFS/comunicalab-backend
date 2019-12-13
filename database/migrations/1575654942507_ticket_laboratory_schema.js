@@ -8,28 +8,31 @@ class TicketLaboratorySchema extends Schema {
       table
         .integer('ticket_id')
         .unsigned()
-        .notNullable()
         .references('id')
-        .inTable('ticket')
+        .inTable('tickets')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table
         .integer('laboratory_id')
         .unsigned()
-        .notNullable()
         .references('id')
-        .inTable('laboratory')
+        .inTable('laboratories')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table
         .integer('lab_problem_id')
         .unsigned()
-        .notNullable()
         .references('id')
-        .inTable('lab_problem')
+        .inTable('lab_problems')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
-      table.unique(['ticket_id', 'laboratory_id', 'lab_problem_id']);
+        .onDelete('CASCADE')
+        .notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

@@ -6,6 +6,10 @@ class LabProblemSchema extends Schema {
     this.create('lab_problems', table => {
       table.increments();
       table.string('name').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

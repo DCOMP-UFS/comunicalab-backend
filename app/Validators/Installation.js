@@ -1,14 +1,15 @@
 const Antl = use('Antl');
 
-class EquipCategory {
+class Installation {
   get validateAll() {
     return true;
   }
 
   get rules() {
     return {
-      name: 'string|max:100',
-      is_deleted: 'boolean',
+      dateInstallation: 'date',
+      software_id: 'exists:softwares,id',
+      equipment_id: 'exists:equipment,id',
     };
   }
 
@@ -17,4 +18,4 @@ class EquipCategory {
   }
 }
 
-module.exports = EquipCategory;
+module.exports = Installation;

@@ -1,0 +1,25 @@
+definitions:
+  Ticket:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the ticket being created
+        example: 10
+      title:
+        type: string
+        description: title of the ticket
+        example: Teclado quebrado
+      type:
+        type: string
+        description:
+        example:
+      equipment_id:
+        type: int
+        description: equipment id
+        example: 5
+
+    required:
+      - description
+      - type
+      - equipment_id

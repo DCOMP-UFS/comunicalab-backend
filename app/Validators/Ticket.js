@@ -1,15 +1,15 @@
 const Antl = use('Antl');
 
-class Installed {
+class Ticket {
   get validateAll() {
     return true;
   }
 
   get rules() {
     return {
-      dateInstallation: 'date',
-      software_id: 'exists:softwares,id',
-      equipment_id: 'exists:equipment,id',
+      title: 'string|max:1000000',
+      is_deleted: 'boolean',
+      specification_id: 'exists:specifications,id',
     };
   }
 
@@ -18,4 +18,4 @@ class Installed {
   }
 }
 
-module.exports = Installed;
+module.exports = Ticket;

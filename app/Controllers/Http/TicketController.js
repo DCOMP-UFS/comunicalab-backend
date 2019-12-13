@@ -2,7 +2,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Ticket = use('App/Model/Ticket');
+const Ticket = use('App/Models/Ticket');
 
 /**
  * Resourceful controller for interacting with tickets
@@ -20,7 +20,7 @@ class TicketController {
   async index({ request, response, view }) {
     try {
       const data = await Ticket.query()
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -40,7 +40,7 @@ class TicketController {
   async store({ request, response }) {
     try {
       const data = request.only(['description']);
-      data.isDeleted = false;
+      data.is_deleted = false;
       const ticket = await Ticket.create(data);
 
       return response.status(201).send(ticket);
@@ -62,7 +62,7 @@ class TicketController {
     try {
       const ticket = await Ticket.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       const ticketJSON = ticket.toJSON();
@@ -91,7 +91,7 @@ class TicketController {
 
       const ticket = await Ticket.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .update(data);
 
       if (ticket === 0) {
@@ -118,7 +118,7 @@ class TicketController {
     try {
       const ticket = await Ticket.query()
         .where('id', params.id)
-        .update({ isDeleted: true });
+        .update({ is_deleted: true });
 
       if (ticket === 0) {
         return response.status(404).send({ message: 'Not Found' });

@@ -1,13 +1,12 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class TicketSchema extends Schema {
+class OsImageSchema extends Schema {
   up() {
-    this.create('tickets', table => {
+    this.create('os_images', table => {
       table.increments();
-      table.string('title', 100).notNullable();
-      table.timestamp('opened_at').notNullable();
-      table.timestamp('closed_at');
+      table.string('name', 64).notNullable();
+      table.timestamp('built_at').notNullable();
       table
         .boolean('is_deleted')
         .notNullable()
@@ -17,8 +16,8 @@ class TicketSchema extends Schema {
   }
 
   down() {
-    this.drop('tickets');
+    this.drop('os_images');
   }
 }
 
-module.exports = TicketSchema;
+module.exports = OsImageSchema;

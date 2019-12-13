@@ -20,7 +20,7 @@ class SpecificationController {
   async index({ request, response, view }) {
     try {
       const data = await Specification.query()
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       return response.status(200).send(data);
@@ -41,7 +41,7 @@ class SpecificationController {
     try {
       const data = request.only(['softCategory_id', 'eqipCategory_id']);
 
-      data.isDeleted = false;
+      data.is_deleted = false;
 
       const specification = await Specification.create(data);
 
@@ -64,7 +64,7 @@ class SpecificationController {
     try {
       const specification = await Specification.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .fetch();
 
       const specificationJSON = specification.toJSON();
@@ -93,7 +93,7 @@ class SpecificationController {
 
       const specification = await Specification.query()
         .where('id', params.id)
-        .where('isDeleted', false)
+        .where('is_deleted', false)
         .update(data);
 
       if (specification === 0) {
@@ -120,8 +120,8 @@ class SpecificationController {
     try {
       const specification = await Specification.query()
         .where('id', params.id)
-        .where('isDeleted', false)
-        .update({ isDeleted: true });
+        .where('is_deleted', false)
+        .update({ is_deleted: true });
 
       if (specification === 0) {
         return response.status(404).send({ message: 'Not Found' });

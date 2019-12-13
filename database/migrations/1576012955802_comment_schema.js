@@ -1,9 +1,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class TicketSoftwareSchema extends Schema {
+class CommentSchema extends Schema {
   up() {
-    this.create('ticket_softwares', table => {
+    this.create('comments', table => {
       table.increments();
       table
         .integer('ticket_id')
@@ -13,22 +13,22 @@ class TicketSoftwareSchema extends Schema {
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
+      table.text('text').notNullable();
       table
-        .integer('software_id')
+        .integer('comment_user_id')
         .unsigned()
         .references('id')
-        .inTable('softwares')
+        .inTable('users')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
       table
-        .integer('soft_problem_id')
+        .integer('moderation_user_id')
         .unsigned()
         .references('id')
-        .inTable('soft_problems')
+        .inTable('users')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE')
-        .notNullable();
+        .onDelete('CASCADE');
       table
         .boolean('is_deleted')
         .notNullable()
@@ -38,8 +38,8 @@ class TicketSoftwareSchema extends Schema {
   }
 
   down() {
-    this.drop('ticket_softwares');
+    this.drop('comments');
   }
 }
 
-module.exports = TicketSoftwareSchema;
+module.exports = CommentSchema;

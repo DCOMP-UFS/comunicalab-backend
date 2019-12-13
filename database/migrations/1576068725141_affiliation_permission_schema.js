@@ -1,31 +1,23 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class TicketSoftwareSchema extends Schema {
+class AffiliationPermissionSchema extends Schema {
   up() {
-    this.create('ticket_softwares', table => {
+    this.create('affiliation_permissions', table => {
       table.increments();
       table
-        .integer('ticket_id')
+        .integer('affiliation_id')
         .unsigned()
         .references('id')
-        .inTable('tickets')
+        .inTable('affiliations')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
       table
-        .integer('software_id')
+        .integer('permission_id')
         .unsigned()
         .references('id')
-        .inTable('softwares')
-        .onUpdate('CASCADE')
-        .onDelete('CASCADE')
-        .notNullable();
-      table
-        .integer('soft_problem_id')
-        .unsigned()
-        .references('id')
-        .inTable('soft_problems')
+        .inTable('permissions')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
@@ -38,8 +30,8 @@ class TicketSoftwareSchema extends Schema {
   }
 
   down() {
-    this.drop('ticket_softwares');
+    this.drop('affiliation_permissions');
   }
 }
 
-module.exports = TicketSoftwareSchema;
+module.exports = AffiliationPermissionSchema;

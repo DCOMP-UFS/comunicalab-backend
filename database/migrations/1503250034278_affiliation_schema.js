@@ -1,13 +1,11 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class TicketSchema extends Schema {
+class AffiliationSchema extends Schema {
   up() {
-    this.create('tickets', table => {
+    this.create('affiliations', table => {
       table.increments();
-      table.string('title', 100).notNullable();
-      table.timestamp('opened_at').notNullable();
-      table.timestamp('closed_at');
+      table.string('name', 40).notNullable();
       table
         .boolean('is_deleted')
         .notNullable()
@@ -17,8 +15,8 @@ class TicketSchema extends Schema {
   }
 
   down() {
-    this.drop('tickets');
+    this.drop('affiliations');
   }
 }
 
-module.exports = TicketSchema;
+module.exports = AffiliationSchema;

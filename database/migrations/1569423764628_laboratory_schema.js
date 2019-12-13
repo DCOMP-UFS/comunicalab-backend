@@ -6,14 +6,20 @@ class LaboratorySchema extends Schema {
     this.create('laboratories', table => {
       table.increments();
       table.string('name', 80).notNullable();
-      table.string('location').notNullable();
-      table.double('latitude').notNullable();
-      table.double('longitude').notNullable();
-      table
-        .enu('status', ['Disponível', 'Reservado', 'Em aula', 'Em reforma'])
-        .notNullable();
       table.integer('capacity').notNullable();
-      table.boolean('isDeleted').notNullable();
+      table.boolean('is_in_use').notNullable();
+      table.timestamp('occupied_at');
+      table
+        .integer('location_id')
+        .unsigned()
+        .references('id')
+        .inTable('locations')
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL');
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

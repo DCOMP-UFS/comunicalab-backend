@@ -1,31 +1,26 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class TicketSoftwareSchema extends Schema {
+class EquipHistorySchema extends Schema {
   up() {
-    this.create('ticket_softwares', table => {
+    this.create('equip_histories', table => {
       table.increments();
+      table.timestamp('tracked_at').notNullable();
+      table.enu('usage_status', ['Disponível', 'Indisponível']).notNullable();
+      table.enu('problem_status', ['OK', 'SW', 'HW', 'Rede']).notNullable();
       table
-        .integer('ticket_id')
+        .integer('equipment_id')
         .unsigned()
         .references('id')
-        .inTable('tickets')
+        .inTable('equipments')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
       table
-        .integer('software_id')
+        .integer('user_id')
         .unsigned()
         .references('id')
-        .inTable('softwares')
-        .onUpdate('CASCADE')
-        .onDelete('CASCADE')
-        .notNullable();
-      table
-        .integer('soft_problem_id')
-        .unsigned()
-        .references('id')
-        .inTable('soft_problems')
+        .inTable('users')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
@@ -38,8 +33,8 @@ class TicketSoftwareSchema extends Schema {
   }
 
   down() {
-    this.drop('ticket_softwares');
+    this.drop('equip_histories');
   }
 }
 
-module.exports = TicketSoftwareSchema;
+module.exports = EquipHistorySchema;

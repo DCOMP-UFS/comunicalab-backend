@@ -1,14 +1,14 @@
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
-const Installed = use('App/Models/Installed');
+const Installation = use('App/Models/Installation');
 /**
- * Resourceful controller for interacting with installeds
+ * Resourceful controller for interacting with installations
  */
-class InstalledController {
+class InstallationController {
   /**
-   * Show a list of all installeds.
-   * GET installeds
+   * Show a list of all installations.
+   * GET installations
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -17,7 +17,7 @@ class InstalledController {
    */
   async index({ request, response, view }) {
     try {
-      const data = await Installed.all();
+      const data = await Installation.all();
 
       return response.status(200).send(data);
     } catch (error) {
@@ -26,8 +26,8 @@ class InstalledController {
   }
 
   /**
-   * Create/save a new installed.
-   * POST installeds
+   * Create/save a new installation.
+   * POST installations
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -36,22 +36,22 @@ class InstalledController {
   async store({ request, response }) {
     try {
       const data = request.only([
+        'installed_at',
         'equipment_id',
         'software_id',
-        'dateInstallation',
       ]);
 
-      const installed = await Installed.create(data);
+      const installation = await Installation.create(data);
 
-      return response.status(201).send(installed);
+      return response.status(201).send(installation);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
 
   /**
-   * Display a single installed.
-   * GET installeds/:id
+   * Display a single installation.
+   * GET installations/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -60,16 +60,16 @@ class InstalledController {
    */
   async show({ params, request, response, view }) {
     try {
-      const installed = await Installed.findOrFail(params.id);
-      return response.status(200).send(installed);
+      const installation = await Installation.findOrFail(params.id);
+      return response.status(200).send(installation);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
 
   /**
-   * Update installed details.
-   * PUT or PATCH installeds/:id
+   * Update installation details.
+   * PUT or PATCH installations/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -79,34 +79,34 @@ class InstalledController {
     try {
       const data = request.post();
 
-      const installed = await Installed.query()
+      const installation = await Installation.query()
         .where('id', params.id)
         .update(data);
 
-      if (installed === 0) {
+      if (installation === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      const installedUpdate = await Installed.findOrFail(params.id);
+      const installationUpdate = await Installation.findOrFail(params.id);
 
-      return response.status(200).send(installedUpdate);
+      return response.status(200).send(installationUpdate);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
 
   /**
-   * Delete a installed with id.
-   * DELETE installeds/:id
+   * Delete a installation with id.
+   * DELETE installations/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    const installed = await Installed.findOrFail(params.id);
-    await installed.delete();
+    const installation = await Installation.findOrFail(params.id);
+    await installation.delete();
   }
 }
 
-module.exports = InstalledController;
+module.exports = InstallationController;

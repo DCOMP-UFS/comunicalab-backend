@@ -6,6 +6,10 @@ class EquipProblemSchema extends Schema {
     this.create('equip_problems', table => {
       table.increments();
       table.string('name').notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

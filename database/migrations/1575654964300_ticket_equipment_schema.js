@@ -8,28 +8,31 @@ class TicketEquipmentSchema extends Schema {
       table
         .integer('ticket_id')
         .unsigned()
-        .notNullable()
         .references('id')
-        .inTable('ticket')
+        .inTable('tickets')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table
         .integer('equipment_id')
         .unsigned()
-        .notNullable()
         .references('id')
-        .inTable('equipment')
+        .inTable('equipments')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .notNullable();
       table
         .integer('equip_problem_id')
         .unsigned()
-        .notNullable()
         .references('id')
-        .inTable('equip_problem')
+        .inTable('equip_problems')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
-      table.unique(['ticket_id', 'equipment_id', 'equip_problem_id']);
+        .onDelete('CASCADE')
+        .notNullable();
+      table
+        .boolean('is_deleted')
+        .notNullable()
+        .defaultTo(false);
       table.timestamps();
     });
   }

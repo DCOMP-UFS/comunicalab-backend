@@ -1,0 +1,121 @@
+/ticket:
+  get:
+    tags:
+      - ticket
+    summary: List all ticket
+    operationId: indexTicket
+    description: Route that returns all ticket
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Ticket'
+      '500':
+        description: Internal Server Error
+
+  post:
+    tags:
+      - ticket
+    summary: ticket register
+    operationId: storeTicket
+    description: Route that creates ticket in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the ticket.
+        schema:
+          properties:
+            description:
+              type: string
+              description: description of the ticket
+              example: Teclado quebrado
+            type:
+              type: string
+              description:
+              example:
+            equipment_id:
+              type: int
+              description: equipment id
+              example: 5
+
+    responses:
+      '201':
+        description: Registered ticket
+        schema:
+          $ref: '#/definitions/Ticket'
+      '500':
+        description: Internal Server Error
+
+/ticket/:id:
+  get:
+    tags:
+      - ticket
+    summary: Show ticket
+    operationId: showTicket
+    description: Route showing a ticket in the database
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Ticket
+        schema:
+          $ref: '#/definitions/Ticket'
+      '500':
+        description: Internal Server Error
+
+  put:
+    tags:
+      - ticket
+    summary: update ticket
+    operationId: updateTicket
+    description: Route updating ticket in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to update the ticket.
+        schema:
+          properties:
+            description:
+              type: string
+              description: description of the ticket
+              example: Teclado quebrado
+            type:
+              type: string
+              description:
+              example:
+            equipment_id:
+              type: int
+              description: equipment id
+              example: 9
+
+    responses:
+      '200':
+        description: Registered laboratory
+        schema:
+          $ref: '#/definitions/Ticket'
+      '500':
+        description: Internal Server Error
+
+  delete:
+    tags:
+      - ticket
+    summary: delete ticket
+    operationId: deleteTicket
+    description: Route to delete ticket in database
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: delete ticket
+        schema:
+          $ref: '#/definitions/Ticket'
+      '500':
+        description: Internal Server Error

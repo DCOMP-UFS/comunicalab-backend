@@ -1,20 +1,12 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class TicketSoftwareSchema extends Schema {
+class EquipmentOsImageSchema extends Schema {
   up() {
-    this.create('ticket_softwares', table => {
+    this.create('equipment_os_images', table => {
       table.increments();
       table
-        .integer('ticket_id')
-        .unsigned()
-        .references('id')
-        .inTable('tickets')
-        .onUpdate('CASCADE')
-        .onDelete('CASCADE')
-        .notNullable();
-      table
-        .integer('software_id')
+        .integer('equipment_id')
         .unsigned()
         .references('id')
         .inTable('softwares')
@@ -22,13 +14,14 @@ class TicketSoftwareSchema extends Schema {
         .onDelete('CASCADE')
         .notNullable();
       table
-        .integer('soft_problem_id')
+        .integer('os_image_id')
         .unsigned()
         .references('id')
-        .inTable('soft_problems')
+        .inTable('os_images')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();
+      table.timestamp('installed_at');
       table
         .boolean('is_deleted')
         .notNullable()
@@ -38,8 +31,8 @@ class TicketSoftwareSchema extends Schema {
   }
 
   down() {
-    this.drop('ticket_softwares');
+    this.drop('equipment_os_images');
   }
 }
 
-module.exports = TicketSoftwareSchema;
+module.exports = EquipmentOsImageSchema;
