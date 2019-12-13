@@ -12,14 +12,12 @@ class EquipmentSchema extends Schema {
       table
         .integer('equip_category_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('equip_categories')
         .onUpdate('CASCADE');
       table
         .integer('laboratory_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('laboratories')
         .onUpdate('CASCADE')
@@ -27,7 +25,6 @@ class EquipmentSchema extends Schema {
       table
         .integer('specification_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('specifications')
         .onUpdate('CASCADE');

@@ -8,7 +8,6 @@ class TicketLaboratorySchema extends Schema {
       table
         .integer('ticket_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('tickets')
         .onUpdate('CASCADE')
@@ -17,7 +16,6 @@ class TicketLaboratorySchema extends Schema {
       table
         .integer('laboratory_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('laboratories')
         .onUpdate('CASCADE')
@@ -26,7 +24,6 @@ class TicketLaboratorySchema extends Schema {
       table
         .integer('lab_problem_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('lab_problems')
         .onUpdate('CASCADE')

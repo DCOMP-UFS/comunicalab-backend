@@ -15,7 +15,6 @@ class SoftwareSchema extends Schema {
       table
         .integer('soft_category_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('soft_categories')
         .onUpdate('CASCADE')
