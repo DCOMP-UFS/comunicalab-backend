@@ -10,7 +10,6 @@ class SpecItemSchema extends Schema {
       table
         .integer('specification_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('specifications')
         .onUpdate('CASCADE')

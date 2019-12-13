@@ -12,7 +12,6 @@ class LaboratorySchema extends Schema {
       table
         .integer('location_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('locations')
         .onUpdate('CASCADE')

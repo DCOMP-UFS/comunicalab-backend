@@ -8,7 +8,6 @@ class TicketEquipmentSchema extends Schema {
       table
         .integer('ticket_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('tickets')
         .onUpdate('CASCADE')
@@ -17,7 +16,6 @@ class TicketEquipmentSchema extends Schema {
       table
         .integer('equipment_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('equipments')
         .onUpdate('CASCADE')
@@ -26,7 +24,6 @@ class TicketEquipmentSchema extends Schema {
       table
         .integer('equip_problem_id')
         .unsigned()
-        .notNullable()
         .references('id')
         .inTable('equip_problems')
         .onUpdate('CASCADE')
