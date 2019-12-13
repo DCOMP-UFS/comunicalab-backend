@@ -10,26 +10,38 @@ definitions:
         type: string
         description: equipment brand
         example: Hp
-      dateOfAcquisition:
+      allocationDate:
+        type: date
+        description: equipment allocation date
+        example: 10/10/2019
+      acquisitionDate:
         type: date
         description: equipment acquisition date
-        example: 10/10/1999
-      equipCategory_id:
-        type: uint
-        description: id of equipCategory that owns the equipment 
-        example: 10
-      laboratory_id:
+        example: 10/10/2019
+      patrimony:
+        type: string
+        description: patrimony
+        example: 
+      idLaboratory:
         type: uint
         description: id of laboratory that owns the equipment
         example: 10
-      specification_id:
+      idEquipCategory:
+        type: uint
+        description: id of EquipCategory that owns the equipment
+        example: 10
+      idSpecification:
         type: uint
         description: id of specification that belongs to equipment
         example: 10
     required:
       - id
       - brand
-      - dateOfAcquisition
-      - laboratory_id
-      - specification_id
- 
+      - allocationDate
+      - acquisitionDate
+      - patrimony
+      - idLaboratory
+      - idEquipCategory
+      - idSpecification
+
+      

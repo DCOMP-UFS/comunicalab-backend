@@ -5,30 +5,29 @@ class EquipmentSchema extends Schema {
   up() {
     this.create('equipment', table => {
       table.increments();
-      table.string('brand').notNullable();
-      table.date('dateOfAcquisition').notNullable();
-      table
-        .integer('equipCategory_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('equip_categories')
-        .onUpdate('CASCADE');
-      table
-        .integer('laboratory_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('laboratories')
-        .onUpdate('CASCADE');
-      table
-        .integer('specification_id')
-        .unsigned()
-        .notNullable()
-        .references('id')
-        .inTable('specifications')
-        .onUpdate('CASCADE');
+      table.string('brand', 80).notNullable();
+      table.date('allocationDate').notNullable();
+      table.date('acquisitionDate').notNullable();
+      table.string('patrimony', 100).notNullable();
       table.boolean('isDeleted').notNullable();
+      table.integer('idLaboratory').notNullable()
+                                   .unsigned()
+                                   .notNullable()
+                                   .references('id')
+                                   .inTable('laboratories')
+                                   .onUpdate('CASCADE');
+      table.integer('idEquipCategory').notNullable()
+                                      .unsigned()
+                                      .notNullable()
+                                      .references('id')
+                                      .inTable('equip_categories')
+                                      .onUpdate('CASCADE');
+      table.integer('idSpecification').notNullable()
+                                      .unsigned()
+                                      .notNullable()
+                                      .references('id')
+                                      .inTable('specifications')
+                                      .onUpdate('CASCADE');
       table.timestamps();
     });
   }
