@@ -39,12 +39,12 @@ class EquipmentController {
     try {
       const data = request.only([
         'brand',
-        'allocationDate',
-        'acquisitionDate',
-        'patrimony',
-        'idLaboratory',
-        'idEquipCategory',
-        'idSpecification',
+        'allocated_at',
+        'acquired_at',
+        'asset_tag',
+        'equip_category_id',
+        'laboratory_id',
+        'specification_id',
       ]);
 
       data.is_deleted = false;
