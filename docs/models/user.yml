@@ -1,0 +1,27 @@
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the user being created
+        example: 10
+      username:
+        type: string
+        description: username
+        example: Jonas
+      affiliationId:
+        type: string
+        description: user affiliation
+        example: professor
+      password:
+        type: string
+        description: user password 
+        example: 1234
+    required:
+      - id
+      - password
+      - email
+      - affiliation_id
+      - username
+ 

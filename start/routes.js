@@ -53,6 +53,14 @@ Route.resource('equipment', 'EquipmentController')
       [['equipment.update'], ['Equipment']],
     ])
   );
+Route.resource('user', 'UserController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['user.store'], ['User']],
+      [['user.update'], ['User']],
+    ])
+  );
 
 Route.resource('installation', 'InstallationController')
   .apiOnly()
