@@ -3,7 +3,6 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const Ticket = use('App/Models/Ticket');
-const Progress = use('App/Models/Progress');
 
 /**
  * Resourceful controller for interacting with tickets
@@ -11,7 +10,7 @@ const Progress = use('App/Models/Progress');
 class TicketController {
   /**
    * Show a list of all tickets.
-   * GET tickets
+   * GET ticket
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -20,12 +19,22 @@ class TicketController {
    */
   async index({ request, response, view }) {
     try {
-      const ticket = await Ticket.query()
-        .with('progresses')
-        .with('users')
+      const tickets = await Ticket.query()
+        .with('progresses.user', builder => {
+          builder.select('users.id', 'users.username', 'users.email');
+        })
+        .with('progresses', builder => {
+          builder.orderBy('progressed_at', 'asc');
+        })
         .where('is_deleted', false)
-        .first();
-      return response.status(200).send(ticket);
+        .fetch();
+      tickets.rows.forEach((ticket, index) => {
+        const relations = ticket.$relations;
+        [relations.first_progress] = relations.progresses.rows;
+        [relations.last_progress] = relations.progresses.rows.reverse();
+        delete relations.progresses;
+      });
+      return response.status(200).send(tickets);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
@@ -33,7 +42,7 @@ class TicketController {
 
   /**
    * Create/save a new ticket.
-   * POST tickets
+   * POST ticket
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -53,7 +62,7 @@ class TicketController {
 
   /**
    * Display a single ticket.
-   * GET tickets/:id
+   * GET ticket/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -65,6 +74,21 @@ class TicketController {
       const ticket = await Ticket.query()
         .where('id', params.id)
         .where('is_deleted', false)
+        .with('progresses.user', builder => {
+          builder.select('users.id', 'users.username', 'users.email');
+        })
+        .with('progresses', builder => {
+          builder.orderBy('progressed_at', 'asc');
+        })
+        .with('ticketLaboratories.problem')
+        // .with('ticketLaboratories.laboratory')
+        .with('ticketLaboratories')
+        .with('ticketSoftwares.problem')
+        // .with('ticketSoftwares.software')
+        .with('ticketSoftwares')
+        .with('ticketEquipments.problem')
+        // .with('ticketEquipments.equipment')
+        .with('ticketEquipments')
         .fetch();
 
       const ticketJSON = ticket.toJSON();
@@ -81,7 +105,7 @@ class TicketController {
 
   /**
    * Update ticket details.
-   * PUT or PATCH tickets/:id
+   * PUT or PATCH ticket/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request

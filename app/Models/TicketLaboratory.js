@@ -7,15 +7,15 @@ class TicketLaboratory extends Model {
   }
 
   problem() {
-    return this.hasOne('App/Model/LabProblem');
+    return this.belongsTo('App/Models/LabProblem');
   }
 
   ticket() {
-    return this.hasOne('App/Model/Ticket');
+    return this.belongsTo('App/Models/Ticket');
   }
 
   laboratory() {
-    return this.hasOne('App/Model/Laboratory');
+    return this.belongsTo('App/Models/Laboratory');
   }
 }
 

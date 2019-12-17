@@ -7,15 +7,15 @@ class TicketEquipment extends Model {
   }
 
   problem() {
-    return this.hasOne('App/Model/EquipProblem');
+    return this.belongsTo('App/Models/EquipProblem');
   }
 
   ticket() {
-    return this.hasOne('App/Model/Ticket');
+    return this.belongsTo('App/Models/Ticket');
   }
 
   equipment() {
-    return this.hasOne('App/Model/Equipment');
+    return this.belongsTo('App/Models/Equipment');
   }
 }
 
