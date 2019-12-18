@@ -7,9 +7,10 @@ class Ticket {
 
   get rules() {
     return {
-      title: 'string|max:1000000',
+      title: 'required|string|max:1000000',
+      opened_at: 'date',
+      closed_at: 'date',
       is_deleted: 'boolean',
-      specification_id: 'exists:specifications,id',
     };
   }
 

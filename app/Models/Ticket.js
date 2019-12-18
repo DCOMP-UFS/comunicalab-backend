@@ -6,6 +6,10 @@ class Ticket extends Model {
     return ['created_at', 'updated_at', 'is_deleted'];
   }
 
+  static get dates() {
+    return super.dates.concat(['opened_at', 'closed_at']);
+  }
+
   laboratories() {
     return this.manyThrough('App/Model/TicketLaboratory', 'laboratory');
   }

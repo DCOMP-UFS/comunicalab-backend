@@ -2,7 +2,9 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Database = use('Database');
 const Ticket = use('App/Models/Ticket');
+const Progress = use('App/Models/Progress');
 
 /**
  * Resourceful controller for interacting with tickets
@@ -50,9 +52,19 @@ class TicketController {
    */
   async store({ request, response }) {
     try {
-      const data = request.only(['description']);
-      data.is_deleted = false;
-      const ticket = await Ticket.create(data);
+      const ticketData = request.only(['title']);
+      ticketData.opened_at = Date.now();
+      const progressData = request.only(['description']);
+      progressData.progressed_at = ticketData.opened_at;
+      progressData.user_id = 1; // TO DO
+      progressData.status = 'Pendente';
+
+      const trx = await Database.beginTransaction();
+      const ticket = await Ticket.create(ticketData, trx);
+      progressData.ticket_id = ticket.id;
+      const progress = await Progress.create(progressData, trx);
+      trx.commit();
+      ticket.first_progress = progress;
 
       return response.status(201).send(ticket);
     } catch (error) {
@@ -143,7 +155,7 @@ class TicketController {
   async destroy({ params, request, response }) {
     try {
       const ticket = await Ticket.query()
-        .where('id', params.id)
+        .where({ id: params.id, is_deleted: false })
         .update({ is_deleted: true });
 
       if (ticket === 0) {

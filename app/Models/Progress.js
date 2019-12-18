@@ -6,6 +6,10 @@ class Progress extends Model {
     return ['created_at', 'updated_at', 'is_deleted'];
   }
 
+  static get dates() {
+    return super.dates.concat(['progressed_at']);
+  }
+
   ticket() {
     return this.belongsTo('App/Models/Ticket');
   }
