@@ -5,6 +5,9 @@
 const Database = use('Database');
 const Ticket = use('App/Models/Ticket');
 const Progress = use('App/Models/Progress');
+const TicketLaboratory = use('App/Models/TicketLaboratory');
+const TicketEquipment = use('App/Models/TicketEquipment');
+const TicketSoftware = use('App/Models/TicketSoftware');
 
 /**
  * Resourceful controller for interacting with tickets
@@ -32,8 +35,8 @@ class TicketController {
         .fetch();
       tickets.rows.forEach((ticket, index) => {
         const relations = ticket.$relations;
-        [relations.first_progress] = relations.progresses.rows;
-        [relations.last_progress] = relations.progresses.rows.reverse();
+        [relations.firstProgress] = relations.progresses.rows;
+        [relations.lastProgress] = relations.progresses.rows.reverse();
         delete relations.progresses;
       });
       return response.status(200).send(tickets);
@@ -54,17 +57,80 @@ class TicketController {
     try {
       const ticketData = request.only(['title']);
       ticketData.opened_at = Date.now();
-      const progressData = request.only(['description']);
-      progressData.progressed_at = ticketData.opened_at;
-      progressData.user_id = 1; // TO DO
-      progressData.status = 'Pendente';
 
       const trx = await Database.beginTransaction();
-      const ticket = await Ticket.create(ticketData, trx);
+      let ticket = await Ticket.create(ticketData, trx);
+
+      const progressData = request.only([
+        'description',
+        'user_id',
+        'ticket_id',
+      ]);
+      progressData.progressed_at = ticketData.opened_at;
+      progressData.status = 'Pendente';
+      progressData.user_id = 1; // TO DO
       progressData.ticket_id = ticket.id;
       const progress = await Progress.create(progressData, trx);
+      ticket.firstProgress = progress;
+
+      const ticketLaboratoriesData = [];
+      const requestTicketLaboratories = request.input('ticketLaboratories');
+      if (requestTicketLaboratories) {
+        requestTicketLaboratories.forEach(row => {
+          ticketLaboratoriesData.push({
+            ticket_id: ticket.id,
+            laboratory_id: row.laboratory_id,
+            lab_problem_id: row.lab_problem_id,
+          });
+        });
+        await TicketLaboratory.createMany(ticketLaboratoriesData, trx);
+      }
+
+      const ticketEquipmentsData = [];
+      const requestTicketEquipments = request.input('ticketEquipments');
+      if (requestTicketEquipments) {
+        requestTicketEquipments.forEach(row => {
+          ticketEquipmentsData.push({
+            ticket_id: ticket.id,
+            equipment_id: row.equipment_id,
+            equip_problem_id: row.equip_problem_id,
+          });
+        });
+        await TicketEquipment.createMany(ticketEquipmentsData, trx);
+      }
+
+      const ticketSoftwaresData = [];
+      const requestTicketSoftwares = request.input('ticketSoftwares');
+      if (requestTicketSoftwares) {
+        requestTicketSoftwares.forEach(row => {
+          ticketSoftwaresData.push({
+            ticket_id: ticket.id,
+            software_id: row.software_id,
+            soft_problem_id: row.soft_problem_id,
+          });
+        });
+        await TicketSoftware.createMany(ticketSoftwaresData, trx);
+      }
+
       trx.commit();
-      ticket.first_progress = progress;
+      ticket = await Ticket.query()
+        .where({ id: ticket.id })
+        .with('progresses.user', builder => {
+          builder.select('users.id', 'users.username', 'users.email');
+        })
+        .with('progresses', builder => {
+          builder.orderBy('progressed_at', 'asc');
+        })
+        .with('ticketLaboratories.problem')
+        // .with('ticketLaboratories.laboratory')
+        .with('ticketLaboratories')
+        .with('ticketEquipments.problem')
+        // .with('ticketEquipments.equipment')
+        .with('ticketEquipments')
+        .with('ticketSoftwares.problem')
+        // .with('ticketSoftwares.software')
+        .with('ticketSoftwares')
+        .first();
 
       return response.status(201).send(ticket);
     } catch (error) {
@@ -95,21 +161,19 @@ class TicketController {
         .with('ticketLaboratories.problem')
         // .with('ticketLaboratories.laboratory')
         .with('ticketLaboratories')
-        .with('ticketSoftwares.problem')
-        // .with('ticketSoftwares.software')
-        .with('ticketSoftwares')
         .with('ticketEquipments.problem')
         // .with('ticketEquipments.equipment')
         .with('ticketEquipments')
-        .fetch();
+        .with('ticketSoftwares.problem')
+        // .with('ticketSoftwares.software')
+        .with('ticketSoftwares')
+        .first();
 
-      const ticketJSON = ticket.toJSON();
-
-      if (Object.keys(ticketJSON).length === 0) {
+      if (!ticket) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      return response.status(200).send(ticketJSON[0]);
+      return response.status(200).send(ticket);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }

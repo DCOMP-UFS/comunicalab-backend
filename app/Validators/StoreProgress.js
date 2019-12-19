@@ -1,7 +1,6 @@
-const validations = use('indicative/validatons');
 const Antl = use('Antl');
 
-class Progress {
+class StoreProgress {
   get validateAll() {
     return true;
   }
@@ -11,9 +10,7 @@ class Progress {
       description: 'required|string|max:1000000',
       progressed_at: 'date',
       ticket_id: 'required|exists:tickets,id|integer',
-      user_id: 'required|exists:users,id|integer',
-      status: validations.regex(['Pendente|Andamento|Finalizado|Cancelado']),
-      is_deleted: 'boolean',
+      status: 'required|in:Pendente,Andamento,Finalizado,Cancelado',
     };
   }
 
@@ -22,4 +19,4 @@ class Progress {
   }
 }
 
-module.exports = Progress;
+module.exports = StoreProgress;

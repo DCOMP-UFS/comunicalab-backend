@@ -40,8 +40,17 @@ Route.resource('ticket', 'TicketController')
   .apiOnly()
   .validator(
     new Map([
-      [['ticket.store'], ['Ticket']],
-      [['ticket.update'], ['Ticket']],
+      [['ticket.store'], ['StoreTicket']],
+      [['ticket.update'], ['UpdateTicket']],
+    ])
+  );
+
+Route.resource('progress', 'ProgressController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['progress.store'], ['StoreProgress']],
+      [['progress.update'], ['UpdateProgress']],
     ])
   );
 
