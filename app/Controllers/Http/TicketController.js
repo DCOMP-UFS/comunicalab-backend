@@ -26,23 +26,33 @@ class TicketController {
     try {
       let tickets = Ticket.query()
         .with('progresses.user', builder => {
-          builder.select('users.id', 'users.username', 'users.email');
+          builder
+            .select('users.id', 'users.username', 'users.email')
+            .where('users.is_deleted', false);
         })
         .with('progresses', builder => {
-          builder.orderBy('progressed_at', 'asc');
+          builder
+            .orderBy('progressed_at', 'asc')
+            .where('progresses.is_deleted', false);
         })
         .where('is_deleted', false);
       if (params.laboratory_id) {
         tickets = tickets.whereHas('laboratories', builder => {
-          builder.where('laboratories.id', params.laboratory_id);
+          builder
+            .where('laboratories.id', params.laboratory_id)
+            .where('laboratories.is_deleted', false);
         });
       } else if (params.equipment_id) {
         tickets = tickets.whereHas('equipments', builder => {
-          builder.where('equipments.id', params.equipment_id);
+          builder
+            .where('equipments.id', params.equipment_id)
+            .where('equipments.is_deleted', false);
         });
       } else if (params.software_id) {
         tickets = tickets.whereHas('softwares', builder => {
-          builder.where('softwares.id', params.software_id);
+          builder
+            .where('softwares.id', params.software_id)
+            .where('softwares.is_deleted', false);
         });
       }
       tickets = await tickets.fetch();
@@ -56,7 +66,7 @@ class TicketController {
 
       return response.status(200).send(tickets);
     } catch (error) {
-      return response.status(500).send({ message: error });
+      return response.status(error.status).send({ message: error });
     }
   }
 
@@ -140,7 +150,7 @@ class TicketController {
         .with('ticketLaboratories.laboratory')
         .with('ticketLaboratories')
         .with('ticketEquipments.problem')
-        // .with('ticketEquipments.equipment')
+        .with('ticketEquipments.equipment')
         .with('ticketEquipments')
         .with('ticketSoftwares.problem')
         .with('ticketSoftwares.software')
@@ -177,7 +187,7 @@ class TicketController {
         .with('ticketLaboratories.laboratory')
         .with('ticketLaboratories')
         .with('ticketEquipments.problem')
-        // .with('ticketEquipments.equipment')
+        .with('ticketEquipments.equipment')
         .with('ticketEquipments')
         .with('ticketSoftwares.problem')
         .with('ticketSoftwares.software')

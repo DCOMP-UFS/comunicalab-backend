@@ -2,6 +2,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const LabProblem = use('App/Models/LabProblem');
+
 /**
  * Resourceful controller for interacting with labproblems
  */
@@ -16,20 +18,15 @@ class LabProblemController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
-    return null;
-  }
+    try {
+      const labProblems = await LabProblem.query()
+        .where('is_deleted', false)
+        .fetch();
 
-  /**
-   * Render a form to be used for creating a new labproblem.
-   * GET labproblems/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create({ request, response, view }) {
-    return null;
+      return response.status(200).send(labProblems);
+    } catch (error) {
+      return response.status(500).send({ message: error });
+    }
   }
 
   /**
@@ -41,7 +38,14 @@ class LabProblemController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
-    return null;
+    try {
+      const labProblemData = request.only(['name']);
+      const labProblem = await LabProblem.create(labProblemData);
+
+      return response.status(201).send(labProblem);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -54,20 +58,20 @@ class LabProblemController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    return null;
-  }
+    try {
+      const labProblem = await LabProblem.query()
+        .where('id', params.id)
+        .where('is_deleted', false)
+        .first();
 
-  /**
-   * Render a form to update an existing labproblem.
-   * GET labproblems/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {
-    return null;
+      if (!labProblem) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      return response.status(200).send(labProblem);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -79,7 +83,24 @@ class LabProblemController {
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    return null;
+    try {
+      const data = request.post();
+
+      const labProblem = await LabProblem.query()
+        .where('id', params.id)
+        .where('is_deleted', false)
+        .update(data);
+
+      if (labProblem === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      const labProblemUpdated = await LabProblem.findOrFail(params.id);
+
+      return response.status(200).send(labProblemUpdated);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -91,7 +112,21 @@ class LabProblemController {
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    return null;
+    try {
+      const labProblem = await LabProblem.query()
+        .where({ id: params.id, is_deleted: false })
+        .update({ is_deleted: true });
+
+      if (labProblem === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      const labProblemDeleted = await LabProblem.findOrFail(params.id);
+
+      return response.status(200).send(labProblemDeleted);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 }
 

@@ -13,7 +13,6 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route');
-const TicketController = use('App/Controllers/Http/TicketController');
 
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' };
@@ -49,6 +48,33 @@ Route.resource('ticket', 'TicketController')
 Route.get('/laboratory/:laboratory_id/ticket', 'TicketController.index');
 Route.get('/equipment/:equipment_id/ticket', 'TicketController.index');
 Route.get('/software/:software_id/ticket', 'TicketController.index');
+
+Route.resource('labProblem', 'LabProblemController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['labProblem.store'], ['LabProblem']],
+      [['labProblem.update'], ['LabProblem']],
+    ])
+  );
+
+Route.resource('equipProblem', 'EquipProblemController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['equipProblem.store'], ['EquipProblem']],
+      [['equipProblem.update'], ['EquipProblem']],
+    ])
+  );
+
+Route.resource('softProblem', 'SoftProblemController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['softProblem.store'], ['SoftProblem']],
+      [['softProblem.update'], ['SoftProblem']],
+    ])
+  );
 
 Route.resource('progress', 'ProgressController')
   .apiOnly()

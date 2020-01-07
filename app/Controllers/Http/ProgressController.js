@@ -23,7 +23,9 @@ class ProgressController {
     try {
       const progresses = await Progress.query()
         .with('user', builder => {
-          builder.select('users.id', 'users.username', 'users.email');
+          builder
+            .select('users.id', 'users.username', 'users.email')
+            .where('users.is_deleted', false);
         })
         .orderBy('progressed_at', 'asc')
         .where('is_deleted', false)
@@ -91,20 +93,23 @@ class ProgressController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    return null;
-  }
+    try {
+      const progress = await Progress.query()
+        .where('id', params.id)
+        .where('is_deleted', false)
+        .with('user', builder => {
+          builder.select('users.id', 'users.username', 'users.email');
+        })
+        .first();
 
-  /**
-   * Render a form to update an existing progress.
-   * GET progresses/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {
-    return null;
+      if (!progress) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      return response.status(200).send(progress);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -116,7 +121,24 @@ class ProgressController {
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    return null;
+    try {
+      const data = request.post();
+
+      const progress = await Progress.query()
+        .where('id', params.id)
+        .where('is_deleted', false)
+        .update(data);
+
+      if (progress === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      const progressUpdated = await Progress.findOrFail(params.id);
+
+      return response.status(200).send(progressUpdated);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -128,7 +150,21 @@ class ProgressController {
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    return null;
+    try {
+      const progress = await Progress.query()
+        .where({ id: params.id, is_deleted: false })
+        .update({ is_deleted: true });
+
+      if (progress === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      const ticketDeleted = await Ticket.findOrFail(params.id);
+
+      return response.status(200).send(ticketDeleted);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 }
 

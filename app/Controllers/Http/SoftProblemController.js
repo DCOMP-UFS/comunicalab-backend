@@ -2,6 +2,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const SoftProblem = use('App/Models/SoftProblem');
+
 /**
  * Resourceful controller for interacting with softproblems
  */
@@ -16,20 +18,15 @@ class SoftProblemController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
-    return null;
-  }
+    try {
+      const softProblems = await SoftProblem.query()
+        .where('is_deleted', false)
+        .fetch();
 
-  /**
-   * Render a form to be used for creating a new softproblem.
-   * GET softproblems/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create({ request, response, view }) {
-    return null;
+      return response.status(200).send(softProblems);
+    } catch (error) {
+      return response.status(500).send({ message: error });
+    }
   }
 
   /**
@@ -41,7 +38,14 @@ class SoftProblemController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
-    return null;
+    try {
+      const softProblemData = request.only(['name']);
+      const softProblem = await SoftProblem.create(softProblemData);
+
+      return response.status(201).send(softProblem);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -54,20 +58,20 @@ class SoftProblemController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    return null;
-  }
+    try {
+      const softProblem = await SoftProblem.query()
+        .where('id', params.id)
+        .where('is_deleted', false)
+        .first();
 
-  /**
-   * Render a form to update an existing softproblem.
-   * GET softproblems/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {
-    return null;
+      if (!softProblem) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      return response.status(200).send(softProblem);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -79,7 +83,24 @@ class SoftProblemController {
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    return null;
+    try {
+      const data = request.post();
+
+      const softProblem = await SoftProblem.query()
+        .where('id', params.id)
+        .where('is_deleted', false)
+        .update(data);
+
+      if (softProblem === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      const softProblemUpdated = await SoftProblem.findOrFail(params.id);
+
+      return response.status(200).send(softProblemUpdated);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 
   /**
@@ -91,7 +112,21 @@ class SoftProblemController {
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    return null;
+    try {
+      const softProblem = await SoftProblem.query()
+        .where({ id: params.id, is_deleted: false })
+        .update({ is_deleted: true });
+
+      if (softProblem === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      const softProblemDeleted = await SoftProblem.findOrFail(params.id);
+
+      return response.status(200).send(softProblemDeleted);
+    } catch (error) {
+      return response.status(error.status).send({ message: error });
+    }
   }
 }
 
