@@ -22,26 +22,41 @@ class TicketController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {
+  async index({ params, request, response, view }) {
     try {
-      const tickets = await Ticket.query()
+      let tickets = Ticket.query()
         .with('progresses.user', builder => {
           builder.select('users.id', 'users.username', 'users.email');
         })
         .with('progresses', builder => {
           builder.orderBy('progressed_at', 'asc');
         })
-        .where('is_deleted', false)
-        .fetch();
+        .where('is_deleted', false);
+      if (params.laboratory_id) {
+        tickets = tickets.whereHas('laboratories', builder => {
+          builder.where('laboratories.id', params.laboratory_id);
+        });
+      } else if (params.equipment_id) {
+        tickets = tickets.whereHas('equipments', builder => {
+          builder.where('equipments.id', params.equipment_id);
+        });
+      } else if (params.software_id) {
+        tickets = tickets.whereHas('softwares', builder => {
+          builder.where('softwares.id', params.software_id);
+        });
+      }
+      tickets = await tickets.fetch();
+
       tickets.rows.forEach((ticket, index) => {
         const relations = ticket.$relations;
         [relations.firstProgress] = relations.progresses.rows;
         [relations.lastProgress] = relations.progresses.rows.reverse();
         delete relations.progresses;
       });
+
       return response.status(200).send(tickets);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error });
     }
   }
 
@@ -122,13 +137,13 @@ class TicketController {
           builder.orderBy('progressed_at', 'asc');
         })
         .with('ticketLaboratories.problem')
-        // .with('ticketLaboratories.laboratory')
+        .with('ticketLaboratories.laboratory')
         .with('ticketLaboratories')
         .with('ticketEquipments.problem')
         // .with('ticketEquipments.equipment')
         .with('ticketEquipments')
         .with('ticketSoftwares.problem')
-        // .with('ticketSoftwares.software')
+        .with('ticketSoftwares.software')
         .with('ticketSoftwares')
         .first();
 
@@ -159,13 +174,13 @@ class TicketController {
           builder.orderBy('progressed_at', 'asc');
         })
         .with('ticketLaboratories.problem')
-        // .with('ticketLaboratories.laboratory')
+        .with('ticketLaboratories.laboratory')
         .with('ticketLaboratories')
         .with('ticketEquipments.problem')
         // .with('ticketEquipments.equipment')
         .with('ticketEquipments')
         .with('ticketSoftwares.problem')
-        // .with('ticketSoftwares.software')
+        .with('ticketSoftwares.software')
         .with('ticketSoftwares')
         .first();
 

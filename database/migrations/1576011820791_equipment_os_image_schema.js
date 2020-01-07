@@ -9,7 +9,7 @@ class EquipmentOsImageSchema extends Schema {
         .integer('equipment_id')
         .unsigned()
         .references('id')
-        .inTable('softwares')
+        .inTable('equipments')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
         .notNullable();

@@ -11,7 +11,7 @@ class Ticket extends Model {
   }
 
   laboratories() {
-    return this.manyThrough('App/Model/TicketLaboratory', 'laboratory');
+    return this.manyThrough('App/Models/TicketLaboratory', 'laboratory');
   }
 
   softwares() {
