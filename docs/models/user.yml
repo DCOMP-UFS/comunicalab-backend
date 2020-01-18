@@ -10,7 +10,7 @@ definitions:
         type: string
         description: username
         example: Jonas
-      affiliationId:
+      affiliation_id:
         type: string
         description: user affiliation
         example: professor
