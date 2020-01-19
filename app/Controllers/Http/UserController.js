@@ -9,6 +9,13 @@ class UserController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
+  async login({ auth, request }) {
+    const { email, password } = request.all();
+    const token = await auth.attempt(email, password);
+
+    return token;
+  }
+
   async index({ request, response, view }) {
     try {
       const data = await User.query()

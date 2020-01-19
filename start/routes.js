@@ -61,6 +61,7 @@ Route.resource('user', 'UserController')
       [['user.update'], ['User']],
     ])
   );
+Route.post('login', 'UserController.login');
 
 Route.resource('installation', 'InstallationController')
   .apiOnly()

@@ -1,9 +1,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
-class PermissionSchema extends Schema {
+class PermSchema extends Schema {
   up() {
-    this.create('permissions', table => {
+    this.create('perm', table => {
       table.increments();
       table.string('route', 128);
       table.enu('method', ['GET', 'POST', 'PUT', 'DELETE']).notNullable();
@@ -16,8 +16,8 @@ class PermissionSchema extends Schema {
   }
 
   down() {
-    this.drop('permissions');
+    this.drop('perm');
   }
 }
 
-module.exports = PermissionSchema;
+module.exports = PermSchema;
