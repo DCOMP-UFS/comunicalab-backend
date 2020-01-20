@@ -10,6 +10,34 @@ const Ticket = use('App/Models/Ticket');
  * Resourceful controller for interacting with progresses
  */
 class ProgressController {
+  async updateTicketStatus(id, status, trx) {
+    if (!status) {
+      const ticketLastProgress = Progress.query()
+        .where('ticket_id', id)
+        .orderBy('progressed_at', 'desc')
+        .first();
+      status = ticketLastProgress.status;
+    }
+    const ticket = await Ticket.find(id);
+    if (
+      // ticket is now closed
+      ['Finalizado', 'Cancelado'].includes(status) &&
+      !ticket.closed_at
+    ) {
+      await Ticket.query()
+        .where('id', id)
+        .update({ closed_at: Date.now() }, trx);
+    } else if (
+      // ticket is no longer closed
+      !['Finalizado', 'Cancelado'].includes(status) &&
+      ticket.closed_at
+    ) {
+      await Ticket.query()
+        .where('id', id)
+        .update({ closed_at: null }, trx);
+    }
+  }
+
   /**
    * Show a list of all progresses.
    * GET progresses
@@ -47,29 +75,22 @@ class ProgressController {
    */
   async store({ request, response }) {
     try {
-      const now = Date.now();
       const progressData = request.only([
         'description',
         'progressed_at',
         'ticket_id',
         'status',
       ]);
-      if (!progressData.progressed_at) progressData.progressed_at = now;
+      if (!progressData.progressed_at) progressData.progressed_at = Date.now();
       progressData.user_id = 1; // TO DO
 
       const trx = await Database.beginTransaction();
-
       const progress = await Progress.create(progressData, trx);
-
-      if (['Finalizado', 'Cancelado'].includes(progressData.status)) {
-        await Ticket.query()
-          .where('id', progressData.ticket_id)
-          .update({ closed_at: now }, trx);
-      } else
-        await Ticket.query()
-          .where('id', progressData.ticket_id)
-          .update({ closed_at: null }, trx);
-
+      await this.updateTicketStatus(
+        progressData.ticket_id,
+        progressData.status,
+        trx
+      );
       trx.commit();
       progress.ticket = await Ticket.query()
         .where('id', progressData.ticket_id)
@@ -122,18 +143,27 @@ class ProgressController {
    */
   async update({ params, request, response }) {
     try {
-      const data = request.only(['description', 'progressed_at', 'status']);
-
+      const progressData = request.only([
+        'description',
+        'progressed_at',
+        'status',
+      ]);
+      const progressOld = await Progress.find(params.id);
+      const trx = await Database.beginTransaction();
       const progress = await Progress.query()
         .where('id', params.id)
-        .where('is_deleted', false)
-        .update(data);
+        .update(progressData, trx);
 
       if (progress === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
-
-      const progressUpdated = await Progress.findOrFail(params.id);
+      await this.updateTicketStatus(
+        progressOld.ticket_id,
+        progressData.status,
+        trx
+      );
+      trx.commit();
+      const progressUpdated = await Progress.query().where('id', params.id);
 
       return response.status(200).send(progressUpdated);
     } catch (error) {
@@ -154,6 +184,7 @@ class ProgressController {
   async destroy({ params, request, response }) {
     try {
       const progressDeleted = await Progress.find(params.id);
+      const trx = await Database.beginTransaction();
       const progress = await Progress.query()
         .where({
           id: params.id,
@@ -163,6 +194,8 @@ class ProgressController {
       if (progress === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
+      await this.updateTicketStatus(progressDeleted.ticket_id, null, trx);
+      trx.commit();
       return response.status(200).send(progressDeleted);
     } catch (error) {
       if (error.status)

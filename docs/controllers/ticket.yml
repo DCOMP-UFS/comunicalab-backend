@@ -2,9 +2,9 @@
   get:
     tags:
       - ticket
-    summary: List all ticket
+    summary: Lists a summary view of all tickets. This will return a ticket first and last progresses, but remaining progresses will not be shown. For full data, use route passing :id, as shown below.
     operationId: indexTicket
-    description: Route that returns all ticket
+    description: Route that returns all tickets
     produces:
       - application/json
     responses:
@@ -20,7 +20,7 @@
   post:
     tags:
       - ticket
-    summary: ticket register
+    summary: Stores a new ticket. This includes information regarding the ticket main data itself, as well as its first progress data. Also, between one and three lists, indicating each laboratories, equipments and softwares problems, should be passed. Progress status and opening timestamp are inferred.
     operationId: storeTicket
     description: Route that creates ticket in the database
     produces:
@@ -28,18 +28,18 @@
     parameters:
       - in: body
         name: json
-        description: You need the following fields in the JSON file to create the ticket.
+        description: You need to send the following fields as JSON data to create the ticket.
         schema:
           properties:
+            title:
+              type: string
+              description: A short title for the ticket
+              example: Teclado quebrado
             description:
               type: string
-              description: description of the ticket
-              example: Teclado quebrado
-            type:
-              type: string
-              description:
+              description: A more detailed description of what the new ticket is concerned with. This is stored in ticket's first progress data.
               example:
-            equipment_id:
+            ticketEquipments:
               type: int
               description: equipment id
               example: 5

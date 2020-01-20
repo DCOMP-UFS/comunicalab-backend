@@ -246,6 +246,9 @@ class TicketController {
       if (ticket === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
+      await Progress.query() // logically cascade
+        .where('ticket_id', params.id)
+        .delete();
 
       return response.status(200).send(ticketDeleted);
     } catch (error) {
