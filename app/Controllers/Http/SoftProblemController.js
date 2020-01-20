@@ -19,13 +19,13 @@ class SoftProblemController {
    */
   async index({ request, response, view }) {
     try {
-      const softProblems = await SoftProblem.query()
-        .where('is_deleted', false)
-        .fetch();
+      const softProblems = await SoftProblem.query().fetch();
 
       return response.status(200).send(softProblems);
     } catch (error) {
-      return response.status(500).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -44,7 +44,9 @@ class SoftProblemController {
 
       return response.status(201).send(softProblem);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -61,7 +63,6 @@ class SoftProblemController {
     try {
       const softProblem = await SoftProblem.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .first();
 
       if (!softProblem) {
@@ -70,7 +71,9 @@ class SoftProblemController {
 
       return response.status(200).send(softProblem);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -84,11 +87,10 @@ class SoftProblemController {
    */
   async update({ params, request, response }) {
     try {
-      const data = request.post();
+      const data = request.only(['name']);
 
       const softProblem = await SoftProblem.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .update(data);
 
       if (softProblem === 0) {
@@ -99,7 +101,9 @@ class SoftProblemController {
 
       return response.status(200).send(softProblemUpdated);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -113,19 +117,20 @@ class SoftProblemController {
    */
   async destroy({ params, request, response }) {
     try {
+      const softProblemDeleted = await SoftProblem.find(params.id);
       const softProblem = await SoftProblem.query()
-        .where({ id: params.id, is_deleted: false })
-        .update({ is_deleted: true });
+        .where({ id: params.id })
+        .delete();
 
       if (softProblem === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      const softProblemDeleted = await SoftProblem.findOrFail(params.id);
-
       return response.status(200).send(softProblemDeleted);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 }

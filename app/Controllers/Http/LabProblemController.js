@@ -19,13 +19,13 @@ class LabProblemController {
    */
   async index({ request, response, view }) {
     try {
-      const labProblems = await LabProblem.query()
-        .where('is_deleted', false)
-        .fetch();
+      const labProblems = await LabProblem.query().fetch();
 
       return response.status(200).send(labProblems);
     } catch (error) {
-      return response.status(500).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -44,7 +44,9 @@ class LabProblemController {
 
       return response.status(201).send(labProblem);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -61,7 +63,6 @@ class LabProblemController {
     try {
       const labProblem = await LabProblem.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .first();
 
       if (!labProblem) {
@@ -70,7 +71,9 @@ class LabProblemController {
 
       return response.status(200).send(labProblem);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -84,11 +87,10 @@ class LabProblemController {
    */
   async update({ params, request, response }) {
     try {
-      const data = request.post();
+      const data = request.only(['name']);
 
       const labProblem = await LabProblem.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .update(data);
 
       if (labProblem === 0) {
@@ -99,7 +101,9 @@ class LabProblemController {
 
       return response.status(200).send(labProblemUpdated);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -113,19 +117,20 @@ class LabProblemController {
    */
   async destroy({ params, request, response }) {
     try {
+      const labProblemDeleted = await LabProblem.find(params.id);
       const labProblem = await LabProblem.query()
         .where({ id: params.id, is_deleted: false })
-        .update({ is_deleted: true });
+        .delete();
 
       if (labProblem === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      const labProblemDeleted = await LabProblem.findOrFail(params.id);
-
       return response.status(200).send(labProblemDeleted);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 }

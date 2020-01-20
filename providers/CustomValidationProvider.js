@@ -16,6 +16,7 @@ class CustomValidationProvider extends ServiceProvider {
     const [table, column] = args;
     const row = await Database.table(table)
       .where(column, value)
+      .where('is_deleted', false)
       .first();
 
     if (!row) {

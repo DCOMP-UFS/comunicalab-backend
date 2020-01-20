@@ -19,13 +19,13 @@ class EquipProblemController {
    */
   async index({ request, response, view }) {
     try {
-      const equipProblems = await EquipProblem.query()
-        .where('is_deleted', false)
-        .fetch();
+      const equipProblems = await EquipProblem.query().fetch();
 
       return response.status(200).send(equipProblems);
     } catch (error) {
-      return response.status(500).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -44,7 +44,9 @@ class EquipProblemController {
 
       return response.status(201).send(equipProblem);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -61,7 +63,6 @@ class EquipProblemController {
     try {
       const equipProblem = await EquipProblem.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .first();
 
       if (!equipProblem) {
@@ -70,7 +71,9 @@ class EquipProblemController {
 
       return response.status(200).send(equipProblem);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -84,11 +87,10 @@ class EquipProblemController {
    */
   async update({ params, request, response }) {
     try {
-      const data = request.post();
+      const data = request.only(['name']);
 
       const equipProblem = await EquipProblem.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .update(data);
 
       if (equipProblem === 0) {
@@ -99,7 +101,9 @@ class EquipProblemController {
 
       return response.status(200).send(equipProblemUpdated);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -113,19 +117,20 @@ class EquipProblemController {
    */
   async destroy({ params, request, response }) {
     try {
+      const equipProblemDeleted = await EquipProblem.find(params.id);
       const equipProblem = await EquipProblem.query()
-        .where({ id: params.id, is_deleted: false })
-        .update({ is_deleted: true });
+        .where({ id: params.id })
+        .delete();
 
       if (equipProblem === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      const equipProblemDeleted = await EquipProblem.findOrFail(params.id);
-
       return response.status(200).send(equipProblemDeleted);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 }

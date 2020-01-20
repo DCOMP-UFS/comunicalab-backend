@@ -26,36 +26,25 @@ class TicketController {
     try {
       let tickets = Ticket.query()
         .with('progresses.user', builder => {
-          builder
-            .select('users.id', 'users.username', 'users.email')
-            .where('users.is_deleted', false);
+          builder.select('users.id', 'users.username', 'users.email');
         })
         .with('progresses', builder => {
-          builder
-            .orderBy('progressed_at', 'asc')
-            .where('progresses.is_deleted', false);
-        })
-        .where('is_deleted', false);
+          builder.orderBy('progressed_at', 'asc');
+        });
       if (params.laboratory_id) {
         tickets = tickets.whereHas('laboratories', builder => {
-          builder
-            .where('laboratories.id', params.laboratory_id)
-            .where('laboratories.is_deleted', false);
+          builder.where('laboratories.id', params.laboratory_id);
         });
       } else if (params.equipment_id) {
         tickets = tickets.whereHas('equipments', builder => {
-          builder
-            .where('equipments.id', params.equipment_id)
-            .where('equipments.is_deleted', false);
+          builder.where('equipments.id', params.equipment_id);
         });
       } else if (params.software_id) {
         tickets = tickets.whereHas('softwares', builder => {
-          builder
-            .where('softwares.id', params.software_id)
-            .where('softwares.is_deleted', false);
+          builder.where('softwares.id', params.software_id);
         });
       }
-      tickets = await tickets.fetch();
+      tickets = await tickets.orderBy('id', 'asc').fetch();
 
       tickets.rows.forEach((ticket, index) => {
         const relations = ticket.$relations;
@@ -66,7 +55,9 @@ class TicketController {
 
       return response.status(200).send(tickets);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -159,7 +150,9 @@ class TicketController {
 
       return response.status(201).send(ticket);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -176,7 +169,6 @@ class TicketController {
     try {
       const ticket = await Ticket.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .with('progresses.user', builder => {
           builder.select('users.id', 'users.username', 'users.email');
         })
@@ -200,7 +192,9 @@ class TicketController {
 
       return response.status(200).send(ticket);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -214,11 +208,10 @@ class TicketController {
    */
   async update({ params, request, response }) {
     try {
-      const data = request.post();
+      const data = request.only(['title', 'opened_at', 'closed_at']);
 
       const ticket = await Ticket.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .update(data);
 
       if (ticket === 0) {
@@ -229,7 +222,9 @@ class TicketController {
 
       return response.status(200).send(ticketUpdated);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -243,19 +238,20 @@ class TicketController {
    */
   async destroy({ params, request, response }) {
     try {
+      const ticketDeleted = await Ticket.find(params.id);
       const ticket = await Ticket.query()
-        .where({ id: params.id, is_deleted: false })
-        .update({ is_deleted: true });
+        .where({ id: params.id })
+        .delete();
 
       if (ticket === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      const ticketDeleted = await Ticket.findOrFail(params.id);
-
       return response.status(200).send(ticketDeleted);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 }

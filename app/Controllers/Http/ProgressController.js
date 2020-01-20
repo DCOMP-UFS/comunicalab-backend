@@ -28,11 +28,12 @@ class ProgressController {
             .where('users.is_deleted', false);
         })
         .orderBy('progressed_at', 'asc')
-        .where('is_deleted', false)
         .fetch();
       return response.status(200).send(progresses);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -56,30 +57,28 @@ class ProgressController {
       if (!progressData.progressed_at) progressData.progressed_at = now;
       progressData.user_id = 1; // TO DO
 
-      const ticket = await Ticket.query()
-        .where('id', progressData.ticket_id)
-        .where('is_deleted', false)
-        .first();
-
-      if (!ticket) {
-        return response.status(400).send({
-          message: `Ticket with id ${progressData.ticket_id} no longer exists.`,
-        });
-      }
-
       const trx = await Database.beginTransaction();
 
       const progress = await Progress.create(progressData, trx);
 
-      if (progressData.status in ['Finalizado', 'Cancelado'])
-        await ticket.update({ closed_at: now }, trx);
-      else await ticket.update({ closed_at: null }, trx);
+      if (['Finalizado', 'Cancelado'].includes(progressData.status)) {
+        await Ticket.query()
+          .where('id', progressData.ticket_id)
+          .update({ closed_at: now }, trx);
+      } else
+        await Ticket.query()
+          .where('id', progressData.ticket_id)
+          .update({ closed_at: null }, trx);
 
       trx.commit();
-      progress.ticket = ticket;
+      progress.ticket = await Ticket.query()
+        .where('id', progressData.ticket_id)
+        .first();
       return response.status(201).send(progress);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -96,7 +95,6 @@ class ProgressController {
     try {
       const progress = await Progress.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .with('user', builder => {
           builder.select('users.id', 'users.username', 'users.email');
         })
@@ -108,7 +106,9 @@ class ProgressController {
 
       return response.status(200).send(progress);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -122,7 +122,7 @@ class ProgressController {
    */
   async update({ params, request, response }) {
     try {
-      const data = request.post();
+      const data = request.only(['description', 'progressed_at', 'status']);
 
       const progress = await Progress.query()
         .where('id', params.id)
@@ -137,7 +137,9 @@ class ProgressController {
 
       return response.status(200).send(progressUpdated);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -151,19 +153,21 @@ class ProgressController {
    */
   async destroy({ params, request, response }) {
     try {
+      const progressDeleted = await Progress.find(params.id);
       const progress = await Progress.query()
-        .where({ id: params.id, is_deleted: false })
-        .update({ is_deleted: true });
+        .where({
+          id: params.id,
+        })
+        .delete();
 
       if (progress === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
-
-      const ticketDeleted = await Ticket.findOrFail(params.id);
-
-      return response.status(200).send(ticketDeleted);
+      return response.status(200).send(progressDeleted);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 }
