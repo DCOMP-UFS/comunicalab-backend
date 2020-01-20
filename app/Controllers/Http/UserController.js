@@ -9,6 +9,7 @@ class UserController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
+
   async login({ auth, request }) {
     const { email, password } = request.all();
     const token = await auth.attempt(email, password);
@@ -16,7 +17,7 @@ class UserController {
     return token;
   }
 
-  async index({ request, response, view }) {
+  async index({ response }) {
     try {
       const data = await User.query()
         .where('is_deleted', false)
@@ -64,7 +65,7 @@ class UserController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {
+  async show({ params, response }) {
     try {
       const user = await User.query()
         .where('id', params.id)
@@ -120,7 +121,7 @@ class UserController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy({ params, request, response }) {
+  async destroy({ params, response }) {
     try {
       const user = await User.query()
         .where('id', params.id)
