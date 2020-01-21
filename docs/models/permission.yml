@@ -1,0 +1,26 @@
+definitions:
+  Permission:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the permission being created
+        example: 10
+      slug:
+        type: string
+        description: slug of permission
+        example: delete_users
+      name:
+        type: string
+        description: name of permission
+        example: Delete Users
+      description:
+        type: string
+        description: description of permission 
+        example: Delete user permission
+    required:
+      - id
+      - slug
+      - name
+      - description
+ 
