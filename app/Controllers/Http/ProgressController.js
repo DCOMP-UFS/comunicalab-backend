@@ -12,7 +12,7 @@ const Ticket = use('App/Models/Ticket');
 class ProgressController {
   async updateTicketStatus(id, status, trx) {
     if (!status) {
-      const ticketLastProgress = Progress.query()
+      const ticketLastProgress = await Progress.query()
         .where('ticket_id', id)
         .orderBy('progressed_at', 'desc')
         .first();
@@ -85,15 +85,21 @@ class ProgressController {
       progressData.user_id = 1; // TO DO
 
       const trx = await Database.beginTransaction();
-      const progress = await Progress.create(progressData, trx);
+      let progress = await Progress.create(progressData, trx);
       await this.updateTicketStatus(
         progressData.ticket_id,
         progressData.status,
         trx
       );
       trx.commit();
-      progress.ticket = await Ticket.query()
-        .where('id', progressData.ticket_id)
+      progress = await Progress.query()
+        .where('id', progress.id)
+        .with('user', builder => {
+          builder
+            .select('users.id', 'users.username', 'users.email')
+            .where('users.is_deleted', false);
+        })
+        .with('ticket')
         .first();
       return response.status(201).send(progress);
     } catch (error) {
@@ -149,21 +155,25 @@ class ProgressController {
         'status',
       ]);
       const progressOld = await Progress.find(params.id);
-      const trx = await Database.beginTransaction();
       const progress = await Progress.query()
         .where('id', params.id)
-        .update(progressData, trx);
+        .update(progressData);
 
       if (progress === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
-      await this.updateTicketStatus(
-        progressOld.ticket_id,
-        progressData.status,
-        trx
-      );
+      const trx = await Database.beginTransaction();
+      await this.updateTicketStatus(progressOld.ticket_id, null, trx);
       trx.commit();
-      const progressUpdated = await Progress.query().where('id', params.id);
+      const progressUpdated = await Progress.query()
+        .where('id', params.id)
+        .with('user', builder => {
+          builder
+            .select('users.id', 'users.username', 'users.email')
+            .where('users.is_deleted', false);
+        })
+        .with('ticket')
+        .first();
 
       return response.status(200).send(progressUpdated);
     } catch (error) {
@@ -184,7 +194,6 @@ class ProgressController {
   async destroy({ params, request, response }) {
     try {
       const progressDeleted = await Progress.find(params.id);
-      const trx = await Database.beginTransaction();
       const progress = await Progress.query()
         .where({
           id: params.id,
@@ -194,6 +203,7 @@ class ProgressController {
       if (progress === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
+      const trx = await Database.beginTransaction();
       await this.updateTicketStatus(progressDeleted.ticket_id, null, trx);
       trx.commit();
       return response.status(200).send(progressDeleted);
