@@ -93,6 +93,16 @@ Route.resource('equipment', 'EquipmentController')
       [['equipment.update'], ['Equipment']],
     ])
   );
+Route.resource('user', 'UserController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['user.store'], ['User']],
+      [['user.update'], ['User']],
+    ])
+  )
+  .middleware(new Map([[['destroy'], ['auth', 'can:delete_users']]]));
+Route.post('login', 'UserController.login');
 
 Route.resource('installation', 'InstallationController')
   .apiOnly()
@@ -136,3 +146,8 @@ Route.resource('specification', 'SpecificationController')
       [['specification.update'], ['Specification']],
     ])
   );
+Route.post('newpermission', 'PermissionController.newPermission');
+Route.get('userpermissions/:id', 'PermissionController.listPermission');
+Route.post('attachpermission/:id', 'PermissionController.attachPermission');
+Route.post('detachpermission/:id', 'PermissionController.detachPermission');
+Route.get('initpermission', 'PermissionController.init');

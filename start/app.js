@@ -18,7 +18,7 @@ const providers = [
   '@adonisjs/lucid/providers/LucidProvider',
   'adonis-swagger/providers/SwaggerProvider',
   '@adonisjs/validator/providers/ValidatorProvider',
-
+  'adonis-acl/providers/AclProvider',
   '@adonisjs/antl/providers/AntlProvider',
 
   path.join(__dirname, '..', 'providers', 'CustomValidationProvider'),
@@ -33,7 +33,10 @@ const providers = [
 | Providers for migrations, tests etc.
 |
 */
-const aceProviders = ['@adonisjs/lucid/providers/MigrationsProvider'];
+const aceProviders = [
+  '@adonisjs/lucid/providers/MigrationsProvider',
+  'adonis-acl/providers/CommandsProvider',
+];
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +50,10 @@ const aceProviders = ['@adonisjs/lucid/providers/MigrationsProvider'];
 |   { Route: 'Adonis/Src/Route' }
 |
 */
-const aliases = {};
+const aliases = {
+  Role: 'Adonis/Acl/Role',
+  Permission: 'Adonis/Acl/Permission',
+};
 
 /*
 |--------------------------------------------------------------------------
