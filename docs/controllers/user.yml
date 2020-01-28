@@ -1,0 +1,115 @@
+/user:
+  post:
+    tags:
+      - user
+    summary: User Registration
+    operationId: storeUser
+    description: Route that creates user in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the user.
+        schema:
+          $ref: "#/definitions/User"
+    responses:
+      "201":
+        description: Registered user
+        schema:
+          $ref: "#/definitions/User"
+      "500":
+        description: Internal Server Error
+  get:
+    tags:
+      - user
+    summary: List all users
+    operationId: indexUser
+    description: Route that returns all users
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/R"
+      "500":
+        description: Internal Server Error
+
+/user/:id:
+  get:
+    tags:
+      - user
+    summary: Returns one user
+    operationId: showUser
+    description: Route that returns one the user
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the user that will be returned
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/User"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  put:
+    tags:
+      - user
+    summary: Update user
+    operationId: updateUser
+    description: Route that updates user
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the user that will be updated
+        required: true
+        type: integer
+      - in: body
+        name: json
+        description: Any of the following fields in the JSON file can be used to be updated. Except is_delete
+        schema:
+          $ref: "#/definitions/User"
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/User"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  delete:
+    tags:
+      - user
+    summary: Delete user
+    operationId: destroyUser
+    description: Route that deletes a user
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the user that will be deleted
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/User"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error

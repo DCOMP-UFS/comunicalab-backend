@@ -1,0 +1,124 @@
+/newpermission:
+  post:
+    tags:
+      - permission
+    summary: Permission Registration
+    operationId: newPermissionPermission
+    description: Route that creates permission in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to create the permission.
+        schema:
+          $ref: "#/definitions/Permission"
+    responses:
+      "201":
+        description: Registered permission
+        schema:
+          $ref: "#/definitions/User"
+      "500":
+        description: Internal Server Error
+
+/attachpermission/:id:
+  post:
+    tags:
+      - permission
+    summary: Attach permission to user
+    operationId: attachPermissionPermission
+    description: Route that attach a given permission from user
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the target user
+        required: true
+        type: integer
+      - name: permissionName
+        in: body
+        description: name from permission to be attached
+        required: true
+        type: string
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/R"
+      "500":
+        description: Internal Server Error
+/detachpermission/:id:
+  post:
+    tags:
+      - permission
+    summary: Detach permission to user
+    operationId: detachPermissionPermission
+    description: Route that detach a given permission from user
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the target user
+        required: true
+        type: integer
+      - name: permissionName
+        in: body
+        description: name from permission to be detached
+        required: true
+        type: string
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/R"
+      "500":
+        description: Internal Server Error
+/userpermissions/:id:
+  get:
+    tags:
+      - permission
+    summary: List all permission attached to user
+    operationId: listPermissionPermission
+    description: Route that returns all permissions attached to user
+    produces:
+      - application/json
+    parameters:
+      - name: id
+        in: path
+        description: ID of the target user
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/R"
+      "500":
+        description: Internal Server Error
+/initpermission:
+  get:
+    tags:
+      - permission
+    summary: create all standart permissions in the db
+    operationId: initPermission
+    description: create all standart permissions in the db
+    produces:
+      - application/json
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/R"
+      "500":
+        description: Internal Server Error
+
