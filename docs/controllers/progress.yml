@@ -1,0 +1,134 @@
+/progress:
+  get:
+    tags:
+      - progress
+    summary: Lists all progresses.
+    operationId: indexProgress
+    description: Lists all progresses, including the related user for each progress.
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/Progress'
+      '500':
+        description: Internal Server Error
+
+  post:
+    tags:
+      - progress
+    summary: Stores a new progress.
+    operationId: storeProgress
+    description: Stores a new progress. It will update ticket closed_at field when necessary.
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need to send the following fields as JSON data to progress a ticket.
+        schema:
+          properties:
+            description:
+              type: string
+              description: description progress
+              example: O teclado não funciona
+            ticket_id:
+              type: uint
+              description: ticket id
+              example: 2
+            user_id:
+              type: uint
+              description: id of user that progressed the ticket
+              example: 1
+            status:
+              type: string
+              description: progress status
+              example: 'Pendente'
+          required:
+            - description
+    responses:
+      '201':
+        description: Created progress
+        schema:
+          $ref: '#/definitions/ProgressWithTicket'
+      '400':
+        description: Bad Request. This may be caused by a missing required field.
+      '500':
+        description: Internal Server Error
+
+/progress/:id:
+  get:
+    tags:
+      - progress
+    summary: Show progress
+    operationId: showProgress
+    description: Route showing details of a progress.
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Progress
+        schema:
+          $ref: '#/definitions/Progress'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error
+
+  put:
+    tags:
+      - progress
+    summary: update progress
+    operationId: updateProgress
+    description: Route updating progress in the database
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to update the progress.
+        schema:
+          properties:
+            description:
+              type: string
+              description: description progress
+              example: O teclado não funciona
+            progressed_at:
+              type: date
+              description: date of ticket's first progress
+              example: '2020-01-20 11:09:06'
+            status:
+              type: string
+              description: progress status
+              example: 'Pendente'
+
+    responses:
+      '200':
+        description: Registered progress
+        schema:
+          $ref: '#/definitions/ProgressWithTicket'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error
+
+  delete:
+    tags:
+      - progress
+    summary: delete progress
+    operationId: deleteProgress
+    description: Route to delete progress in database
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: delete progress
+        schema:
+          $ref: '#/definitions/ProgressWithTicket'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error

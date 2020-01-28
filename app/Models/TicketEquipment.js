@@ -2,20 +2,25 @@
 const Model = use('Model');
 
 class TicketEquipment extends Model {
+  static boot() {
+    super.boot();
+    this.addTrait('LogicallyDelete');
+  }
+
   static get hidden() {
     return ['created_at', 'updated_at', 'is_deleted'];
   }
 
   problem() {
-    return this.hasOne('App/Model/EquipProblem');
+    return this.belongsTo('App/Models/EquipProblem');
   }
 
   ticket() {
-    return this.hasOne('App/Model/Ticket');
+    return this.belongsTo('App/Models/Ticket');
   }
 
   equipment() {
-    return this.hasOne('App/Model/Equipment');
+    return this.belongsTo('App/Models/Equipment');
   }
 }
 

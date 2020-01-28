@@ -1,0 +1,114 @@
+/softProblem:
+  get:
+    tags:
+      - softProblem
+    summary: Lists types of software problems.
+    operationId: indexSoftProblem
+    description: Lists types of software problems.
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/SoftProblem'
+      '500':
+        description: Internal Server Error
+
+  post:
+    tags:
+      - softProblem
+    summary: Stores a new type of software problem.
+    operationId: storeSoftProblem
+    description: Stores a new type of software problem.
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need to send the following fields as JSON data to progress a ticket.
+        schema:
+          properties:
+            name:
+              type: string
+              description: software problem name
+              example: Lâmpada queimada
+          required:
+            - description
+    responses:
+      '201':
+        description: Created type of software problem
+        schema:
+          $ref: '#/definitions/ProgressWithTicket'
+      '400':
+        description: Bad Request. This may be caused by a missing required field.
+      '500':
+        description: Internal Server Error
+
+/softProblem/:id:
+  get:
+    tags:
+      - softProblem
+    summary: Show type of software problem
+    operationId: showSoftProblem
+    description: Show type of software problem.
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Progress
+        schema:
+          $ref: '#/definitions/SoftProblem'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error
+
+  put:
+    tags:
+      - softProblem
+    summary: update type of software problem
+    operationId: updateProgress
+    description: Route updating type of software problem
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to update the progress.
+        schema:
+          properties:
+            name:
+              type: string
+              description: type of software problem
+              example: Lâmpada queimada
+
+    responses:
+      '200':
+        description: Registered progress
+        schema:
+          $ref: '#/definitions/SoftProblem'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error
+
+  delete:
+    tags:
+      - softProblem
+    summary: delete type of software problem
+    operationId: deleteSoftProblem
+    description: Route to delete type of software problem
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: delete progress
+        schema:
+          $ref: '#/definitions/SoftProblem'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error

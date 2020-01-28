@@ -4,22 +4,204 @@ definitions:
     properties:
       id:
         type: uint
-        description: id of the ticket being created
-        example: 10
+        description: ticket id
+        example: 2
       title:
         type: string
-        description: title of the ticket
+        description: short descriptive title
         example: Teclado quebrado
-      type:
+      opened_at:
+        type: date
+        description: when ticket was created
+        example: '2020-01-20 11:09:06'
+      closed_at:
+        type: date
+        description: when ticket was closed (having a progress with status Finalizado or Cancelado)
+        example: '2020-01-21 09:22:37'
+  TicketShort:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: ticket id
+        example: 2
+      title:
         type: string
-        description:
-        example:
-      equipment_id:
-        type: int
-        description: equipment id
-        example: 5
-
-    required:
-      - description
-      - type
-      - equipment_id
+        description: short descriptive title
+        example: Teclado quebrado
+      opened_at:
+        type: date
+        description: when ticket was created
+        example: '2020-01-20 11:09:06'
+      closed_at:
+        type: date
+        description: when ticket was closed (having a progress with status Finalizado or Cancelado)
+        example: '2020-01-21 09:22:37'
+      firstProgress:
+        type: object
+        properties:
+          id:
+            type: uint
+            description: progress id
+            example: 11
+          description:
+            type: string
+            description: description of reasons for opening the ticket
+            example: O teclado não funciona
+          progressed_at:
+            type: date
+            description: date of ticket's first progress
+            example: '2020-01-20 11:09:06'
+          ticket_id:
+            type: uint
+            description: ticket id
+            example: 2
+          user_id:
+            type: uint
+            description: id of user that progressed the ticket
+            example: 1
+          status:
+            type: string
+            description: progress status
+            example: 'Pendente'
+          user:
+            type: object
+            properties:
+              id:
+                type: uint
+                description: user id
+                example: 1
+              username:
+                type: string
+                description: username
+                example: admin
+              email:
+                type: string
+                description: user's email
+                example: admin@example.com
+      lastProgress:
+        type: object
+        properties:
+          id:
+            type: uint
+            description: progress id
+            example: 49
+          description:
+            type: string
+            description: description of reasons for last progress of ticket
+            example: 'O teclado foi testado e encontra-se funcionando'
+          progressed_at:
+            type: date
+            description: date of ticket's last progress
+            example: '2020-01-21 09:22:37'
+          ticket_id:
+            type: uint
+            description: ticket id
+            example: 2
+          user_id:
+            type: uint
+            description: id of user that progressed the ticket
+            example: 1
+          status:
+            type: string
+            description: progress status
+            example: 'Cancelado'
+          user:
+            type: object
+            properties:
+              id:
+                type: uint
+                description: user id
+                example: 1
+              username:
+                type: string
+                description: username
+                example: admin
+              email:
+                type: string
+                description: user's email
+                example: admin@example.com
+  TicketLong:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: ticket id
+        example: 2
+      title:
+        type: string
+        description: short descriptive title
+        example: Teclado quebrado
+      opened_at:
+        type: date
+        description: when ticket was created
+        example: '2020-01-20 11:09:06'
+      closed_at:
+        type: date
+        description: when ticket was closed (having a progress with status Finalizado or Cancelado)
+        example: '2020-01-21 09:22:37'
+      progresses:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: uint
+              description: progress id
+              example: 11
+            description:
+              type: string
+              description: description of reasons for opening the ticket
+              example: O teclado não funciona
+            progressed_at:
+              type: date
+              description: date of ticket's first progress
+              example: '2020-01-20 11:09:06'
+            ticket_id:
+              type: uint
+              description: ticket id
+              example: 2
+            user_id:
+              type: uint
+              description: id of user that progressed the ticket
+              example: 1
+            status:
+              type: string
+              description: progress status
+              example: 'Pendente'
+            user:
+              type: object
+              properties:
+                id:
+                  type: uint
+                  description: user id
+                  example: 1
+                username:
+                  type: string
+                  description: username
+                  example: admin
+                email:
+                  type: string
+                  description: user's email
+                  example: admin@example.com
+      ticketLaboratories:
+        type: array
+        items:
+          type: object
+      ticketEquipments:
+        type: array
+        items:
+          type: object
+          properties:
+            equipment_id:
+              type: uint
+              description: equipment id associated with ticket
+              example: 1
+            equip_problem_id:
+              type: uint
+              description: id of type of problem that the equipment above is presenting
+              example: 1
+      ticketSoftwares:
+        type: array
+        items:
+          type: object

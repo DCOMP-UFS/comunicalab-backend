@@ -2,6 +2,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const EquipProblem = use('App/Models/EquipProblem');
+
 /**
  * Resourceful controller for interacting with equipproblems
  */
@@ -16,20 +18,15 @@ class EquipProblemController {
    * @param {View} ctx.view
    */
   async index({ request, response, view }) {
-    return null;
-  }
+    try {
+      const equipProblems = await EquipProblem.query().fetch();
 
-  /**
-   * Render a form to be used for creating a new equipproblem.
-   * GET equipproblems/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create({ request, response, view }) {
-    return null;
+      return response.status(200).send(equipProblems);
+    } catch (error) {
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
+    }
   }
 
   /**
@@ -41,7 +38,16 @@ class EquipProblemController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
-    return null;
+    try {
+      const equipProblemData = request.only(['name']);
+      const equipProblem = await EquipProblem.create(equipProblemData);
+
+      return response.status(201).send(equipProblem);
+    } catch (error) {
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
+    }
   }
 
   /**
@@ -54,20 +60,21 @@ class EquipProblemController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    return null;
-  }
+    try {
+      const equipProblem = await EquipProblem.query()
+        .where('id', params.id)
+        .first();
 
-  /**
-   * Render a form to update an existing equipproblem.
-   * GET equipproblems/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {
-    return null;
+      if (!equipProblem) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      return response.status(200).send(equipProblem);
+    } catch (error) {
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
+    }
   }
 
   /**
@@ -79,7 +86,25 @@ class EquipProblemController {
    * @param {Response} ctx.response
    */
   async update({ params, request, response }) {
-    return null;
+    try {
+      const data = request.only(['name']);
+
+      const equipProblem = await EquipProblem.query()
+        .where('id', params.id)
+        .update(data);
+
+      if (equipProblem === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      const equipProblemUpdated = await EquipProblem.findOrFail(params.id);
+
+      return response.status(200).send(equipProblemUpdated);
+    } catch (error) {
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
+    }
   }
 
   /**
@@ -91,7 +116,22 @@ class EquipProblemController {
    * @param {Response} ctx.response
    */
   async destroy({ params, request, response }) {
-    return null;
+    try {
+      const equipProblemDeleted = await EquipProblem.find(params.id);
+      const equipProblem = await EquipProblem.query()
+        .where({ id: params.id })
+        .delete();
+
+      if (equipProblem === 0) {
+        return response.status(404).send({ message: 'Not Found' });
+      }
+
+      return response.status(200).send(equipProblemDeleted);
+    } catch (error) {
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
+    }
   }
 }
 

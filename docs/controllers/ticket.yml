@@ -2,9 +2,9 @@
   get:
     tags:
       - ticket
-    summary: List all ticket
+    summary: Lists a summary view of all tickets.
     operationId: indexTicket
-    description: Route that returns all ticket
+    description: Lists a summary view of all tickets. This will return first and last progresses for each ticket, but remaining progresses will not be shown. For a ticket's full data, use route passing :id, as shown below.
     produces:
       - application/json
     responses:
@@ -13,42 +13,81 @@
         schema:
           type: array
           items:
-            $ref: '#/definitions/Ticket'
+            $ref: '#/definitions/TicketShort'
       '500':
         description: Internal Server Error
 
   post:
     tags:
       - ticket
-    summary: ticket register
+    summary: Stores a new ticket.
     operationId: storeTicket
-    description: Route that creates ticket in the database
+    description: Stores a new ticket. This includes information regarding the ticket main data itself, as well as its first progress data. Also, between one and three lists, indicating each laboratories, equipments and softwares problems, should be passed. Progress status and opening timestamp are inferred as 'Pendente' and current timestamp respectively.
     produces:
       - application/json
     parameters:
       - in: body
         name: json
-        description: You need the following fields in the JSON file to create the ticket.
+        description: You need to send the following fields as JSON data to create the ticket. At least one of ticketLaboratories, ticketEquipments, ticketSoftwares must be passed.
         schema:
           properties:
+            title:
+              type: string
+              description: A short descriptive title
+              example: Teclado quebrado
             description:
               type: string
-              description: description of the ticket
-              example: Teclado quebrado
-            type:
-              type: string
-              description:
-              example:
-            equipment_id:
-              type: int
-              description: equipment id
-              example: 5
-
+              description: A more detailed description of what the new ticket is concerned with. This is stored in ticket's first progress data.
+              example: O teclado não funciona.
+            ticketLaboratories:
+              type: array
+              items:
+                type: object
+                properties:
+                  laboratory_id:
+                    type: uint
+                    description: laboratory id
+                    example: 1
+                  lab_problem_id:
+                    type: uint
+                    description: id of type of laboratory problem
+                    example: 1
+            ticketEquipments:
+              type: array
+              items:
+                type: object
+                properties:
+                  equipment_id:
+                    type: uint
+                    description: equipment id
+                    example: 1
+                  equip_problem_id:
+                    type: uint
+                    description: id of type of equipment problem
+                    example: 1
+            ticketSoftwares:
+              type: array
+              items:
+                type: object
+                properties:
+                  software_id:
+                    type: uint
+                    description: software id
+                    example: 1
+                  soft_problem_id:
+                    type: uint
+                    description: id of type of software problem
+                    example: 1
+          required:
+            - title
+            - description
     responses:
       '201':
-        description: Registered ticket
+        description: Created ticket
         schema:
-          $ref: '#/definitions/Ticket'
+          $ref: '#/definitions/TicketShort'
+      '400':
+        description: Bad Request. This may be caused by a missing title or description in posted JSON. At least one of ticketLaboratories, ticketEquipments, ticketSoftwares must be passed.
       '500':
         description: Internal Server Error
 
@@ -58,14 +97,16 @@
       - ticket
     summary: Show ticket
     operationId: showTicket
-    description: Route showing a ticket in the database
+    description: Route showing details of a ticket, including all progresses and concerning objects.
     produces:
       - application/json
     responses:
       '200':
         description: Ticket
         schema:
-          $ref: '#/definitions/Ticket'
+          $ref: '#/definitions/TicketLong'
+      '404':
+        description: Not Found
       '500':
         description: Internal Server Error
 
@@ -83,24 +124,26 @@
         description: You need the following fields in the JSON file to update the ticket.
         schema:
           properties:
-            description:
+            title:
               type: string
-              description: description of the ticket
+              description: short descriptive title
               example: Teclado quebrado
-            type:
-              type: string
-              description:
-              example:
-            equipment_id:
-              type: int
-              description: equipment id
-              example: 9
+            opened_at:
+              type: date
+              description: when ticket was created
+              example: '2020-01-20 11:09:06'
+            closed_at:
+              type: date
+              description: when ticket was closed (having a progress with status Finalizado or Cancelado)
+              example: '2020-01-21 09:22:37'
 
     responses:
       '200':
-        description: Registered laboratory
+        description: Registered ticket
         schema:
           $ref: '#/definitions/Ticket'
+      '404':
+        description: Not Found
       '500':
         description: Internal Server Error
 
@@ -117,5 +160,7 @@
         description: delete ticket
         schema:
           $ref: '#/definitions/Ticket'
+      '404':
+        description: Not Found
       '500':
         description: Internal Server Error

@@ -1,0 +1,114 @@
+/labProblem:
+  get:
+    tags:
+      - labProblem
+    summary: Lists types of laboratory problems.
+    operationId: indexLabProblem
+    description: Lists types of laboratory problems.
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: OK
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/LabProblem'
+      '500':
+        description: Internal Server Error
+
+  post:
+    tags:
+      - labProblem
+    summary: Stores a new type of laboratory problem.
+    operationId: storeLabProblem
+    description: Stores a new type of laboratory problem.
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need to send the following fields as JSON data to progress a ticket.
+        schema:
+          properties:
+            name:
+              type: string
+              description: laboratory problem name
+              example: Lâmpada queimada
+          required:
+            - description
+    responses:
+      '201':
+        description: Created type of laboratory problem
+        schema:
+          $ref: '#/definitions/ProgressWithTicket'
+      '400':
+        description: Bad Request. This may be caused by a missing required field.
+      '500':
+        description: Internal Server Error
+
+/labProblem/:id:
+  get:
+    tags:
+      - labProblem
+    summary: Show type of laboratory problem
+    operationId: showLabProblem
+    description: Show type of laboratory problem.
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Progress
+        schema:
+          $ref: '#/definitions/LabProblem'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error
+
+  put:
+    tags:
+      - labProblem
+    summary: update type of laboratory problem
+    operationId: updateProgress
+    description: Route updating type of laboratory problem
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file to update the progress.
+        schema:
+          properties:
+            name:
+              type: string
+              description: type of laboratory problem
+              example: Lâmpada queimada
+
+    responses:
+      '200':
+        description: Registered progress
+        schema:
+          $ref: '#/definitions/LabProblem'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error
+
+  delete:
+    tags:
+      - labProblem
+    summary: delete type of laboratory problem
+    operationId: deleteLabProblem
+    description: Route to delete type of laboratory problem
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: delete progress
+        schema:
+          $ref: '#/definitions/LabProblem'
+      '404':
+        description: Not Found
+      '500':
+        description: Internal Server Error

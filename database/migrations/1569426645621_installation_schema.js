@@ -3,7 +3,7 @@ const Schema = use('Schema');
 
 class InstallationSchema extends Schema {
   up() {
-    this.create('installation', table => {
+    this.create('installations', table => {
       table.increments();
       table.timestamp('installed_at').notNullable();
       table
@@ -31,7 +31,7 @@ class InstallationSchema extends Schema {
   }
 
   down() {
-    this.drop('installation');
+    this.drop('installations');
   }
 }
 
