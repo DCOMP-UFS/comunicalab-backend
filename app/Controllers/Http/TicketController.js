@@ -2,7 +2,12 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Database = use('Database');
 const Ticket = use('App/Models/Ticket');
+const Progress = use('App/Models/Progress');
+const TicketLaboratory = use('App/Models/TicketLaboratory');
+const TicketEquipment = use('App/Models/TicketEquipment');
+const TicketSoftware = use('App/Models/TicketSoftware');
 
 /**
  * Resourceful controller for interacting with tickets
@@ -10,28 +15,55 @@ const Ticket = use('App/Models/Ticket');
 class TicketController {
   /**
    * Show a list of all tickets.
-   * GET tickets
+   * GET ticket
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {
+  async index({ params, request, response, view }) {
     try {
-      const data = await Ticket.query()
-        .where('is_deleted', false)
-        .fetch();
+      let tickets = Ticket.query()
+        .with('progresses.user', builder => {
+          builder.select('users.id', 'users.username', 'users.email');
+        })
+        .with('progresses', builder => {
+          builder.orderBy('progressed_at', 'asc');
+        });
+      if (params.laboratory_id) {
+        tickets = tickets.whereHas('laboratories', builder => {
+          builder.where('laboratories.id', params.laboratory_id);
+        });
+      } else if (params.equipment_id) {
+        tickets = tickets.whereHas('equipments', builder => {
+          builder.where('equipments.id', params.equipment_id);
+        });
+      } else if (params.software_id) {
+        tickets = tickets.whereHas('softwares', builder => {
+          builder.where('softwares.id', params.software_id);
+        });
+      }
+      tickets = await tickets.orderBy('id', 'asc').fetch();
 
-      return response.status(200).send(data);
+      tickets.rows.forEach((ticket, index) => {
+        const relations = ticket.$relations;
+        [relations.firstProgress] = relations.progresses.rows;
+        [relations.lastProgress] = relations.progresses.rows.reverse();
+        delete relations.progresses;
+      });
+
+      return response.status(200).send(tickets);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
   /**
    * Create/save a new ticket.
-   * POST tickets
+   * POST ticket
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -39,19 +71,94 @@ class TicketController {
    */
   async store({ request, response }) {
     try {
-      const data = request.only(['description']);
-      data.is_deleted = false;
-      const ticket = await Ticket.create(data);
+      const ticketData = request.only(['title']);
+      ticketData.opened_at = Date.now();
+
+      const trx = await Database.beginTransaction();
+      let ticket = await Ticket.create(ticketData, trx);
+
+      const progressData = request.only([
+        'description',
+        'user_id',
+        'ticket_id',
+      ]);
+      progressData.progressed_at = ticketData.opened_at;
+      progressData.status = 'Pendente';
+      progressData.user_id = 1; // TO DO
+      progressData.ticket_id = ticket.id;
+      const progress = await Progress.create(progressData, trx);
+      ticket.firstProgress = progress;
+
+      const ticketLaboratoriesData = [];
+      const requestTicketLaboratories = request.input('ticketLaboratories');
+      if (requestTicketLaboratories) {
+        requestTicketLaboratories.forEach(row => {
+          ticketLaboratoriesData.push({
+            ticket_id: ticket.id,
+            laboratory_id: row.laboratory_id,
+            lab_problem_id: row.lab_problem_id,
+          });
+        });
+        await TicketLaboratory.createMany(ticketLaboratoriesData, trx);
+      }
+
+      const ticketEquipmentsData = [];
+      const requestTicketEquipments = request.input('ticketEquipments');
+      if (requestTicketEquipments) {
+        requestTicketEquipments.forEach(row => {
+          ticketEquipmentsData.push({
+            ticket_id: ticket.id,
+            equipment_id: row.equipment_id,
+            equip_problem_id: row.equip_problem_id,
+          });
+        });
+        await TicketEquipment.createMany(ticketEquipmentsData, trx);
+      }
+
+      const ticketSoftwaresData = [];
+      const requestTicketSoftwares = request.input('ticketSoftwares');
+      if (requestTicketSoftwares) {
+        requestTicketSoftwares.forEach(row => {
+          ticketSoftwaresData.push({
+            ticket_id: ticket.id,
+            software_id: row.software_id,
+            soft_problem_id: row.soft_problem_id,
+          });
+        });
+        await TicketSoftware.createMany(ticketSoftwaresData, trx);
+      }
+
+      trx.commit();
+      ticket = await Ticket.query()
+        .where({ id: ticket.id })
+        .with('progresses.user', builder => {
+          builder.select('users.id', 'users.username', 'users.email');
+        })
+        .with('progresses', builder => {
+          builder.orderBy('progressed_at', 'asc');
+        })
+        .with('ticketLaboratories.problem')
+        .with('ticketLaboratories.laboratory')
+        .with('ticketLaboratories')
+        .with('ticketEquipments.problem')
+        .with('ticketEquipments.equipment')
+        .with('ticketEquipments')
+        .with('ticketSoftwares.problem')
+        .with('ticketSoftwares.software')
+        .with('ticketSoftwares')
+        .first();
 
       return response.status(201).send(ticket);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
   /**
    * Display a single ticket.
-   * GET tickets/:id
+   * GET ticket/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -62,24 +169,38 @@ class TicketController {
     try {
       const ticket = await Ticket.query()
         .where('id', params.id)
-        .where('is_deleted', false)
-        .fetch();
+        .with('progresses.user', builder => {
+          builder.select('users.id', 'users.username', 'users.email');
+        })
+        .with('progresses', builder => {
+          builder.orderBy('progressed_at', 'asc');
+        })
+        .with('ticketLaboratories.problem')
+        .with('ticketLaboratories.laboratory')
+        .with('ticketLaboratories')
+        .with('ticketEquipments.problem')
+        .with('ticketEquipments.equipment')
+        .with('ticketEquipments')
+        .with('ticketSoftwares.problem')
+        .with('ticketSoftwares.software')
+        .with('ticketSoftwares')
+        .first();
 
-      const ticketJSON = ticket.toJSON();
-
-      if (Object.keys(ticketJSON).length === 0) {
+      if (!ticket) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      return response.status(200).send(ticketJSON[0]);
+      return response.status(200).send(ticket);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
   /**
    * Update ticket details.
-   * PUT or PATCH tickets/:id
+   * PUT or PATCH ticket/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -87,11 +208,10 @@ class TicketController {
    */
   async update({ params, request, response }) {
     try {
-      const data = request.post();
+      const data = request.only(['title', 'opened_at', 'closed_at']);
 
       const ticket = await Ticket.query()
         .where('id', params.id)
-        .where('is_deleted', false)
         .update(data);
 
       if (ticket === 0) {
@@ -102,7 +222,9 @@ class TicketController {
 
       return response.status(200).send(ticketUpdated);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 
@@ -116,19 +238,23 @@ class TicketController {
    */
   async destroy({ params, request, response }) {
     try {
+      const ticketDeleted = await Ticket.find(params.id);
       const ticket = await Ticket.query()
-        .where('id', params.id)
-        .update({ is_deleted: true });
+        .where({ id: params.id })
+        .delete();
 
       if (ticket === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
-
-      const ticketDeleted = await Ticket.findOrFail(params.id);
+      await Progress.query() // logically cascade
+        .where('ticket_id', params.id)
+        .delete();
 
       return response.status(200).send(ticketDeleted);
     } catch (error) {
-      return response.status(error.status).send({ message: error });
+      if (error.status)
+        return response.status(error.status).send({ message: error });
+      return response.status(500).send({ message: error.toString() });
     }
   }
 }

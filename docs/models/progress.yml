@@ -1,0 +1,101 @@
+definitions:
+  Progress:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: progress id
+        example: 11
+      description:
+        type: string
+        description: description progress
+        example: O teclado não funciona
+      progressed_at:
+        type: date
+        description: date of ticket's first progress
+        example: '2020-01-20 11:09:06'
+      ticket_id:
+        type: uint
+        description: ticket id
+        example: 2
+      user_id:
+        type: uint
+        description: id of user that progressed the ticket
+        example: 1
+      status:
+        type: string
+        description: progress status
+        example: 'Pendente'
+      user:
+        type: object
+        properties:
+          id:
+            type: uint
+            description: user id
+            example: 1
+          username:
+            type: string
+            description: username
+            example: admin
+          email:
+            type: string
+            description: user's email
+            example: admin@example.com
+
+    required:
+      - description
+      - progressed_at
+      - ticket_id
+      - user_id
+      - status
+  ProgressWithTicket:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: progress id
+        example: 11
+      description:
+        type: string
+        description: description progress
+        example: O teclado não funciona
+      progressed_at:
+        type: date
+        description: date of ticket's first progress
+        example: '2020-01-20 11:09:06'
+      ticket_id:
+        type: uint
+        description: ticket id
+        example: 2
+      user_id:
+        type: uint
+        description: id of user that progressed the ticket
+        example: 1
+      status:
+        type: string
+        description: progress status
+        example: 'Pendente'
+      user:
+        type: object
+        properties:
+          id:
+            type: uint
+            description: user id
+            example: 1
+          username:
+            type: string
+            description: username
+            example: admin
+          email:
+            type: string
+            description: user's email
+            example: admin@example.com
+      ticket:
+        $ref: '#/definitions/Ticket'
+
+    required:
+      - description
+      - progressed_at
+      - ticket_id
+      - user_id
+      - status

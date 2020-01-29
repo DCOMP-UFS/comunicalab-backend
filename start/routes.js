@@ -40,8 +40,48 @@ Route.resource('ticket', 'TicketController')
   .apiOnly()
   .validator(
     new Map([
-      [['ticket.store'], ['Ticket']],
-      [['ticket.update'], ['Ticket']],
+      [['ticket.store'], ['StoreTicket']],
+      [['ticket.update'], ['UpdateTicket']],
+    ])
+  );
+
+Route.get('/laboratory/:laboratory_id/ticket', 'TicketController.index');
+Route.get('/equipment/:equipment_id/ticket', 'TicketController.index');
+Route.get('/software/:software_id/ticket', 'TicketController.index');
+
+Route.resource('labProblem', 'LabProblemController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['labProblem.store'], ['LabProblem']],
+      [['labProblem.update'], ['LabProblem']],
+    ])
+  );
+
+Route.resource('equipProblem', 'EquipProblemController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['equipProblem.store'], ['EquipProblem']],
+      [['equipProblem.update'], ['EquipProblem']],
+    ])
+  );
+
+Route.resource('softProblem', 'SoftProblemController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['softProblem.store'], ['SoftProblem']],
+      [['softProblem.update'], ['SoftProblem']],
+    ])
+  );
+
+Route.resource('progress', 'ProgressController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['progress.store'], ['StoreProgress']],
+      [['progress.update'], ['UpdateProgress']],
     ])
   );
 
@@ -53,6 +93,16 @@ Route.resource('equipment', 'EquipmentController')
       [['equipment.update'], ['Equipment']],
     ])
   );
+Route.resource('user', 'UserController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['user.store'], ['User']],
+      [['user.update'], ['User']],
+    ])
+  )
+  .middleware(new Map([[['destroy'], ['auth', 'can:delete_users']]]));
+Route.post('login', 'UserController.login');
 
 Route.resource('installation', 'InstallationController')
   .apiOnly()
@@ -96,3 +146,8 @@ Route.resource('specification', 'SpecificationController')
       [['specification.update'], ['Specification']],
     ])
   );
+Route.post('newpermission', 'PermissionController.newPermission');
+Route.get('userpermissions/:id', 'PermissionController.listPermission');
+Route.post('attachpermission/:id', 'PermissionController.attachPermission');
+Route.post('detachpermission/:id', 'PermissionController.detachPermission');
+Route.get('initpermission', 'PermissionController.init');

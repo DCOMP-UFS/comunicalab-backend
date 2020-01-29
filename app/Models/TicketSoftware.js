@@ -2,20 +2,25 @@
 const Model = use('Model');
 
 class TicketSoftware extends Model {
+  static boot() {
+    super.boot();
+    this.addTrait('LogicallyDelete');
+  }
+
   static get hidden() {
     return ['created_at', 'updated_at', 'is_deleted'];
   }
 
   problem() {
-    return this.hasOne('App/Model/SoftProblem');
+    return this.belongsTo('App/Models/SoftProblem');
   }
 
   ticket() {
-    return this.hasOne('App/Model/Ticket');
+    return this.belongsTo('App/Models/Ticket');
   }
 
   software() {
-    return this.hasOne('App/Model/Software');
+    return this.belongsTo('App/Models/Software');
   }
 }
 

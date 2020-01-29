@@ -1,0 +1,45 @@
+definitions:
+  LabProblem:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: laboratory problem id
+        example: 11
+      name:
+        type: string
+        description: laboratory problem name
+        example: Lâmpada queimada
+    required:
+      - id
+      - name
+
+  EquipProblem:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: equipment problem id
+        example: 11
+      name:
+        type: string
+        description: equipment problem name
+        example: Problema no teclado
+    required:
+      - id
+      - name
+
+  SoftProblem:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: software problem id
+        example: 11
+      name:
+        type: string
+        description: software problem name
+        example: Não inicializa
+    required:
+      - id
+      - name

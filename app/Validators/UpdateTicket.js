@@ -1,15 +1,16 @@
 const Antl = use('Antl');
 
-class Ticket {
+class UpdateTicket {
   get validateAll() {
     return true;
   }
 
   get rules() {
     return {
-      title: 'string|max:1000000',
+      title: 'string|max:100',
+      opened_at: 'date',
+      closed_at: 'date',
       is_deleted: 'boolean',
-      specification_id: 'exists:specifications,id',
     };
   }
 
@@ -18,4 +19,4 @@ class Ticket {
   }
 }
 
-module.exports = Ticket;
+module.exports = UpdateTicket;

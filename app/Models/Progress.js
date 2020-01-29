@@ -1,7 +1,7 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model');
 
-class TicketLaboratory extends Model {
+class Progress extends Model {
   static boot() {
     super.boot();
     this.addTrait('LogicallyDelete');
@@ -11,17 +11,17 @@ class TicketLaboratory extends Model {
     return ['created_at', 'updated_at', 'is_deleted'];
   }
 
-  problem() {
-    return this.belongsTo('App/Models/LabProblem');
+  static get dates() {
+    return super.dates.concat(['progressed_at']);
   }
 
   ticket() {
     return this.belongsTo('App/Models/Ticket');
   }
 
-  laboratory() {
-    return this.belongsTo('App/Models/Laboratory');
+  user() {
+    return this.belongsTo('App/Models/User');
   }
 }
 
-module.exports = TicketLaboratory;
+module.exports = Progress;
