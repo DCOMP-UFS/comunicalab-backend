@@ -8,11 +8,10 @@ class Equipment extends Model {
 
   static get table() {
     return 'equipments';
-  }
 
-  installed() {
-    return this.hasMany('App/Models/Installation');
-  }
+  // installed() {
+  //   return this.hasMany('App/Models/Installation');
+  // }
 
   laboratory() {
     return this.belongsTo('App/Models/Laboratory');
@@ -26,11 +25,17 @@ class Equipment extends Model {
     return this.belongsTo('App/Models/Specification');
   }
 
-  // historicoEquipamento - hasMany
+  // ticketEquipment() {
+  //   return this.hasMany('App/Models/TicketEquipment');
+  // }
 
-  // instalacso_Equip_Imagem - hasMany
+  // equipmentOsImage() {
+  //   return this.hasMany('App/Models/EquipmentOsImage');
+  // }
 
-  // chamado_equipmento - hasMany
+  // equipmentHistory() {
+  //   return this.hasMany('App/Models/EquipmentHistory');
+  // }
 }
 
 module.exports = Equipment;
