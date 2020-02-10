@@ -1,4 +1,4 @@
-/equipCategory:
+/equip_category:
   post:
     tags:
       - equipCategory
@@ -39,7 +39,7 @@
       "500":
         description: Internal Server Error
 
-/equipCategory/:id:
+/equip_category/:id:
   get:
     tags:
       - equipCategory
