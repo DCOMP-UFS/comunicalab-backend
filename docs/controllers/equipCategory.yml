@@ -12,7 +12,12 @@
         name: json
         description: You need the following fields in the JSON file to create the equipment category.
         schema:
-          $ref: "#/definitions/EquipCategory"
+          properties:
+            name:
+              type: string
+              description: equipment category name
+              example: gabinete
+              max: 100
     responses:
       "201":
         description: Registered equipment category
@@ -81,7 +86,12 @@
         name: json
         description: Any of the following fields in the JSON file can be used to be updated. Except isDeleted
         schema:
-          $ref: "#/definitions/EquipCategory"
+          properties:
+            name:
+              type: string
+              description: equipment category name
+              example: gabinete
+              max: 100
     responses:
       "200":
         description: Operation successfully performed
