@@ -9,6 +9,14 @@ class Laboratory extends Model {
   equipment() {
     return this.hasMany('App/Models/Equipment');
   }
+
+  ticketLaboratory() {
+    return this.hasMany('App/Models/TicketLaboratory');
+  }
+
+  location() {
+    return this.belongsTo('App/Models/Location');
+  }
 }
 
 module.exports = Laboratory;
