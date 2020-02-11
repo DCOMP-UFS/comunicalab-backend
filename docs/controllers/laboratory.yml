@@ -31,31 +31,27 @@
           description: You need the following fields in the JSON file to create the lab.
           schema:
             properties:
-              name:
-                type: string
-                description: Lab name
-                example: Lab 1
-              location:
-                type: string
-                description: Laboratory location
-                example: Universidade Federal de Sergipe
-              latitude:
-                type: double
-                description: Laboratory latitude
-                example: -10.9264414
-              longitude:
-                type: double
-                description: Laboratory longitude
-                example: -37.1047417
-              status:
-                type: string
-                description:
-                example: Disponível
-              capacity:
-                type: uint
-                description: Laboratory capacity
-                example: 30
-     
+              id:
+              type: uint
+              description: id of the lab being created
+              example: 10
+            name:
+              type: string
+              description: Lab name
+              example: Lab 1      
+            capacity:
+              type: uint
+              description: laboratory capacity
+              example: 20
+            is_in_use:
+              type: boolean
+              description: laboratory in use
+              example: false
+            occupied_at:
+              type: date-time 
+              description: date and time that was busy
+              example: "2020-02-10T23:02:10.000Z"
+          
       responses:
         "201":
           description: Registered laboratory
