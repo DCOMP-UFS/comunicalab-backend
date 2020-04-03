@@ -2,15 +2,15 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Software = use('App/Models/Software');
+const SoftwareOsImage = use('App/Models/SoftwareOsImage');
 
 /**
- * Resourceful controller for interacting with softwares
+ * Resourceful controller for interacting with softwareosimages
  */
-class SoftwareController {
+class SoftwareOsImageController {
   /**
-   * Show a list of all softwares.
-   * GET softwares
+   * Show a list of all softwareosimages.
+   * GET softwareosimages
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -19,7 +19,7 @@ class SoftwareController {
    */
   async index({ request, response, view }) {
     try {
-      const data = await Software.query()
+      const data = await SoftwareOsImage.query()
         .where('is_deleted', false)
         .fetch();
 
@@ -30,8 +30,8 @@ class SoftwareController {
   }
 
   /**
-   * Create/save a new software.
-   * POST softwares
+   * Create/save a new software_os_image.
+   * POST softwareosimages
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -39,26 +39,21 @@ class SoftwareController {
    */
   async store({ request, response }) {
     try {
-      const data = request.only([
-        'name',
-        'version',
-        'license',
-        'soft_category_id',
-        'is_active',
-      ]);
+      const data = request.only(['software_id', 'os_image_id']);
+
       data.is_deleted = false;
 
-      const software = await Software.create(data);
+      const softwareOsImage = await SoftwareOsImage.create(data);
 
-      return response.status(201).send(software);
+      return response.status(201).send(softwareOsImage);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
 
   /**
-   * Display a single software.
-   * GET softwares/:id
+   * Display a single softwareOsImage.
+   * GET softwareosimages/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -67,26 +62,26 @@ class SoftwareController {
    */
   async show({ params, request, response, view }) {
     try {
-      const software = await Software.query()
+      const softwareOsImage = await SoftwareOsImage.query()
         .where('id', params.id)
         .where('is_deleted', false)
         .fetch();
 
-      const softwareJSON = software.toJSON();
+      const softwareOsImageJSON = softwareOsImage.toJSON();
 
-      if (Object.keys(softwareJSON).length === 0) {
+      if (Object.keys(softwareOsImageJSON).length === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      return response.status(200).send(softwareJSON[0]);
+      return response.status(200).send(softwareOsImageJSON[0]);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
 
   /**
-   * Update software details.
-   * PUT or PATCH softwares/:id
+   * Update software_os_image details.
+   * PUT or PATCH softwareosimages/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -96,26 +91,26 @@ class SoftwareController {
     try {
       const data = request.post();
 
-      const software = await Software.query()
+      const softwareOsImage = await SoftwareOsImage.query()
         .where('id', params.id)
         .where('is_deleted', false)
         .update(data);
 
-      if (software === 0) {
+      if (softwareOsImage === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      const softwareUpdate = await Software.findOrFail(params.id);
+      const softwareOsImageUpdate = await SoftwareOsImage.findOrFail(params.id);
 
-      return response.status(200).send(softwareUpdate);
+      return response.status(200).send(softwareOsImageUpdate);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
 
   /**
-   * Delete a software with id.
-   * DELETE softwares/:id
+   * Delete a softwareOsImage with id.
+   * DELETE softwareosimages/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -123,22 +118,22 @@ class SoftwareController {
    */
   async destroy({ params, request, response }) {
     try {
-      const software = await Software.query()
+      const softwareOsImage = await SoftwareOsImage.query()
         .where('id', params.id)
         .where('is_deleted', false)
         .update({ is_deleted: true });
 
-      if (software === 0) {
+      if (softwareOsImage === 0) {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      const softwareUpdate = await Software.findOrFail(params.id);
+      const softwareOsImageUpdate = await SoftwareOsImage.findOrFail(params.id);
 
-      return response.status(200).send(softwareUpdate);
+      return response.status(200).send(softwareOsImageUpdate);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
   }
 }
 
-module.exports = SoftwareController;
+module.exports = SoftwareOsImageController;
