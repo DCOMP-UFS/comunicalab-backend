@@ -7,11 +7,11 @@ class Laboratory {
 
   get rules() {
     return {
-      name: 'string|max:100',
-      location: 'string|max:10000',
-      status: 'enum',
+      name: 'string|max:80',
       capacity: 'integer',
-      active: 'boolean',
+      is_in_use: 'boolean',
+      occupied_at: 'date',
+      location_id: 'exists:locations,id|integer',
       is_deleted: 'boolean',
     };
   }

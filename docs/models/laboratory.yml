@@ -9,38 +9,25 @@ definitions:
       name:
         type: string
         description: Lab name
-        example: Lab 1
-      location:
-        type: string
-        description: Laboratory location
-        example: Universidade Federal de Sergipe
-      latitude:
-        type: double
-        description: Laboratory latitude
-        example: -10.9264414
-      longitude:
-        type: double
-        description: Laboratory longitude
-        example: -37.1047417
-      status:
-        type: string
-        enum:
-          - Disponível
-          - Reservado
-          - Em aula
-          - Em reforma
-        description:
-        example: Disponível
+        example: Lab 1      
       capacity:
         type: uint
-        description: Laboratory capacity
-        example: 30
+        description: laboratory capacity
+        example: 20
+      is_in_use:
+        type: boolean
+        description: laboratory in use
+        example: false
+      occupied_at:
+        type: date-time 
+        description: date and time that was busy
+        example: "2020-02-10T23:02:10.000Z"
     required:
+      - id
       - name
-      - location
-      - latitude
-      - longitude
-      - status
       - capacity
+      - is_in_use
+      - occupied_at
+      - location_id
 
 
