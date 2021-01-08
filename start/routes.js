@@ -17,7 +17,22 @@ const Route = use('Route');
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' };
 });
-
+Route.resource('softwareOsImage', 'SoftwareOsImageController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['softwareOsImage.store'], ['SoftwareOsImage']],
+      [['softwareOsImage.update'], ['SoftwareOsImage']],
+    ])
+  );
+Route.resource('osImage', 'OsImageController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['osImage.store'], ['OsImage']],
+      [['osImage.update'], ['OsImage']],
+    ])
+  );
 Route.resource('software', 'SoftwareController')
   .apiOnly()
   .validator(
