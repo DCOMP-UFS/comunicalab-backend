@@ -6,6 +6,10 @@ class EquipmentHistory extends Model {
     return ['created_at', 'updated_at', 'is_deleted'];
   }
 
+  static get table() {
+    return 'equip_histories'
+  }
+
   equipment() {
     return this.hasOne('App/Models/Equipment');
   }

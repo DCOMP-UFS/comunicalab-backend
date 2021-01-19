@@ -17,6 +17,7 @@ const Route = use('Route');
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' };
 });
+
 Route.resource('softwareOsImage', 'SoftwareOsImageController')
   .apiOnly()
   .validator(
@@ -166,3 +167,12 @@ Route.get('userpermissions/:id', 'PermissionController.listPermission');
 Route.post('attachpermission/:id', 'PermissionController.attachPermission');
 Route.post('detachpermission/:id', 'PermissionController.detachPermission');
 Route.get('initpermission', 'PermissionController.init');
+
+Route.get('/equipment/:equipment_id/history', 'EquipHistoryController.index')
+Route.get('/equipment/:equipment_id/history/:id', 'EquipHistoryController.show')
+Route.post('/equipment/:equipment_id/history', 'EquipHistoryController.store')
+  .middleware(['auth'])
+  .validator('EquipHistory')
+Route.put('/equipment/:equipment_id/history/:id', 'EquipHistoryController.update')
+  .validator('EquipHistory')
+Route.delete('/equipment/:equipment_id/history/:id', 'EquipHistoryController.destroy')
