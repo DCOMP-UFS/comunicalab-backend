@@ -8,7 +8,7 @@ class Equipment extends Model {
 
   static get table() {
     return 'equipments';
-
+  }
   // installed() {
   //   return this.hasMany('App/Models/Installation');
   // }

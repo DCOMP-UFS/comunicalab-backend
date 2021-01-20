@@ -9,6 +9,10 @@ class EquipmentHistory extends Model {
   equipment() {
     return this.hasOne('App/Models/Equipment');
   }
+
+  static get table() {
+    return 'equip_histories';
+  }
 }
 
 module.exports = EquipmentHistory;
