@@ -14,9 +14,15 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route');
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' };
-});
+Route.get('/', () => ({ greeting: 'Hello world in JSON' }));
+Route.resource('locations', 'LocationController')
+  .apiOnly()
+  .validator(
+    new Map([
+      [['location.store'], ['Location']],
+      [['location.update'], ['Location']],
+    ])
+  );
 Route.resource('softwareOsImage', 'SoftwareOsImageController')
   .apiOnly()
   .validator(

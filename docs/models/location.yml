@@ -1,0 +1,22 @@
+definitions:
+  Location:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the location being created
+        example: 10
+      building:
+        type: string
+        description: building name
+        example: DCOMP
+        max: 100
+      floor:
+        type: string
+        description: building floor name
+        example: terreo
+        max: 100
+    required:
+      - id
+      - building
+      - floor
