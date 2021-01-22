@@ -167,11 +167,25 @@ Route.post('attachpermission/:id', 'PermissionController.attachPermission');
 Route.post('detachpermission/:id', 'PermissionController.detachPermission');
 Route.get('initpermission', 'PermissionController.init');
 
-Route.get('/equipment/:equipment_id/history', 'EquipmentHistoryController.index')
-Route.get('/equipment/:equipment_id/history/:id', 'EquipmentHistoryController.show')
-Route.post('/equipment/:equipment_id/history', 'EquipmentHistoryController.store')
+Route.get(
+  '/equipment/:equipment_id/history',
+  'EquipmentHistoryController.index'
+);
+Route.get(
+  '/equipment/:equipment_id/history/:id',
+  'EquipmentHistoryController.show'
+);
+Route.post(
+  '/equipment/:equipment_id/history',
+  'EquipmentHistoryController.store'
+)
   .middleware(['auth'])
-  .validator('EquipHistory')
-Route.put('/equipment/:equipment_id/history/:id', 'EquipmentHistoryController.update')
-  .validator('EquipHistory')
-Route.delete('/equipment/:equipment_id/history/:id', 'EquipmentHistoryController.destroy')
+  .validator('EquipHistory');
+Route.put(
+  '/equipment/:equipment_id/history/:id',
+  'EquipmentHistoryController.update'
+).validator('EquipHistory');
+Route.delete(
+  '/equipment/:equipment_id/history/:id',
+  'EquipmentHistoryController.destroy'
+);

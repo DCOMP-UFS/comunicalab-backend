@@ -1,0 +1,45 @@
+definitions:
+  EquipmentHistory:
+    type: object
+    properties:
+      id:
+        type: uint
+        description: id of the equipment history being created
+        example: 10
+      tracked_at:
+        type: date
+        description: date when the equipment was tracked
+        example: 10/10/2019
+      usage_status:
+        type: string
+        description: the usage status of the equipment 
+        example: Indisponível
+        enum:
+          - Disponível
+          - Indisponível
+      problem_status:
+        type: string
+        description: the problem status of the equipment 
+        example: SW
+        enum:
+          - OK
+          - SW
+          - HW
+          - Rede
+      equipment_id:
+        type: uint
+        description: id of the equipment
+        example: 7
+      user_id:
+        type: uint
+        description: id of the user who submitted it
+        example: 1
+    required:
+      - id
+      - tracked_at
+      - usage_status
+      - problem_status
+      - equipment_id
+      - user_id
+
+      

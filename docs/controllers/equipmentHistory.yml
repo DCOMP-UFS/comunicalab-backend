@@ -1,0 +1,157 @@
+/equipment/:equipment_id/history:
+  post:
+    tags:
+      - equipmentHistory
+    summary: Equipment history record registration.
+    operationId: storeEquipHistory
+    description: Route that creates a equipment history record in the database.
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file.
+        schema:
+          properties:
+            usage_status:
+              type: string
+              description: equipment usage status
+              example: Disponível
+            problem_status:
+              type: string
+              description: equipment problem status
+              example: SW
+      - in: path 
+        name: equipment_id
+        description: ID of the equipment which will be searched the history.
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Registered equipment history record.
+        schema:
+          $ref: "#/definitions/EquipmentHistory"
+      "500":
+        description: Internal Server Error
+  get:
+    tags:
+      - equipmentHistory
+    summary: List the equipment history
+    operationId: indexEquipHistory
+    description: Route that returns the equipment history.
+    produces:
+      - application/json
+    parameters:
+      - in: path 
+        name: equipment_id
+        description: ID of the equipment which will be searched the history.
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          type: array
+          items:
+            $ref: "#/definitions/EquipmentHistory"
+      "500":
+        description: Internal Server Error
+
+/equipment/:equipment_id/history/:id:
+  get:
+    tags:
+      - equipmentHistory
+    summary: Returns one equipment history record.
+    operationId: showEquipHistory
+    description: Route that returns one one equipment history record.
+    produces:
+      - application/json
+    parameters:
+      - name: equipment_id
+        in: path
+        description: ID of the equipment which history record will be returned.
+        required: true
+        type: integer
+      - name: id
+        in: path
+        description: ID of the equipment history record that will be returned.
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/EquipmentHistory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  put:
+    tags:
+      - equipmentHistory
+    summary: Update a especific equipment history record
+    operationId: updateEquipHistory
+    description: Route that updates a especific equipment history record
+    produces:
+      - application/json
+    parameters:
+      - name: equipment_id
+        in: path
+        description: ID of the equipment which history will be updated
+        required: true
+        type: integer
+      - name: id
+        in: path
+        description: ID of the history record that will be updated
+        required: true
+        type: integer
+      - in: body
+        name: json
+        description: You need the following fields in the JSON file.
+        schema:
+          properties:
+            usage_status:
+              type: string
+              description: equipment usage status
+              example: Disponível
+            problem_status:
+              type: string
+              description: equipment problem status
+              example: SW
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/EquipmentHistory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
+  delete:
+    tags:
+      - equipmentHistory
+    summary: Delete a equipment history record.
+    operationId: destroyEquipHistory
+    description: Route that deletes a equipment history record.
+    produces:
+      - application/json
+    parameters:
+      - name: equipment_id
+        in: path
+        description: ID of the equipment which history record will be deleted.
+        required: true
+        type: integer
+      - name: id
+        in: path
+        description: ID of the history record that will be deleted.
+        required: true
+        type: integer
+    responses:
+      "200":
+        description: Operation successfully performed
+        schema:
+          $ref: "#/definitions/EquipmentHistory"
+      "404":
+        description: Not Found
+      "500":
+        description: Internal Server Error
