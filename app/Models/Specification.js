@@ -6,14 +6,6 @@ class Specification extends Model {
     return ['created_at', 'updated_at', 'is_deleted'];
   }
 
-  softCategory() {
-    return this.belongsTo('App/Models/SoftCategory');
-  }
-
-  equipCategory() {
-    return this.belongsTo('App/Models/EquipCategory');
-  }
-
   specItems() {
     return this.hasMany('App/Models/SpecItem');
   }
