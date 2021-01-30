@@ -39,8 +39,7 @@ class SpecificationController {
    */
   async store({ request, response }) {
     try {
-      const data = request.only(['softCategory_id', 'eqipCategory_id']);
-
+      const data = request.only(['name']);
       data.is_deleted = false;
 
       const specification = await Specification.create(data);
@@ -60,7 +59,7 @@ class SpecificationController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show({ params, request, response, view }) {
+  async show({ params, response }) {
     try {
       const specification = await Specification.query()
         .where('id', params.id)
@@ -73,7 +72,8 @@ class SpecificationController {
         return response.status(404).send({ message: 'Not Found' });
       }
 
-      return response.status(200).send(specificationJSON[0]);
+      // return response.status(200).send(specificationJSON[0]);
+      return response.status(200).send(specificationJSON);
     } catch (error) {
       return response.status(error.status).send({ message: error });
     }
