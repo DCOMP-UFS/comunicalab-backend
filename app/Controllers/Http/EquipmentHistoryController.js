@@ -4,6 +4,14 @@ const EquipHistory = use('App/Models/EquipmentHistory');
  * Resourceful controller for interacting with equipment_history
  */
 class EquipmentHistoryController {
+  /**
+   * Show a list of all equiphistories.
+   * GET equiphistory
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
   async index({ response, params }) {
     try {
       const equipId = params.equipment_id;
