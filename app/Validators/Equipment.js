@@ -12,7 +12,7 @@ class Equipment {
       acquired_at: 'date',
       asset_tag: 'string|max:100',
       laboratory_id: 'exists:laboratories,id|integer',
-      equip_category_id: 'exists:soft_categories,id|integer',
+      equip_category_id: 'exists:equip_categories,id|integer',
       specification_id: 'exists:specifications,id|integer',
       is_deleted: 'boolean',
     };
