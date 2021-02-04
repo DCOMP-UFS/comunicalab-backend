@@ -1,6 +1,8 @@
 const Equipment = use('App/Models/Equipment');
 const EquipHistory = use('App/Models/EquipmentHistory');
-
+/**
+ * Resourceful controller for interacting with equipment_history
+ */
 class EquipmentHistoryController {
   async index({ response, params }) {
     try {
