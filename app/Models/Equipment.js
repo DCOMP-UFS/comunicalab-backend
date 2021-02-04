@@ -8,10 +8,9 @@ class Equipment extends Model {
 
   static get table() {
     return 'equipments';
-
-  // installed() {
-  //   return this.hasMany('App/Models/Installation');
-  // }
+    // installed() {
+    //   return this.hasMany('App/Models/Installation');
+  }
 
   laboratory() {
     return this.belongsTo('App/Models/Laboratory');
