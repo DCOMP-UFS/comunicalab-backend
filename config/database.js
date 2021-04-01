@@ -73,17 +73,12 @@ module.exports = {
   pg: {
     client: 'pg',
     connection: {
-      host: Env.get('DB_HOST', 'localhost'),
+      host: Env.get('DB_HOST', ''),
       port: Env.get('DB_PORT', ''),
-      user: Env.get('DB_USER', 'root'),
+      user: Env.get('DB_USER', ''),
       password: Env.get('DB_PASSWORD', ''),
-      database: Env.get('DB_DATABASE', 'adonis'),
-      ssl: true,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      },
+      database: Env.get('DB_DATABASE', ''),
+      ssl: { rejectUnauthorized: false },
     },
     debug: Env.get('DB_DEBUG', false),
   },
